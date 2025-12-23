@@ -58,10 +58,10 @@ const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:contact@notivon.com"
+                  href="mailto:hussain@notivon.com"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  contact@notivon.com
+                  hussain@notivon.com
                 </a>
               </li>
               <li>
