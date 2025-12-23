@@ -6,7 +6,7 @@ const steps = [
     icon: Search,
     title: "Maturity Audit",
     description:
-      "A 20-minute diagnostic of your current sourcing and due-diligence workflow. Identify gaps between your existing infrastructure and agentic capability.",
+      "A comprehensive diagnostic of your current sourcing and due-diligence workflow. Identify gaps between your existing infrastructure and agentic capability.",
   },
   {
     number: "02",
