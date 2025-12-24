@@ -43,7 +43,9 @@ const Hero = () => {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 animate-fade-up-delay-3">
             <a
-              href="#audit"
+              href="https://calendly.com/hussainhussainakan/10min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-sm hover:bg-primary/90 transition-all glow-cyan"
             >
               Request AI Maturity Audit
