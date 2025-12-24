@@ -23,17 +23,17 @@ const mandateItems = [
 
 const MandateGrid = () => {
   return (
-    <section id="mandate" className="py-32 relative">
-      {/* Background accent */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card to-background" />
+    <section id="mandate" className="py-36 relative">
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/50 to-transparent" />
 
-      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+      <div className="container mx-auto px-6 lg:px-12 xl:px-20 relative z-10">
         {/* Section Header */}
-        <div className="mb-20">
-          <span className="inline-block px-4 py-2 border border-primary text-xs font-semibold uppercase tracking-widest text-primary mb-6">
+        <div className="mb-24">
+          <span className="inline-block px-5 py-2.5 border border-primary/40 text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-8">
             Strategic Framework
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-[-0.02em] text-foreground">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-[-0.02em] text-foreground leading-tight">
             The 2026 Private Equity
             <br />
             <span className="text-primary">AI Mandate</span>
@@ -41,31 +41,31 @@ const MandateGrid = () => {
         </div>
 
         {/* Grid */}
-        <div className="grid md:grid-cols-3 gap-0 border border-border">
+        <div className="grid md:grid-cols-3 gap-0 border border-border/60 backdrop-blur-sm bg-card/30">
           {mandateItems.map((item, index) => (
             <div
               key={item.title}
-              className={`p-8 lg:p-12 ${
-                index < mandateItems.length - 1 ? "md:border-r border-b md:border-b-0 border-border" : ""
-              } group hover:bg-card transition-colors duration-300`}
+              className={`p-10 lg:p-14 ${
+                index < mandateItems.length - 1 ? "md:border-r border-b md:border-b-0 border-border/60" : ""
+              } group hover:bg-card/50 transition-colors duration-500`}
             >
               {/* Number */}
-              <div className="text-6xl font-bold text-muted/50 mb-6">
+              <div className="text-7xl font-display font-bold text-muted/30 mb-8">
                 0{index + 1}
               </div>
 
               {/* Icon */}
-              <div className="w-12 h-12 border border-primary flex items-center justify-center mb-6 group-hover:bg-primary transition-colors">
-                <item.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
+              <div className="w-14 h-14 border border-primary/50 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:border-primary transition-all duration-300">
+                <item.icon className="w-7 h-7 text-primary group-hover:text-primary-foreground transition-colors" />
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-bold text-foreground mb-4 uppercase tracking-wider">
+              <h3 className="text-xl font-sans font-bold text-foreground mb-5 uppercase tracking-wider">
                 {item.title}
               </h3>
 
               {/* Description */}
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-muted-foreground leading-relaxed font-light">
                 {item.description}
               </p>
             </div>
