@@ -58,7 +58,9 @@ const Navbar = () => {
           {/* CTA */}
           <div className="hidden md:block">
             <a
-              href="#audit"
+              href="https://calendly.com/hussainhussainakan/10min"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-3 bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover"
             >
               Request Audit
