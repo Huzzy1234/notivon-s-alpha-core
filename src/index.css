@@ -2,70 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Notivon Brutalist Design System
-   Dark charcoal backgrounds, slate-grey accents, electric cyan highlights
+/* Notivon Design System
+   Blue/gray tones for trust and tech sophistication
+   Playfair Display for headings, Inter for body
    All colors in HSL format */
 
 @layer base {
   :root {
-    /* Brutalist Dark Theme - Applied as default */
-    --background: 0 0% 10%; /* #1a1a1a - Dark charcoal */
-    --foreground: 0 0% 95%; /* Near white text */
+    /* Refined Blue-Gray Theme */
+    --background: 215 30% 9%; /* Deep blue-charcoal */
+    --foreground: 210 20% 95%; /* Cool white text */
 
-    --card: 0 0% 12%; /* Slightly lighter charcoal */
-    --card-foreground: 0 0% 95%;
+    --card: 210 25% 11%; /* Slightly lighter blue-gray */
+    --card-foreground: 210 20% 95%;
 
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 210 25% 11%;
+    --popover-foreground: 210 20% 95%;
 
-    --primary: 186 100% 50%; /* #00f0ff - Electric cyan */
-    --primary-foreground: 0 0% 5%; /* Dark text on cyan */
+    --primary: 192 90% 55%; /* Refined cyan-blue */
+    --primary-foreground: 215 30% 9%; /* Dark text on primary */
 
-    --secondary: 210 10% 25%; /* Slate grey */
-    --secondary-foreground: 0 0% 95%;
+    --secondary: 215 20% 18%; /* Blue-gray */
+    --secondary-foreground: 210 20% 95%;
 
-    --muted: 0 0% 18%; /* Muted charcoal */
-    --muted-foreground: 0 0% 60%; /* Subdued text */
+    --muted: 215 20% 15%; /* Muted blue-gray */
+    --muted-foreground: 210 15% 55%; /* Subdued text */
 
-    --accent: 186 100% 50%; /* Electric cyan accent */
-    --accent-foreground: 0 0% 5%;
+    --accent: 200 85% 60%; /* Bright accent */
+    --accent-foreground: 215 30% 9%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 95%;
+    --destructive-foreground: 210 20% 95%;
 
-    --border: 0 0% 20%; /* Subtle border */
-    --input: 0 0% 15%;
-    --ring: 186 100% 50%; /* Cyan focus ring */
+    --border: 215 20% 18%; /* Subtle blue-tinted border */
+    --input: 215 20% 12%;
+    --ring: 192 90% 55%; /* Cyan focus ring */
 
-    --radius: 0rem; /* Sharp edges - no rounded corners */
+    --radius: 0rem; /* Sharp edges - brutalist aesthetic */
 
     /* Custom tokens for Notivon */
-    --slate: 210 10% 35%;
-    --slate-dark: 210 10% 20%;
-    --cyan-glow: 186 100% 50%;
+    --slate: 215 15% 35%;
+    --slate-dark: 215 20% 20%;
+    --cyan-glow: 192 90% 55%;
+    --blue-accent: 220 80% 60%;
   }
 
   .dark {
-    /* Same as root - dark by default */
-    --background: 0 0% 10%;
-    --foreground: 0 0% 95%;
-    --card: 0 0% 12%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 186 100% 50%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 210 10% 25%;
-    --secondary-foreground: 0 0% 95%;
-    --muted: 0 0% 18%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 186 100% 50%;
-    --accent-foreground: 0 0% 5%;
+    --background: 215 30% 9%;
+    --foreground: 210 20% 95%;
+    --card: 210 25% 11%;
+    --card-foreground: 210 20% 95%;
+    --popover: 210 25% 11%;
+    --popover-foreground: 210 20% 95%;
+    --primary: 192 90% 55%;
+    --primary-foreground: 215 30% 9%;
+    --secondary: 215 20% 18%;
+    --secondary-foreground: 210 20% 95%;
+    --muted: 215 20% 15%;
+    --muted-foreground: 210 15% 55%;
+    --accent: 200 85% 60%;
+    --accent-foreground: 215 30% 9%;
     --destructive: 0 62% 30%;
-    --destructive-foreground: 0 0% 95%;
-    --border: 0 0% 20%;
-    --input: 0 0% 15%;
-    --ring: 186 100% 50%;
+    --destructive-foreground: 210 20% 95%;
+    --border: 215 20% 18%;
+    --input: 215 20% 12%;
+    --ring: 192 90% 55%;
   }
 }
 
@@ -75,7 +76,12 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased font-sans;
+  }
+
+  /* Apply display font to headings */
+  h1, h2, h3 {
+    @apply font-display;
   }
 
   /* Sharp, brutalist selection */
@@ -87,13 +93,19 @@
 @layer utilities {
   /* Cyan glow effect for CTAs */
   .glow-cyan {
-    box-shadow: 0 0 20px hsl(186 100% 50% / 0.4),
-                0 0 40px hsl(186 100% 50% / 0.2);
+    box-shadow: 0 0 20px hsl(192 90% 55% / 0.4),
+                0 0 40px hsl(192 90% 55% / 0.2);
   }
 
   .glow-cyan-hover:hover {
-    box-shadow: 0 0 30px hsl(186 100% 50% / 0.6),
-                0 0 60px hsl(186 100% 50% / 0.3);
+    box-shadow: 0 0 30px hsl(192 90% 55% / 0.6),
+                0 0 60px hsl(192 90% 55% / 0.3);
+  }
+
+  /* Blue accent glow */
+  .glow-blue {
+    box-shadow: 0 0 20px hsl(220 80% 60% / 0.3),
+                0 0 40px hsl(220 80% 60% / 0.15);
   }
 
   /* Brutalist text styles */
@@ -103,22 +115,27 @@
 
   /* Subtle fade animation */
   .animate-fade-up {
-    animation: fadeUp 0.6s ease-out forwards;
+    animation: fadeUp 0.8s ease-out forwards;
     opacity: 0;
   }
 
   .animate-fade-up-delay-1 {
-    animation: fadeUp 0.6s ease-out 0.1s forwards;
+    animation: fadeUp 0.8s ease-out 0.15s forwards;
     opacity: 0;
   }
 
   .animate-fade-up-delay-2 {
-    animation: fadeUp 0.6s ease-out 0.2s forwards;
+    animation: fadeUp 0.8s ease-out 0.3s forwards;
     opacity: 0;
   }
 
   .animate-fade-up-delay-3 {
-    animation: fadeUp 0.6s ease-out 0.3s forwards;
+    animation: fadeUp 0.8s ease-out 0.45s forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-up-delay-4 {
+    animation: fadeUp 0.8s ease-out 0.6s forwards;
     opacity: 0;
   }
 }
@@ -126,10 +143,15 @@
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }

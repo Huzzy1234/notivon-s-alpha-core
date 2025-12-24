@@ -5,6 +5,7 @@ import MandateGrid from "@/components/landing/MandateGrid";
 import Roadmap from "@/components/landing/Roadmap";
 import DossierPreview from "@/components/landing/DossierPreview";
 import Footer from "@/components/landing/Footer";
+import AnimatedBackground from "@/components/landing/AnimatedBackground";
 
 const Index = () => {
   return (
@@ -19,7 +20,10 @@ const Index = () => {
         <link rel="canonical" href="https://notivon.com" />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      {/* Unified animated background */}
+      <AnimatedBackground />
+
+      <div className="min-h-screen relative z-10">
         <Navbar />
         <main>
           <Hero />
