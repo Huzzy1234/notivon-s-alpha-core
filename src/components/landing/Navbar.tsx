@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { X, Menu } from "lucide-react";
+import { X, Menu, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,10 +28,16 @@ const Navbar = () => {
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
+    setServicesOpen(false);
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const scrollToTop = () => {
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -44,24 +51,61 @@ const Navbar = () => {
           <div className="flex items-center justify-between h-16 sm:h-20">
             {/* Logo */}
             <div className="flex items-center">
-              <span className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground">
+              <button
+                onClick={scrollToTop}
+                className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground hover:text-primary transition-colors"
+              >
                 NOTIVON
-              </span>
+              </button>
             </div>
 
             {/* Navigation Links - Desktop */}
             <div className="hidden md:flex items-center gap-8 lg:gap-12">
               <button
-                onClick={() => scrollToSection("mandate")}
+                onClick={scrollToTop}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
               >
-                Services
+                Home
               </button>
+              
+              {/* Services Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setServicesOpen(!servicesOpen)}
+                  onMouseEnter={() => setServicesOpen(true)}
+                  className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+                >
+                  Services
+                  <ChevronDown className={`w-4 h-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
+                </button>
+                
+                {/* Dropdown Menu */}
+                <div
+                  onMouseLeave={() => setServicesOpen(false)}
+                  className={`absolute top-full left-0 mt-2 w-48 bg-background/95 backdrop-blur-sm border border-border rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${
+                    servicesOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                  }`}
+                >
+                  <button
+                    onClick={() => scrollToSection("mandate")}
+                    className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  >
+                    Mandate Grid
+                  </button>
+                  <button
+                    onClick={() => scrollToSection("roadmap")}
+                    className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  >
+                    Implementation Roadmap
+                  </button>
+                </div>
+              </div>
+
               <button
-                onClick={() => scrollToSection("roadmap")}
+                onClick={() => scrollToSection("dossier")}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
               >
-                Roadmap
+                Case Studies
               </button>
               <button
                 onClick={() => scrollToSection("contact")}
@@ -105,18 +149,48 @@ const Navbar = () => {
           mobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8 px-6">
+        <div className="flex flex-col items-center justify-center h-full gap-6 px-6">
           <button
-            onClick={() => scrollToSection("mandate")}
+            onClick={scrollToTop}
             className="text-2xl font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider"
           >
-            Services
+            Home
           </button>
+          
+          {/* Mobile Services Accordion */}
+          <div className="flex flex-col items-center">
+            <button
+              onClick={() => setServicesOpen(!servicesOpen)}
+              className="flex items-center gap-2 text-2xl font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider"
+            >
+              Services
+              <ChevronDown className={`w-5 h-5 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
+            </button>
+            <div
+              className={`flex flex-col items-center gap-3 overflow-hidden transition-all duration-300 ${
+                servicesOpen ? "max-h-40 mt-3 opacity-100" : "max-h-0 opacity-0"
+              }`}
+            >
+              <button
+                onClick={() => scrollToSection("mandate")}
+                className="text-lg text-muted-foreground hover:text-primary transition-colors"
+              >
+                Mandate Grid
+              </button>
+              <button
+                onClick={() => scrollToSection("roadmap")}
+                className="text-lg text-muted-foreground hover:text-primary transition-colors"
+              >
+                Implementation Roadmap
+              </button>
+            </div>
+          </div>
+
           <button
-            onClick={() => scrollToSection("roadmap")}
+            onClick={() => scrollToSection("dossier")}
             className="text-2xl font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider"
           >
-            Roadmap
+            Case Studies
           </button>
           <button
             onClick={() => scrollToSection("contact")}
@@ -135,6 +209,18 @@ const Navbar = () => {
           </a>
         </div>
       </div>
+
+      {/* Sticky CTA Button - appears after scrolling */}
+      <a
+        href="https://calendly.com/hussainhussainakan/10min"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`fixed bottom-6 right-6 z-50 px-5 py-3 bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wider shadow-lg hover:bg-primary/90 transition-all duration-300 glow-cyan ${
+          scrolled ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
+      >
+        Book a Maturity Audit
+      </a>
     </>
   );
 };
