@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Notivon Design System
    Blue/gray tones for trust and tech sophistication
    Playfair Display for headings, Inter for body
