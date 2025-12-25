@@ -47,7 +47,7 @@ const MandateGrid = () => {
               key={item.title}
               className={`p-6 sm:p-8 lg:p-10 xl:p-14 ${
                 index < mandateItems.length - 1 ? "border-b sm:border-b md:border-b-0 md:border-r border-border/60" : ""
-              } ${index === 1 ? "sm:border-r-0 md:border-r" : ""} group hover:bg-card/50 transition-colors duration-500`}
+              } ${index === 1 ? "sm:border-r-0 md:border-r" : ""} group hover:bg-card/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5`}
             >
               {/* Number */}
               <div className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-muted/30 mb-4 sm:mb-6 lg:mb-8">
