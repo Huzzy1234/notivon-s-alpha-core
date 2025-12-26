@@ -3,7 +3,7 @@ import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import MandateGrid from "@/components/landing/MandateGrid";
 import Roadmap from "@/components/landing/Roadmap";
-import DossierPreview from "@/components/landing/DossierPreview";
+import TrustSignals from "@/components/landing/TrustSignals";
 import Footer from "@/components/landing/Footer";
 import AnimatedBackground from "@/components/landing/AnimatedBackground";
 
@@ -29,7 +29,7 @@ const Index = () => {
           <Hero />
           <MandateGrid />
           <Roadmap />
-          <DossierPreview />
+          <TrustSignals />
         </main>
         <Footer />
       </div>
