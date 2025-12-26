@@ -31,8 +31,8 @@ const Hero = () => {
 
           {/* Subheadline - Inter */}
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans font-light text-muted-foreground max-w-2xl leading-relaxed mb-8 sm:mb-14 animate-fade-up-delay-2">
-            The autonomous infrastructure mid-market PE firms need to surface
-            off-market alpha—before the competition even knows it exists.
+            The autonomous infrastructure Search Fund entrepreneurs need to surface
+            off-market opportunities—before the competition even knows they exist.
           </p>
 
           {/* CTAs */}

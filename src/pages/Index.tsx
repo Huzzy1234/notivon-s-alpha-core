@@ -11,10 +11,10 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Notivon | AI Transformation Partner for Private Equity</title>
+        <title>Notivon | AI Transformation Partner for Search Funds</title>
         <meta
           name="description"
-          content="Proprietary deal flow and AI transformation for mid-market Private Equity firms. Build agentic infrastructure for autonomous origination and operational alpha."
+          content="Proprietary deal flow and AI transformation for Search Fund entrepreneurs. Build agentic infrastructure for autonomous deal sourcing and operational excellence."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="canonical" href="https://notivon.com" />

@@ -5,19 +5,19 @@ const mandateItems = [
     icon: Bot,
     title: "Agentic Origination",
     description:
-      "Moving beyond static scrapers to reasoning agents that identify 'silent' market triggers—founder life events, regulatory shifts, and competitive pressures invisible to traditional sourcing.",
+      "Moving beyond cold outreach to reasoning agents that identify 'silent' acquisition signals—owner retirement plans, succession gaps, and market dynamics invisible to traditional sourcing.",
   },
   {
     icon: Users,
-    title: "LP Expectation Management",
+    title: "Investor Communication",
     description:
-      "Meeting the rising demand from Limited Partners for a visible AI-driven value creation roadmap. Demonstrate technological sophistication in your investment thesis.",
+      "Exceed investor expectations with a visible AI-driven search roadmap. Demonstrate technological sophistication and systematic deal flow to your capital partners.",
   },
   {
     icon: TrendingUp,
-    title: "Operational Alpha",
+    title: "Operational Excellence",
     description:
-      "Driving exit multiples by embedding self-optimizing agents into portfolio companies. Automate revenue operations, customer success, and back-office functions at scale.",
+      "Accelerate value creation post-acquisition by embedding self-optimizing agents. Automate operations, customer success, and back-office functions from day one.",
   },
 ];
 
@@ -34,7 +34,7 @@ const MandateGrid = () => {
             Strategic Framework
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-[-0.02em] text-foreground leading-tight">
-            The 2026 Private Equity
+            The 2026 Search Fund
             <br className="hidden sm:block" />
             <span className="text-primary"> AI Mandate</span>
           </h2>
