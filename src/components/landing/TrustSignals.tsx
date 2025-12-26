@@ -1,4 +1,41 @@
 import { Quote, TrendingUp, Users } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+
+const useCountUp = (end: number, duration: number = 2000, suffix: string = "") => {
+  const [count, setCount] = useState(0);
+  const [hasStarted, setHasStarted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasStarted) {
+          setHasStarted(true);
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [hasStarted]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    let startTime: number;
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setCount(Math.floor(eased * end));
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }, [hasStarted, end, duration]);
+
+  return { count, ref, suffix };
+};
 
 const TrustSignals = () => {
   const affiliations = [
@@ -8,6 +45,9 @@ const TrustSignals = () => {
     "Kellogg",
     "Booth",
   ];
+
+  const targets = useCountUp(2400, 2000);
+  const searchers = useCountUp(15, 1500);
 
   return (
     <section id="trust" className="py-16 sm:py-24 lg:py-32 relative overflow-hidden">
@@ -27,20 +67,20 @@ const TrustSignals = () => {
 
         {/* Metrics Row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16 lg:mb-20">
-          <div className="bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-300">
+          <div ref={targets.ref} className="bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-300">
             <TrendingUp className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
             <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2">
-              2,400+
+              {targets.count.toLocaleString()}+
             </div>
             <p className="text-sm sm:text-base text-muted-foreground uppercase tracking-wider">
               Targets Analyzed
             </p>
           </div>
 
-          <div className="bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-300">
+          <div ref={searchers.ref} className="bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-300">
             <Users className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
             <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2">
-              15+
+              {searchers.count}+
             </div>
             <p className="text-sm sm:text-base text-muted-foreground uppercase tracking-wider">
               Searchers Supported
