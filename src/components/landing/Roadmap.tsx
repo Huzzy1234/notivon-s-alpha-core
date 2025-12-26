@@ -6,21 +6,21 @@ const steps = [
     icon: Search,
     title: "Maturity Audit",
     description:
-      "A comprehensive diagnostic of your current sourcing and due-diligence workflow. Identify gaps between your existing infrastructure and agentic capability.",
+      "A comprehensive diagnostic of your current sourcing and outreach workflow. Identify gaps between your existing search process and agentic capability.",
   },
   {
     number: "02",
     icon: BookOpen,
     title: "Strategic Education",
     description:
-      "Training investment teams on agentic frameworks. Build internal competency to evaluate, deploy, and manage AI-driven deal origination systems.",
+      "Training searchers on agentic frameworks. Build competency to evaluate, deploy, and manage AI-driven deal sourcing and owner outreach systems.",
   },
   {
     number: "03",
     icon: Rocket,
     title: "Implementation",
     description:
-      "Deploying private, proprietary deal engines. Custom-built reasoning agents trained on your thesis, sector expertise, and historical deal patterns.",
+      "Deploying private, proprietary search engines. Custom-built reasoning agents trained on your acquisition criteria, industry focus, and ideal target profile.",
   },
 ];
 

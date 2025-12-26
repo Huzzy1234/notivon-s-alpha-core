@@ -11,9 +11,9 @@ const Footer = () => {
               NOTIVON
             </span>
             <p className="text-sm sm:text-base text-muted-foreground max-w-md leading-relaxed">
-              AI Transformation and Strategic Partner for mid-market Private
-              Equity firms. Building the agentic infrastructure for autonomous
-              deal origination.
+              AI Transformation and Strategic Partner for Search Fund
+              entrepreneurs. Building the agentic infrastructure for autonomous
+              deal sourcing and acquisition.
             </p>
           </div>
 
@@ -36,7 +36,7 @@ const Footer = () => {
                   href="#mandate"
                   className="text-sm sm:text-base text-muted-foreground hover:text-primary transition-colors"
                 >
-                  LP Management
+                  Investor Communication
                 </a>
               </li>
               <li>
@@ -44,7 +44,7 @@ const Footer = () => {
                   href="#mandate"
                   className="text-sm sm:text-base text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Operational Alpha
+                  Operational Excellence
                 </a>
               </li>
             </ul>
