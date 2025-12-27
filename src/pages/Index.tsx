@@ -5,6 +5,7 @@ import MandateGrid from "@/components/landing/MandateGrid";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Roadmap from "@/components/landing/Roadmap";
 import TrustSignals from "@/components/landing/TrustSignals";
+import FAQ from "@/components/landing/FAQ";
 import Footer from "@/components/landing/Footer";
 import AnimatedBackground from "@/components/landing/AnimatedBackground";
 
@@ -32,6 +33,7 @@ const Index = () => {
           <HowItWorks />
           <Roadmap />
           <TrustSignals />
+          <FAQ />
         </main>
         <Footer />
       </div>
