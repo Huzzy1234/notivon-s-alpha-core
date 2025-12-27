@@ -2,6 +2,7 @@ import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import MandateGrid from "@/components/landing/MandateGrid";
+import HowItWorks from "@/components/landing/HowItWorks";
 import Roadmap from "@/components/landing/Roadmap";
 import TrustSignals from "@/components/landing/TrustSignals";
 import Footer from "@/components/landing/Footer";
@@ -28,6 +29,7 @@ const Index = () => {
         <main>
           <Hero />
           <MandateGrid />
+          <HowItWorks />
           <Roadmap />
           <TrustSignals />
         </main>
