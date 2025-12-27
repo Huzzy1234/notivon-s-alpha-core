@@ -38,6 +38,9 @@ const useCountUp = (end: number, duration: number = 2000, suffix: string = "") =
 };
 
 const TrustSignals = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
   const affiliations = [
     "Stanford GSB",
     "Harvard Business School",
@@ -49,14 +52,28 @@ const TrustSignals = () => {
   const targets = useCountUp(2400, 2000);
   const searchers = useCountUp(15, 1500);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="trust" className="py-16 sm:py-24 lg:py-32 relative overflow-hidden">
+    <section ref={sectionRef} id="trust" className="py-16 sm:py-24 lg:py-32 relative overflow-hidden">
       {/* Subtle gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/30 to-transparent" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
+        <div className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <span className="inline-block px-3 sm:px-5 py-2 sm:py-2.5 border border-primary/40 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-primary mb-6 sm:mb-8">
             Trusted By Searchers
           </span>
@@ -67,7 +84,11 @@ const TrustSignals = () => {
 
         {/* Metrics Row */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16 lg:mb-20">
-          <div ref={targets.ref} className="bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-300">
+          <div 
+            ref={targets.ref} 
+            className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-500 hover:shadow-lg hover:shadow-primary/5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transitionDelay: '100ms' }}
+          >
             <TrendingUp className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
             <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2">
               {targets.count.toLocaleString()}+
@@ -77,7 +98,11 @@ const TrustSignals = () => {
             </p>
           </div>
 
-          <div ref={searchers.ref} className="bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-300">
+          <div 
+            ref={searchers.ref} 
+            className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-500 hover:shadow-lg hover:shadow-primary/5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transitionDelay: '200ms' }}
+          >
             <Users className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
             <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2">
               {searchers.count}+
@@ -87,8 +112,11 @@ const TrustSignals = () => {
             </p>
           </div>
 
-          <div className="bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-300">
-            <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+          <div 
+            className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 text-center group hover:border-primary/40 transition-all duration-500 hover:shadow-lg hover:shadow-primary/5 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transitionDelay: '300ms' }}
+          >
+            <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform group-hover:bg-primary/30">
               <span className="text-primary font-bold text-sm">AI</span>
             </div>
             <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-2">
@@ -101,9 +129,9 @@ const TrustSignals = () => {
         </div>
 
         {/* Testimonial */}
-        <div className="max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-20">
-          <div className="bg-card/60 backdrop-blur-sm border border-border/60 p-8 sm:p-10 lg:p-12 relative">
-            <Quote className="w-10 h-10 sm:w-12 sm:h-12 text-primary/30 absolute top-6 left-6 sm:top-8 sm:left-8" />
+        <div className={`max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '400ms' }}>
+          <div className="bg-card/60 backdrop-blur-sm border border-border/60 p-8 sm:p-10 lg:p-12 relative group hover:border-primary/30 transition-all duration-500">
+            <Quote className="w-10 h-10 sm:w-12 sm:h-12 text-primary/30 absolute top-6 left-6 sm:top-8 sm:left-8 group-hover:text-primary/50 transition-colors" />
             <blockquote className="text-lg sm:text-xl lg:text-2xl text-foreground font-light leading-relaxed mb-6 sm:mb-8 pl-8 sm:pl-12">
               "The AI-powered sourcing completely changed how I approach deal origination. 
               Instead of cold-calling through lists, I'm now having conversations with 
@@ -115,23 +143,24 @@ const TrustSignals = () => {
             </div>
 
             {/* Decorative corner accents */}
-            <div className="absolute -top-2 sm:-top-3 -left-2 sm:-left-3 w-6 sm:w-8 h-6 sm:h-8 border-l-2 border-t-2 border-primary" />
-            <div className="absolute -top-2 sm:-top-3 -right-2 sm:-right-3 w-6 sm:w-8 h-6 sm:h-8 border-r-2 border-t-2 border-primary" />
-            <div className="absolute -bottom-2 sm:-bottom-3 -left-2 sm:-left-3 w-6 sm:w-8 h-6 sm:h-8 border-l-2 border-b-2 border-primary" />
-            <div className="absolute -bottom-2 sm:-bottom-3 -right-2 sm:-right-3 w-6 sm:w-8 h-6 sm:h-8 border-r-2 border-b-2 border-primary" />
+            <div className="absolute -top-2 sm:-top-3 -left-2 sm:-left-3 w-6 sm:w-8 h-6 sm:h-8 border-l-2 border-t-2 border-primary/40 group-hover:border-primary transition-colors" />
+            <div className="absolute -top-2 sm:-top-3 -right-2 sm:-right-3 w-6 sm:w-8 h-6 sm:h-8 border-r-2 border-t-2 border-primary/40 group-hover:border-primary transition-colors" />
+            <div className="absolute -bottom-2 sm:-bottom-3 -left-2 sm:-left-3 w-6 sm:w-8 h-6 sm:h-8 border-l-2 border-b-2 border-primary/40 group-hover:border-primary transition-colors" />
+            <div className="absolute -bottom-2 sm:-bottom-3 -right-2 sm:-right-3 w-6 sm:w-8 h-6 sm:h-8 border-r-2 border-b-2 border-primary/40 group-hover:border-primary transition-colors" />
           </div>
         </div>
 
         {/* MBA Program Affiliations */}
-        <div className="text-center">
+        <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '500ms' }}>
           <p className="text-xs sm:text-sm text-muted-foreground uppercase tracking-[0.2em] mb-6 sm:mb-8">
             Searchers from top programs
           </p>
           <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-10 lg:gap-14">
-            {affiliations.map((school) => (
+            {affiliations.map((school, index) => (
               <span
                 key={school}
-                className="text-base sm:text-lg lg:text-xl font-semibold text-muted-foreground/60 hover:text-primary transition-colors duration-300 tracking-wide"
+                className={`text-base sm:text-lg lg:text-xl font-semibold text-muted-foreground/60 hover:text-primary transition-all duration-300 tracking-wide cursor-default ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                style={{ transitionDelay: `${600 + index * 100}ms` }}
               >
                 {school}
               </span>

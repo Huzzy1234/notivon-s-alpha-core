@@ -1,4 +1,5 @@
 import { Search, BookOpen, Rocket } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
 
 const steps = [
   {
@@ -25,8 +26,29 @@ const steps = [
 ];
 
 const Roadmap = () => {
+  const [visibleCards, setVisibleCards] = useState<number[]>([]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          steps.forEach((_, index) => {
+            setTimeout(() => {
+              setVisibleCards((prev) => [...prev, index]);
+            }, index * 200);
+          });
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="roadmap" className="py-16 sm:py-24 lg:py-36 relative overflow-hidden">
+    <section ref={sectionRef} id="roadmap" className="py-16 sm:py-24 lg:py-36 relative overflow-hidden">
       {/* Decorative lines */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
@@ -36,7 +58,7 @@ const Roadmap = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12 sm:mb-16 lg:mb-24">
+        <div className={`text-center mb-12 sm:mb-16 lg:mb-24 transition-all duration-1000 ${visibleCards.length > 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <span className="inline-block px-3 sm:px-5 py-2 sm:py-2.5 border border-primary/40 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-primary mb-6 sm:mb-8">
             Engagement Process
           </span>
@@ -49,19 +71,28 @@ const Roadmap = () => {
         {/* Steps */}
         <div className="relative">
           {/* Connecting line */}
-          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-border/50 -translate-y-1/2" />
+          <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-border/50 -translate-y-1/2 overflow-hidden">
+            <div className={`h-full bg-primary/50 transition-all duration-1500 ease-out ${visibleCards.length === 3 ? 'w-full' : 'w-0'}`} />
+          </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-0">
             {steps.map((step, index) => (
-              <div key={step.title} className="relative">
+              <div
+                key={step.title}
+                className={`relative transition-all duration-700 ${
+                  visibleCards.includes(index)
+                    ? 'opacity-100 translate-y-0'
+                    : 'opacity-0 translate-y-12'
+                }`}
+              >
                 {/* Card */}
-                <div className="bg-background/60 backdrop-blur-sm border border-border/60 p-6 sm:p-8 lg:p-10 xl:p-12 h-full group hover:border-primary/50 transition-all duration-500">
+                <div className="bg-background/60 backdrop-blur-sm border border-border/60 p-6 sm:p-8 lg:p-10 xl:p-12 h-full group hover:border-primary/50 transition-all duration-500 hover:shadow-lg hover:shadow-primary/5">
                   {/* Step number and icon row */}
                   <div className="flex items-center justify-between mb-6 sm:mb-8 lg:mb-10">
-                    <span className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-primary">
+                    <span className={`text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-primary transition-all duration-500 ${visibleCards.includes(index) ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
                       {step.number}
                     </span>
-                    <div className="w-12 sm:w-14 lg:w-16 h-12 sm:h-14 lg:h-16 border border-border/60 flex items-center justify-center group-hover:border-primary/50 transition-colors">
+                    <div className="w-12 sm:w-14 lg:w-16 h-12 sm:h-14 lg:h-16 border border-border/60 flex items-center justify-center group-hover:border-primary/50 group-hover:rotate-6 transition-all duration-300">
                       <step.icon className="w-6 sm:w-7 lg:w-8 h-6 sm:h-7 lg:h-8 text-muted-foreground group-hover:text-primary transition-colors" />
                     </div>
                   </div>
@@ -79,7 +110,7 @@ const Roadmap = () => {
 
                 {/* Arrow connector for desktop */}
                 {index < steps.length - 1 && (
-                  <div className="hidden lg:flex absolute top-1/2 -right-4 lg:-right-5 w-8 lg:w-10 h-8 lg:h-10 bg-background border border-border/60 items-center justify-center -translate-y-1/2 z-10">
+                  <div className={`hidden lg:flex absolute top-1/2 -right-4 lg:-right-5 w-8 lg:w-10 h-8 lg:h-10 bg-background border border-border/60 items-center justify-center -translate-y-1/2 z-10 transition-all duration-500 ${visibleCards.includes(index + 1) ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
                     <div className="w-2 lg:w-2.5 h-2 lg:h-2.5 border-r-2 border-t-2 border-primary rotate-45" />
                   </div>
                 )}
