@@ -3,9 +3,11 @@ import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import MandateGrid from "@/components/landing/MandateGrid";
 import HowItWorks from "@/components/landing/HowItWorks";
+import DossierPreview from "@/components/landing/DossierPreview";
 import Roadmap from "@/components/landing/Roadmap";
 import TrustSignals from "@/components/landing/TrustSignals";
 import FAQ from "@/components/landing/FAQ";
+import Contact from "@/components/landing/Contact";
 import Footer from "@/components/landing/Footer";
 import AnimatedBackground from "@/components/landing/AnimatedBackground";
 
@@ -31,9 +33,11 @@ const Index = () => {
           <Hero />
           <MandateGrid />
           <HowItWorks />
+          <DossierPreview />
           <Roadmap />
           <TrustSignals />
           <FAQ />
+          <Contact />
         </main>
         <Footer />
       </div>
