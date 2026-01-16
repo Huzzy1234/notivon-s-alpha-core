@@ -1,6 +1,39 @@
 import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 const Hero = () => {
+  const phrases = ["Deal Flow", "Opportunities", "Acquisitions"];
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const currentPhrase = phrases[currentPhraseIndex];
+    const typingSpeed = isDeleting ? 50 : 100;
+    const pauseTime = 2000;
+
+    if (!isDeleting && displayText === currentPhrase) {
+      setTimeout(() => setIsDeleting(true), pauseTime);
+      return;
+    }
+
+    if (isDeleting && displayText === "") {
+      setIsDeleting(false);
+      setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setDisplayText(
+        isDeleting
+          ? currentPhrase.substring(0, displayText.length - 1)
+          : currentPhrase.substring(0, displayText.length + 1)
+      );
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [displayText, isDeleting, currentPhraseIndex, phrases]);
+
   return (
     <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 px-4">
       {/* Subtle gradient overlay for readability */}
@@ -16,12 +49,13 @@ const Hero = () => {
             </span>
           </div>
 
-          {/* Bold Headline - Playfair Display */}
+          {/* Bold Headline - Playfair Display with Typewriter */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] sm:leading-[1.05] tracking-[-0.02em] text-foreground mb-6 sm:mb-10 animate-fade-up-delay-1">
             Unlock Proprietary
             <br />
             <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-              Deal Flow
+              {displayText}
+              <span className="animate-pulse">|</span>
             </span>
             <br />
             <span className="text-muted-foreground font-medium italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
