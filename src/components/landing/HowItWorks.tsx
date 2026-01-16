@@ -17,7 +17,7 @@ const steps = [
   {
     icon: Target,
     title: "Precision Delivery",
-    description: "Receive curated dossiers on high-probability targets, complete with outreach intelligence and conversation starters.",
+    description: "Receive curated leads on high-probability targets, complete with outreach intelligence and conversation starters.",
     visual: "targeting",
   },
 ];

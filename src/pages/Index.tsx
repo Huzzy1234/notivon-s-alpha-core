@@ -3,7 +3,6 @@ import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
 import MandateGrid from "@/components/landing/MandateGrid";
 import HowItWorks from "@/components/landing/HowItWorks";
-import DossierPreview from "@/components/landing/DossierPreview";
 import Roadmap from "@/components/landing/Roadmap";
 import TrustSignals from "@/components/landing/TrustSignals";
 import FAQ from "@/components/landing/FAQ";
@@ -33,7 +32,6 @@ const Index = () => {
           <Hero />
           <MandateGrid />
           <HowItWorks />
-          <DossierPreview />
           <Roadmap />
           <TrustSignals />
           <FAQ />
