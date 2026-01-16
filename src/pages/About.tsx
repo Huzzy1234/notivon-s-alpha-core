@@ -47,14 +47,14 @@ const About = () => {
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               {/* Image */}
               <div className="relative order-1 lg:order-1">
-                <div className="relative aspect-[3/4] max-w-md mx-auto lg:mx-0">
+                <div className="relative aspect-[3/4] w-64 sm:w-72 mx-auto lg:mx-0">
                   <img
                     src={hussainImage}
                     alt="Hussain - Founder of Notivon"
                     className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
                   />
                   <div className="absolute inset-0 border border-primary/20" />
-                  <div className="absolute -bottom-4 -right-4 w-full h-full border border-primary/40 -z-10" />
+                  <div className="absolute -bottom-3 -right-3 w-full h-full border border-primary/40 -z-10" />
                 </div>
               </div>
 
