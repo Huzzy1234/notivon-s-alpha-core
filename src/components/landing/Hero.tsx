@@ -1,4 +1,4 @@
-import { ArrowRight, FileText } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -47,11 +47,10 @@ const Hero = () => {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a
-              href="#dossier"
+              href="#how-it-works"
               className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 border-2 border-border bg-background/30 backdrop-blur-sm text-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:border-primary hover:text-primary transition-all"
             >
-              <FileText className="w-4 h-4" />
-              View Sample Dossier
+              See How It Works
             </a>
           </div>
         </div>

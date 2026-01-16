@@ -53,7 +53,7 @@ const testimonials = [
     metric: "Closed first deal in 14 months"
   },
   {
-    quote: "The target analysis dossiers are incredibly thorough. What used to take my team 2 weeks of research is now delivered in hours, with insights we would have missed entirely.",
+    quote: "The target analysis reports are incredibly thorough. What used to take my team 2 weeks of research is now delivered in hours, with insights we would have missed entirely.",
     name: "David Okonkwo",
     title: "Self-Funded Searcher",
     school: "Wharton '21",
