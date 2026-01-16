@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { X, Menu, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
@@ -101,12 +102,12 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <button
-                onClick={() => scrollToSection("dossier")}
+              <Link
+                to="/about"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
               >
-                Case Studies
-              </button>
+                About
+              </Link>
               <button
                 onClick={() => scrollToSection("contact")}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
@@ -186,12 +187,13 @@ const Navbar = () => {
             </div>
           </div>
 
-          <button
-            onClick={() => scrollToSection("dossier")}
+          <Link
+            to="/about"
+            onClick={() => setMobileMenuOpen(false)}
             className="text-2xl font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider"
           >
-            Case Studies
-          </button>
+            About
+          </Link>
           <button
             onClick={() => scrollToSection("contact")}
             className="text-2xl font-medium text-foreground hover:text-primary transition-colors uppercase tracking-wider"
