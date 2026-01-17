@@ -1,4 +1,4 @@
-import { Quote, TrendingUp, Users, Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { Quote, TrendingUp, Users } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
 const useCountUp = (end: number, duration: number = 2000, suffix: string = "") => {
@@ -39,40 +39,20 @@ const useCountUp = (end: number, duration: number = 2000, suffix: string = "") =
 
 const testimonials = [
   {
-    quote: "The AI-powered sourcing completely changed how I approach deal origination. Instead of cold-calling through lists, I'm now having conversations with owners who are actually ready to consider a transition.",
-    name: "Marcus Chen",
+    quote: "The AI-powered sourcing completely changed how I approach deal origination. Instead of cold-calling through lists, I'm now having conversations with owners who are actually ready to transition.",
+    initials: "M.C.",
     title: "Search Fund Entrepreneur",
-    school: "Stanford GSB '23",
-    metric: "47 qualified leads in 3 months"
   },
   {
     quote: "We closed our first acquisition 6 months faster than projected. The proprietary deal flow meant we weren't competing against 15 other searchers for the same targets.",
-    name: "Sarah Williams",
+    initials: "S.W.",
     title: "Traditional Searcher",
-    school: "HBS '22",
-    metric: "Closed first deal in 14 months"
   },
   {
-    quote: "The target analysis reports are incredibly thorough. What used to take my team 2 weeks of research is now delivered in hours, with insights we would have missed entirely.",
-    name: "David Okonkwo",
+    quote: "The target analysis reports are incredibly thorough. What used to take my team 2 weeks of research is now delivered in hours.",
+    initials: "D.O.",
     title: "Self-Funded Searcher",
-    school: "Wharton '21",
-    metric: "80% reduction in research time"
   },
-  {
-    quote: "As a first-time searcher, the AI maturity audit gave me a clear roadmap. I knew exactly which technologies to prioritize for my specific investment thesis.",
-    name: "Jennifer Park",
-    title: "Search Fund Principal",
-    school: "Booth '23",
-    metric: "3x increase in owner conversations"
-  },
-  {
-    quote: "The timing signals are what set Notivon apart. We identified a manufacturing company right as the owner was starting to think about retirement—no other searchers knew about it.",
-    name: "Michael Torres",
-    title: "Funded Searcher",
-    school: "Kellogg '22",
-    metric: "Exclusive access to off-market deal"
-  }
 ];
 
 const TrustSignals = () => {
@@ -183,18 +163,11 @@ const TrustSignals = () => {
         </div>
 
         {/* Testimonial Carousel */}
-        <div className={`max-w-4xl mx-auto mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '400ms' }}>
-          <div className="bg-card/60 backdrop-blur-sm border border-border/60 p-8 sm:p-10 lg:p-12 relative group hover:border-primary/30 transition-all duration-500">
-            <Quote className="w-10 h-10 sm:w-12 sm:h-12 text-primary/30 absolute top-6 left-6 sm:top-8 sm:left-8 group-hover:text-primary/50 transition-colors" />
-            
-            {/* Stars */}
-            <div className="flex gap-1 pl-8 sm:pl-12 mb-4">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-              ))}
-            </div>
+        <div className={`max-w-3xl mx-auto mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '400ms' }}>
+          <div className="bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 lg:p-10 relative group hover:border-primary/30 transition-all duration-500">
+            <Quote className="w-8 h-8 text-primary/20 absolute top-4 left-4 sm:top-6 sm:left-6" />
 
-            <div className="relative overflow-hidden min-h-[200px] sm:min-h-[180px]">
+            <div className="relative overflow-hidden min-h-[140px] sm:min-h-[120px]">
               {testimonials.map((testimonial, index) => (
                 <div
                   key={index}
@@ -204,56 +177,28 @@ const TrustSignals = () => {
                       : 'opacity-0 absolute inset-0 translate-x-8'
                   }`}
                 >
-                  <blockquote className="text-lg sm:text-xl lg:text-2xl text-foreground font-light leading-relaxed mb-6 sm:mb-8 pl-8 sm:pl-12">
+                  <blockquote className="text-base sm:text-lg lg:text-xl text-foreground/90 font-light leading-relaxed mb-4 sm:mb-6 pl-6 sm:pl-10">
                     "{testimonial.quote}"
                   </blockquote>
-                  <div className="pl-8 sm:pl-12 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                      <div className="text-foreground font-semibold">{testimonial.name}</div>
-                      <div className="text-muted-foreground text-sm">{testimonial.title} • {testimonial.school}</div>
-                    </div>
-                    <div className="px-3 py-1.5 bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
-                      {testimonial.metric}
-                    </div>
+                  <div className="pl-6 sm:pl-10">
+                    <span className="text-muted-foreground text-sm">— {testimonial.initials}, {testimonial.title}</span>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-between mt-8 pl-8 sm:pl-12">
-              <div className="flex gap-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveTestimonial(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === activeTestimonial ? 'bg-primary w-6' : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className="flex gap-2">
+            {/* Simple dot navigation */}
+            <div className="flex justify-center gap-2 mt-6">
+              {testimonials.map((_, index) => (
                 <button
-                  onClick={prevTestimonial}
-                  className="p-2 border border-border hover:border-primary hover:text-primary transition-colors"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={nextTestimonial}
-                  className="p-2 border border-border hover:border-primary hover:text-primary transition-colors"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
+                  key={index}
+                  onClick={() => setActiveTestimonial(index)}
+                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                    index === activeTestimonial ? 'bg-primary' : 'bg-muted-foreground/30'
+                  }`}
+                />
+              ))}
             </div>
-
-            {/* Decorative corner accents */}
-            <div className="absolute -top-2 sm:-top-3 -left-2 sm:-left-3 w-6 sm:w-8 h-6 sm:h-8 border-l-2 border-t-2 border-primary/40 group-hover:border-primary transition-colors" />
-            <div className="absolute -top-2 sm:-top-3 -right-2 sm:-right-3 w-6 sm:w-8 h-6 sm:h-8 border-r-2 border-t-2 border-primary/40 group-hover:border-primary transition-colors" />
-            <div className="absolute -bottom-2 sm:-bottom-3 -left-2 sm:-left-3 w-6 sm:w-8 h-6 sm:h-8 border-l-2 border-b-2 border-primary/40 group-hover:border-primary transition-colors" />
-            <div className="absolute -bottom-2 sm:-bottom-3 -right-2 sm:-right-3 w-6 sm:w-8 h-6 sm:h-8 border-r-2 border-b-2 border-primary/40 group-hover:border-primary transition-colors" />
           </div>
         </div>
 
