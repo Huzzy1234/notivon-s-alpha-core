@@ -64,25 +64,42 @@ const Hero = () => {
           </h1>
 
           {/* Subheadline - Inter */}
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans font-light text-muted-foreground max-w-2xl leading-relaxed mb-8 sm:mb-14 animate-fade-up-delay-2">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans font-light text-muted-foreground max-w-2xl leading-relaxed mb-6 sm:mb-8 animate-fade-up-delay-2">
             The autonomous infrastructure Search Fund entrepreneurs need to surface
             off-market opportunities—before the competition even knows they exist.
           </p>
 
+          {/* Specific Outcome Statement */}
+          <div className="animate-fade-up-delay-2 mb-8 sm:mb-12">
+            <div className="inline-flex items-center gap-3 px-4 py-3 border border-primary/30 bg-primary/5 backdrop-blur-sm">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+              <span className="text-sm sm:text-base text-foreground font-medium">
+                <span className="text-primary font-bold">5–8 warm leads</span>
+                <span className="text-muted-foreground"> — business owners interested in your offer, based on your criteria</span>
+              </span>
+            </div>
+          </div>
+
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-up-delay-3">
-            <a
-              href="https://calendly.com/hussainhussainakan/10min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan"
-            >
-              Request AI Maturity Audit
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
+            <div className="flex flex-col items-center sm:items-start gap-2">
+              <a
+                href="https://calendly.com/hussainhussainakan/10min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan"
+              >
+                Request AI Maturity Audit
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+              {/* Exclusivity Indicator */}
+              <span className="text-xs text-muted-foreground">
+                <span className="text-primary font-semibold">Limited availability</span> — accepting 3 new clients this quarter
+              </span>
+            </div>
             <a
               href="#how-it-works"
-              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 border-2 border-border bg-background/30 backdrop-blur-sm text-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:border-primary hover:text-primary transition-all"
+              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 border-2 border-border bg-background/30 backdrop-blur-sm text-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:border-primary hover:text-primary transition-all h-fit"
             >
               See How It Works
             </a>

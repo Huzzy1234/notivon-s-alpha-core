@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/landing/Navbar";
 import Hero from "@/components/landing/Hero";
+import ValueProposition from "@/components/landing/ValueProposition";
 import MandateGrid from "@/components/landing/MandateGrid";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Roadmap from "@/components/landing/Roadmap";
@@ -30,6 +31,7 @@ const Index = () => {
         <Navbar />
         <main>
           <Hero />
+          <ValueProposition />
           <MandateGrid />
           <HowItWorks />
           <Roadmap />
