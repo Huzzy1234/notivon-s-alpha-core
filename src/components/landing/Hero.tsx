@@ -87,10 +87,11 @@ const Hero = () => {
                 href="https://calendly.com/hussainhussainakan/10min"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan"
+                className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan overflow-hidden"
               >
-                Request AI Maturity Audit
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+                <span className="relative">Request AI Maturity Audit</span>
+                <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
               {/* Exclusivity Indicator */}
               <span className="text-xs text-muted-foreground">
