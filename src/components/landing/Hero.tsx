@@ -71,8 +71,8 @@ const Hero = () => {
 
           {/* Specific Outcome Statement */}
           <div className="animate-fade-up-delay-2 mb-8 sm:mb-12">
-            <div className="inline-flex items-center gap-3 px-4 py-3 border border-primary/30 bg-primary/5 backdrop-blur-sm">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+            <div className="inline-flex items-center gap-3 px-4 py-3 border border-primary/30 bg-primary/5 backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+              <div className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_8px_2px_rgba(59,130,246,0.6)]" />
               <span className="text-sm sm:text-base text-foreground font-medium">
                 <span className="text-primary font-bold">5–8 warm leads</span>
                 <span className="text-muted-foreground"> — business owners interested in your offer, based on your criteria</span>
