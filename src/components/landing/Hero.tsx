@@ -64,21 +64,10 @@ const Hero = () => {
           </h1>
 
           {/* Subheadline - Inter */}
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans font-light text-muted-foreground max-w-2xl leading-relaxed mb-6 sm:mb-8 animate-fade-up-delay-2">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans font-light text-muted-foreground max-w-2xl leading-relaxed mb-8 sm:mb-10 animate-fade-up-delay-2">
             The autonomous infrastructure Search Fund entrepreneurs need to surface
-            off-market opportunities—before the competition even knows they exist.
+            off-market opportunities—delivering <span className="text-primary font-medium">5–8 warm leads</span> based on your exact criteria.
           </p>
-
-          {/* Specific Outcome Statement */}
-          <div className="animate-fade-up-delay-2 mb-8 sm:mb-12">
-            <div className="inline-flex items-center gap-3 px-4 py-3 border border-primary/30 bg-primary/5 backdrop-blur-sm shadow-[0_0_20px_rgba(59,130,246,0.15)]">
-              <div className="w-2 h-2 bg-primary rounded-full animate-pulse shadow-[0_0_8px_2px_rgba(59,130,246,0.6)]" />
-              <span className="text-sm sm:text-base text-foreground font-medium">
-                <span className="text-primary font-bold">5–8 warm leads</span>
-                <span className="text-muted-foreground"> — business owners interested in your offer, based on your criteria</span>
-              </span>
-            </div>
-          </div>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-up-delay-3">
@@ -97,6 +86,12 @@ const Hero = () => {
               <span className="text-xs text-muted-foreground">
                 <span className="text-primary font-semibold">Limited availability</span> — accepting 3 new clients this quarter
               </span>
+              {/* Mini-Stats Cluster */}
+              <div className="flex items-center gap-2 text-[10px] sm:text-xs text-muted-foreground mt-1">
+                <span>72hr first delivery</span>
+                <span className="text-primary/40">|</span>
+                <span>10x faster than brokers</span>
+              </div>
             </div>
             <a
               href="#how-it-works"
