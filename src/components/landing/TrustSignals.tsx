@@ -137,6 +137,16 @@ const TrustSignals = () => {
               ))}
             </div>
           </div>
+
+          {/* Case Study Snippet */}
+          <div className="mt-8 pt-6 border-t border-border/30">
+            <div className="flex items-center justify-center gap-3 text-sm text-muted-foreground">
+              <div className="w-2 h-2 bg-accent rounded-full" />
+              <span>
+                <span className="text-foreground font-medium">Case Result:</span> Self-funded searcher closed first acquisition in <span className="text-primary font-semibold">6 months</span> (vs. 12-month industry average)
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
