@@ -33,93 +33,107 @@ const Navbar = () => {
           scrolled ? "bg-background/95 backdrop-blur-sm border-b border-border" : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-3 sm:px-6 lg:px-12">
-          <div className="flex items-center justify-between h-14 sm:h-20 gap-2">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+          <div className="flex items-center justify-between h-14 sm:h-20">
             {/* Logo */}
-            <div className="flex-shrink-0 min-w-0">
-              <button
-                onClick={scrollToTop}
-                className="text-base sm:text-2xl font-bold tracking-[-0.02em] text-foreground hover:text-primary transition-colors whitespace-nowrap"
-              >
-                NOTIVON
-              </button>
-            </div>
+            <button
+              onClick={scrollToTop}
+              className="text-lg sm:text-2xl font-bold tracking-[-0.02em] text-foreground hover:text-primary transition-colors flex-shrink-0"
+            >
+              NOTIVON
+            </button>
 
-            {/* Navigation Links - Visible on all screens */}
-            <div className="flex items-center gap-2 sm:gap-6 lg:gap-12 flex-shrink-0">
-              <button
-                onClick={scrollToTop}
-                className="hidden sm:block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
-              >
-                Home
-              </button>
-              
-              {/* Services Dropdown - Desktop only */}
-              <div className="hidden md:block relative">
+            {/* Navigation Links + CTA */}
+            <div className="flex items-center">
+              {/* Desktop Navigation */}
+              <div className="hidden sm:flex items-center gap-6 lg:gap-12 mr-6 lg:mr-10">
                 <button
-                  onClick={() => setServicesOpen(!servicesOpen)}
-                  onMouseEnter={() => setServicesOpen(true)}
-                  className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+                  onClick={scrollToTop}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
                 >
-                  Services
-                  <ChevronDown className={`w-4 h-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
+                  Home
                 </button>
                 
-                {/* Dropdown Menu */}
-                <div
-                  onMouseLeave={() => setServicesOpen(false)}
-                  className={`absolute top-full left-0 mt-2 w-48 bg-background/95 backdrop-blur-sm border border-border rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${
-                    servicesOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
-                  }`}
-                >
+                {/* Services Dropdown - Desktop only */}
+                <div className="hidden md:block relative">
                   <button
-                    onClick={() => scrollToSection("mandate")}
-                    className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                    onClick={() => setServicesOpen(!servicesOpen)}
+                    onMouseEnter={() => setServicesOpen(true)}
+                    className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
                   >
-                    Mandate Grid
+                    Services
+                    <ChevronDown className={`w-4 h-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
                   </button>
-                  <button
-                    onClick={() => scrollToSection("roadmap")}
-                    className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                  
+                  {/* Dropdown Menu */}
+                  <div
+                    onMouseLeave={() => setServicesOpen(false)}
+                    className={`absolute top-full left-0 mt-2 w-48 bg-background/95 backdrop-blur-sm border border-border rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${
+                      servicesOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                    }`}
                   >
-                    Implementation Roadmap
-                  </button>
+                    <button
+                      onClick={() => scrollToSection("mandate")}
+                      className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                    >
+                      Mandate Grid
+                    </button>
+                    <button
+                      onClick={() => scrollToSection("roadmap")}
+                      className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+                    >
+                      Implementation Roadmap
+                    </button>
+                  </div>
                 </div>
+
+                <Link
+                  to="/about"
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+                >
+                  About
+                </Link>
+                <button
+                  onClick={() => scrollToSection("contact")}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+                >
+                  Contact
+                </button>
               </div>
 
-              {/* Mobile-visible links */}
-              <button
-                onClick={() => scrollToSection("mandate")}
-                className="md:hidden text-[10px] xs:text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
-              >
-                Services
-              </button>
+              {/* Mobile Navigation */}
+              <div className="flex sm:hidden items-center gap-4 mr-3">
+                <button
+                  onClick={() => scrollToSection("mandate")}
+                  className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
+                >
+                  Services
+                </button>
+                <Link
+                  to="/about"
+                  className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
+                >
+                  About
+                </Link>
+                <button
+                  onClick={() => scrollToSection("contact")}
+                  className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
+                >
+                  Contact
+                </button>
+              </div>
 
-              <Link
-                to="/about"
-                className="text-[10px] xs:text-[11px] sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide sm:tracking-wider"
+              {/* CTA Button */}
+              <a
+                href="https://calendly.com/hussainhussainakan/10min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 sm:px-5 lg:px-6 py-1.5 sm:py-2.5 lg:py-3 bg-primary text-primary-foreground text-[10px] sm:text-sm font-semibold uppercase tracking-wide sm:tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover flex-shrink-0"
               >
-                About
-              </Link>
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="text-[10px] xs:text-[11px] sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide sm:tracking-wider"
-              >
-                Contact
-              </button>
+                <span className="sm:hidden">Audit</span>
+                <span className="hidden sm:inline">Request Audit</span>
+              </a>
             </div>
-
-            {/* CTA */}
-            <a
-              href="https://calendly.com/hussainhussainakan/10min"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-shrink-0 px-2 xs:px-3 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 bg-primary text-primary-foreground text-[9px] xs:text-[10px] sm:text-sm font-semibold uppercase tracking-wide sm:tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover"
-            >
-              <span className="hidden xs:inline sm:hidden">Audit</span>
-              <span className="xs:hidden">CTA</span>
-              <span className="hidden sm:inline">Request Audit</span>
-            </a>
           </div>
         </div>
       </nav>
