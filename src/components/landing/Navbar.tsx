@@ -33,20 +33,20 @@ const Navbar = () => {
           scrolled ? "bg-background/95 backdrop-blur-sm border-b border-border" : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="flex items-center justify-between h-14 sm:h-20">
+        <div className="container mx-auto px-3 sm:px-6 lg:px-12">
+          <div className="flex items-center justify-between h-14 sm:h-20 gap-2">
             {/* Logo */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 min-w-0">
               <button
                 onClick={scrollToTop}
-                className="text-lg sm:text-2xl font-bold tracking-[-0.02em] text-foreground hover:text-primary transition-colors"
+                className="text-base sm:text-2xl font-bold tracking-[-0.02em] text-foreground hover:text-primary transition-colors whitespace-nowrap"
               >
                 NOTIVON
               </button>
             </div>
 
             {/* Navigation Links - Visible on all screens */}
-            <div className="flex items-center gap-3 sm:gap-6 lg:gap-12">
+            <div className="flex items-center gap-2 sm:gap-6 lg:gap-12 flex-shrink-0">
               <button
                 onClick={scrollToTop}
                 className="hidden sm:block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
@@ -90,20 +90,20 @@ const Navbar = () => {
               {/* Mobile-visible links */}
               <button
                 onClick={() => scrollToSection("mandate")}
-                className="md:hidden text-[11px] sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+                className="md:hidden text-[10px] xs:text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
               >
                 Services
               </button>
 
               <Link
                 to="/about"
-                className="text-[11px] sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+                className="text-[10px] xs:text-[11px] sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide sm:tracking-wider"
               >
                 About
               </Link>
               <button
                 onClick={() => scrollToSection("contact")}
-                className="text-[11px] sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+                className="text-[10px] xs:text-[11px] sm:text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide sm:tracking-wider"
               >
                 Contact
               </button>
@@ -114,10 +114,11 @@ const Navbar = () => {
               href="https://calendly.com/hussainhussainakan/10min"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 px-3 sm:px-5 lg:px-6 py-2 sm:py-2.5 lg:py-3 bg-primary text-primary-foreground text-[10px] sm:text-sm font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover"
+              className="flex-shrink-0 px-2 xs:px-3 sm:px-5 lg:px-6 py-1.5 xs:py-2 sm:py-2.5 lg:py-3 bg-primary text-primary-foreground text-[9px] xs:text-[10px] sm:text-sm font-semibold uppercase tracking-wide sm:tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover"
             >
+              <span className="hidden xs:inline sm:hidden">Audit</span>
+              <span className="xs:hidden">CTA</span>
               <span className="hidden sm:inline">Request Audit</span>
-              <span className="sm:hidden">Audit</span>
             </a>
           </div>
         </div>
