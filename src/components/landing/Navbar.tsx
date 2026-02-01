@@ -33,20 +33,19 @@ const Navbar = () => {
           scrolled ? "bg-background/95 backdrop-blur-sm border-b border-border" : "bg-transparent"
         }`}
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-12">
+        <div className="container mx-auto px-3 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between h-14 sm:h-20">
             {/* Logo */}
             <button
               onClick={scrollToTop}
-              className="text-lg sm:text-2xl font-bold tracking-[-0.02em] text-foreground hover:text-primary transition-colors flex-shrink-0"
+              className="text-base sm:text-2xl font-bold tracking-[-0.02em] text-foreground hover:text-primary transition-colors flex-shrink-0"
             >
               NOTIVON
             </button>
 
-            {/* Navigation Links + CTA */}
-            <div className="flex items-center">
-              {/* Desktop Navigation */}
-              <div className="hidden sm:flex items-center gap-6 lg:gap-12 mr-6 lg:mr-10">
+            {/* Desktop Navigation + CTA */}
+            <div className="hidden sm:flex items-center">
+              <div className="flex items-center gap-6 lg:gap-12 mr-6 lg:mr-10">
                 <button
                   onClick={scrollToTop}
                   className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
@@ -54,8 +53,8 @@ const Navbar = () => {
                   Home
                 </button>
                 
-                {/* Services Dropdown - Desktop only */}
-                <div className="hidden md:block relative">
+                {/* Services Dropdown */}
+                <div className="relative">
                   <button
                     onClick={() => setServicesOpen(!servicesOpen)}
                     onMouseEnter={() => setServicesOpen(true)}
@@ -101,37 +100,38 @@ const Navbar = () => {
                 </button>
               </div>
 
-              {/* Mobile Navigation */}
-              <div className="flex sm:hidden items-center gap-4 mr-3">
-                <button
-                  onClick={() => scrollToSection("mandate")}
-                  className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
-                >
-                  Services
-                </button>
-                <Link
-                  to="/about"
-                  className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
-                >
-                  About
-                </Link>
-                <button
-                  onClick={() => scrollToSection("contact")}
-                  className="text-xs font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
-                >
-                  Contact
-                </button>
-              </div>
-
-              {/* CTA Button */}
+              {/* Desktop CTA Button */}
               <a
                 href="https://calendly.com/hussainhussainakan/10min"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 sm:px-5 lg:px-6 py-1.5 sm:py-2.5 lg:py-3 bg-primary text-primary-foreground text-[10px] sm:text-sm font-semibold uppercase tracking-wide sm:tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover flex-shrink-0"
+                className="px-5 lg:px-6 py-2.5 lg:py-3 bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover"
               >
-                <span className="sm:hidden">Audit</span>
-                <span className="hidden sm:inline">Request Audit</span>
+                Request Audit
+              </a>
+            </div>
+
+            {/* Mobile Navigation */}
+            <div className="flex sm:hidden items-center gap-2">
+              <button
+                onClick={() => scrollToSection("mandate")}
+                className="px-2 py-1 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
+              >
+                Services
+              </button>
+              <Link
+                to="/about"
+                className="px-2 py-1 text-[11px] font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wide"
+              >
+                About
+              </Link>
+              <a
+                href="https://calendly.com/hussainhussainakan/10min"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-1 px-3 py-1.5 bg-primary text-primary-foreground text-[10px] font-semibold uppercase tracking-wide hover:bg-primary/90 transition-all"
+              >
+                Audit
               </a>
             </div>
           </div>
