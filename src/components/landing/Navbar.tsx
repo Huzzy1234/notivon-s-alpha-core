@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,6 +17,7 @@ const Navbar = () => {
 
   const scrollToSection = (id: string) => {
     setServicesOpen(false);
+    setMobileMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -23,6 +25,7 @@ const Navbar = () => {
   };
 
   const scrollToTop = () => {
+    setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -44,7 +47,7 @@ const Navbar = () => {
             </button>
 
             {/* Desktop Navigation + CTA */}
-            <div className="hidden sm:flex items-center">
+            <div className="hidden md:flex items-center">
               <div className="flex items-center gap-6 lg:gap-12 mr-6 lg:mr-10">
                 <button
                   onClick={scrollToTop}
@@ -112,20 +115,61 @@ const Navbar = () => {
             </div>
 
             {/* Mobile Navigation */}
-            <div className="flex sm:hidden items-center">
+            <div className="flex md:hidden items-center gap-3">
               <a
                 href="https://calendly.com/hussainhussainakan/10min"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-2 bg-primary text-primary-foreground text-xs font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all"
+                className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all"
               >
-                Request Audit
+                Audit
               </a>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="p-2 text-foreground hover:text-primary transition-colors"
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
             </div>
           </div>
         </div>
-      </nav>
 
+        {/* Mobile Menu Dropdown */}
+        <div
+          className={`md:hidden overflow-hidden transition-all duration-300 ${
+            mobileMenuOpen ? "max-h-64 border-b border-border" : "max-h-0"
+          } ${scrolled ? "bg-background/95 backdrop-blur-sm" : "bg-background/90 backdrop-blur-sm"}`}
+        >
+          <div className="container mx-auto px-4 py-4 flex flex-col gap-3">
+            <button
+              onClick={scrollToTop}
+              className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider py-2"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => scrollToSection("mandate")}
+              className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider py-2"
+            >
+              Services
+            </button>
+            <Link
+              to="/about"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider py-2"
+            >
+              About
+            </Link>
+            <button
+              onClick={() => scrollToSection("contact")}
+              className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider py-2"
+            >
+              Contact
+            </button>
+          </div>
+        </div>
+      </nav>
 
       {/* Sticky CTA Button - appears after scrolling */}
       <a
