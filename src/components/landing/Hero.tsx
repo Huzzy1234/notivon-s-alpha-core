@@ -66,33 +66,21 @@ const Hero = () => {
           {/* Subheadline - Inter */}
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans font-light text-muted-foreground max-w-2xl leading-relaxed mb-8 sm:mb-10 animate-fade-up-delay-2">
             The autonomous infrastructure Search Fund entrepreneurs need to surface
-            off-market opportunities—delivering <span className="text-primary font-medium">5–8 warm leads</span> based on your exact criteria.
+            off-market opportunities.
           </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-up-delay-3">
-            <div className="flex flex-col items-center sm:items-start gap-2">
-              <a
-                href="https://calendly.com/hussainhussainakan/10min"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan overflow-hidden"
-              >
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                <span className="relative">Request AI Maturity Audit</span>
-                <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              {/* Exclusivity Indicator */}
-              <span className="text-xs text-muted-foreground">
-                <span className="text-primary font-semibold">Limited availability</span> — accepting 3 new clients this quarter
-              </span>
-              {/* Mini-Stats Cluster */}
-              <div className="flex items-center gap-2 text-[10px] sm:text-xs text-muted-foreground mt-1">
-                <span>72hr first delivery</span>
-                <span className="text-primary/40">|</span>
-                <span>10x faster than brokers</span>
-              </div>
-            </div>
+            <a
+              href="https://calendly.com/hussainhussainakan/10min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan overflow-hidden"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <span className="relative">Get Started</span>
+              <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
             <a
               href="#how-it-works"
               className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 border-2 border-border bg-background/30 backdrop-blur-sm text-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:border-primary hover:text-primary transition-all h-fit"
