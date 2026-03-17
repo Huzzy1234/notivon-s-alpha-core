@@ -15,16 +15,15 @@ const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Notivon | AI Transformation Partner for Search Funds</title>
+        <title>Notivon | Custom Systems for Visa & Travel Agencies</title>
         <meta
           name="description"
-          content="Proprietary deal flow and AI transformation for Search Fund entrepreneurs. Build agentic infrastructure for autonomous deal sourcing and operational excellence."
+          content="Custom-built systems that help visa and travel agencies save time, reduce errors, and process more applications. Document management, expiry tracking, and compliance automation."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="canonical" href="https://notivon.com" />
       </Helmet>
 
-      {/* Unified animated background */}
       <AnimatedBackground />
 
       <div className="min-h-screen relative z-10">

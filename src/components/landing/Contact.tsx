@@ -8,13 +8,10 @@ const Contact = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.1 }
     );
-
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
@@ -30,32 +27,31 @@ const Contact = () => {
           </span>
           
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-[-0.02em] text-foreground mb-5 sm:mb-8 leading-tight">
-            Ready to Transform Your{" "}
-            <span className="text-primary">Deal Sourcing</span>?
+            Ready to Streamline Your{" "}
+            <span className="text-primary">Agency</span>?
           </h2>
           
           <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed mb-10 sm:mb-14 font-light max-w-2xl mx-auto">
-            Schedule a complimentary AI Maturity Audit to discover how agentic infrastructure 
-            can accelerate your search and surface proprietary opportunities.
+            Book a free consultation to see how a custom system can save your team hours every week and reduce application errors.
           </p>
 
           <div className="grid sm:grid-cols-3 gap-6 mb-12">
             <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '100ms' }}>
               <Calendar className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
               <h3 className="text-foreground font-semibold mb-2">Book a Call</h3>
-              <p className="text-sm text-muted-foreground">Schedule a 15-min strategy session</p>
+              <p className="text-sm text-muted-foreground">Free 15-min consultation</p>
             </div>
 
             <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
               <MessageSquare className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-foreground font-semibold mb-2">Get Your Audit</h3>
-              <p className="text-sm text-muted-foreground">Receive personalized AI recommendations</p>
+              <h3 className="text-foreground font-semibold mb-2">Get a Plan</h3>
+              <p className="text-sm text-muted-foreground">Custom system proposal for your agency</p>
             </div>
 
             <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
               <Mail className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-foreground font-semibold mb-2">Start Sourcing</h3>
-              <p className="text-sm text-muted-foreground">Launch your AI-powered pipeline</p>
+              <h3 className="text-foreground font-semibold mb-2">Go Live</h3>
+              <p className="text-sm text-muted-foreground">Launch within 2–4 weeks</p>
             </div>
           </div>
 
@@ -66,7 +62,7 @@ const Contact = () => {
             className={`group inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             style={{ transitionDelay: '400ms' }}
           >
-            Schedule Your Free Audit
+            Book Your Free Consultation
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>

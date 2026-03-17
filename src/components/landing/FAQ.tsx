@@ -8,34 +8,34 @@ import {
 
 const faqItems = [
   {
-    question: "What is Agentic AI and how does it differ from traditional automation?",
+    question: "What kind of visa agencies do you work with?",
     answer:
-      "Agentic AI refers to autonomous AI systems that can reason, plan, and take actions independently to achieve goals. Unlike traditional automation that follows predefined rules, agentic AI can adapt to new situations, learn from outcomes, and make intelligent decisions—identifying acquisition signals that would be invisible to conventional sourcing methods.",
+      "We work with agencies of all sizes — from solo consultants processing student visas to large firms handling work permits, family visas, and tourist applications. The systems we build are tailored to your specific visa types and workflow.",
   },
   {
-    question: "How does the AI identify acquisition-ready businesses?",
+    question: "How is this different from generic CRM or project management tools?",
     answer:
-      "Our AI agents continuously monitor thousands of data signals including owner demographics, succession planning indicators, market dynamics, competitive positioning, and financial patterns. We analyze 'silent' signals—retirement-age owners, family transition events, industry consolidation trends—to identify businesses likely to consider a sale before they publicly come to market.",
+      "Generic tools aren't built for the visa industry. Our systems include visa-type-specific document checklists, automatic expiry tracking for passports and certificates, photo/file compliance checks, and client portals designed for document collection. It's purpose-built, not adapted.",
   },
   {
-    question: "What does the AI Maturity Audit include?",
+    question: "How long does it take to get set up?",
     answer:
-      "The Maturity Audit is a comprehensive diagnostic of your current search infrastructure. We evaluate your sourcing workflow, outreach systems, deal tracking, and investor communication processes. You'll receive a detailed gap analysis showing where agentic AI can accelerate your search, along with an implementation roadmap prioritized by impact.",
+      "Most agencies are fully operational within 2–4 weeks. We start with a discovery call to understand your workflow, then build and deploy the system with training for your team.",
   },
   {
-    question: "How long does implementation typically take?",
+    question: "Do my clients interact with the system?",
     answer:
-      "Most searchers see initial results within 2-3 weeks. The full implementation—including custom training on your investment thesis, industry focus, and target criteria—typically completes in 4-6 weeks. We prioritize quick wins early so you can demonstrate value to investors while building out the complete system.",
+      "Yes — clients get a simple portal where they can upload documents, see what's missing, and track their application status. This drastically reduces back-and-forth communication.",
   },
   {
-    question: "Is my deal flow data kept confidential?",
+    question: "What happens if I need changes after launch?",
     answer:
-      "Absolutely. All data is isolated in your private instance. Your acquisition criteria, target lists, and outreach intelligence are never shared or used to train models for other clients. We maintain enterprise-grade security and can provide SOC 2 documentation upon request.",
+      "We provide ongoing support. Whether you need to add a new visa type, adjust compliance rules, or add features, we're here to help your system evolve with your business.",
   },
   {
-    question: "How does this complement my existing search process?",
+    question: "Is my data secure?",
     answer:
-      "Our AI infrastructure works alongside your current methods—it doesn't replace relationship-driven outreach. Think of it as a force multiplier: while you focus on high-value conversations and due diligence, our agents continuously surface new opportunities, qualify targets, and prepare outreach intelligence. Most searchers report 3x more qualified conversations with the same time investment.",
+      "Absolutely. All client data is encrypted and stored securely. We follow best practices for data protection and can work with your specific compliance requirements.",
   },
 ];
 
@@ -46,33 +46,20 @@ const FAQ = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.1 }
     );
-
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="faq"
-      className="py-16 sm:py-24 lg:py-32 relative overflow-hidden"
-    >
-      {/* Background */}
+    <section ref={sectionRef} id="faq" className="py-16 sm:py-24 lg:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-card/20 to-transparent" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-        {/* Section Header */}
-        <div
-          className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
-        >
+        <div className={`text-center mb-12 sm:mb-16 lg:mb-20 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="inline-block px-3 sm:px-5 py-2 sm:py-2.5 border border-primary/40 bg-primary/5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-primary mb-6 sm:mb-8 backdrop-blur-sm">
             Questions Answered
           </span>
@@ -80,15 +67,12 @@ const FAQ = () => {
             Frequently Asked <span className="text-primary">Questions</span>
           </h2>
           <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto font-light">
-            Everything you need to know about AI-powered deal sourcing
+            Everything you need to know about our systems for visa agencies
           </p>
         </div>
 
-        {/* Accordion */}
         <div
-          className={`max-w-3xl mx-auto transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          }`}
+          className={`max-w-3xl mx-auto transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
           style={{ transitionDelay: "200ms" }}
         >
           <Accordion type="single" collapsible className="space-y-4">
@@ -112,11 +96,8 @@ const FAQ = () => {
           </Accordion>
         </div>
 
-        {/* CTA after FAQ */}
         <div
-          className={`text-center mt-12 sm:mt-16 lg:mt-20 transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          }`}
+          className={`text-center mt-12 sm:mt-16 lg:mt-20 transition-all duration-1000 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           style={{ transitionDelay: "900ms" }}
         >
           <p className="text-muted-foreground mb-6">

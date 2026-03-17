@@ -1,4 +1,4 @@
-import { Target, Zap, BarChart3, Shield } from "lucide-react";
+import { FileCheck, Clock, AlertTriangle, TrendingDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const ValueProposition = () => {
@@ -8,60 +8,52 @@ const ValueProposition = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.2 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   const pillars = [
     {
-      icon: Target,
-      title: "Precision Targeting",
-      description: "AI-powered filters surface owners matching your exact acquisition criteria—industry, size, geography, and succession signals.",
+      icon: FileCheck,
+      title: "Smart Document Collection",
+      description: "Automated checklists that adapt per visa type. Clients upload once, the system organizes and validates everything.",
     },
     {
-      icon: Zap,
-      title: "Speed Advantage",
-      description: "Identify opportunities weeks before they hit broker networks. First-mover advantage in competitive markets.",
+      icon: AlertTriangle,
+      title: "Expiry & Compliance Alerts",
+      description: "Passports, medical reports, bank statements — get flagged before a document expires and causes a rejection.",
     },
     {
-      icon: BarChart3,
-      title: "Data-Driven Conviction",
-      description: "Every lead comes with context—financial indicators, ownership tenure, and succession probability scores.",
+      icon: Clock,
+      title: "Hours Saved Per Application",
+      description: "Stop chasing clients for missing documents. Automated reminders and status tracking do the follow-up for you.",
     },
     {
-      icon: Shield,
-      title: "Competitive Moat",
-      description: "Your proprietary sourcing infrastructure. No shared databases. No recycled broker listings.",
+      icon: TrendingDown,
+      title: "Fewer Costly Mistakes",
+      description: "Catch common errors before submission — wrong photo dimensions, missing signatures, expired records.",
     },
   ];
 
   return (
     <section ref={sectionRef} className="py-16 sm:py-24 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
-        {/* Section Header */}
         <div className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <span className="inline-block px-4 py-2 border border-primary/30 bg-primary/5 text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-6">
             Why Notivon
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            10x Faster Deal Sourcing
+            Stop Losing Money to Preventable Errors
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            Built specifically for search fund entrepreneurs who refuse to rely on recycled broker listings.
+            Purpose-built systems that let visa agencies process more applications with fewer headaches.
           </p>
         </div>
 
-        {/* Four Pillars Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {pillars.map((pillar, index) => (
             <div
