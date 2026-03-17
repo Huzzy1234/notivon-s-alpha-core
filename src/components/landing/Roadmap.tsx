@@ -1,27 +1,27 @@
-import { Search, BookOpen, Rocket } from "lucide-react";
+import { CheckCircle, Layers, Gauge } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
 const steps = [
   {
     number: "01",
-    icon: Search,
-    title: "Maturity Audit",
+    icon: CheckCircle,
+    title: "Audit Your Workflow",
     description:
-      "A comprehensive diagnostic of your current sourcing and outreach workflow. Identify gaps between your existing search process and agentic capability.",
+      "We map out your current process — from client intake to submission. Identify bottlenecks, repetitive tasks, and where errors happen most.",
   },
   {
     number: "02",
-    icon: BookOpen,
-    title: "Strategic Education",
+    icon: Layers,
+    title: "Build Your System",
     description:
-      "Training searchers on agentic frameworks. Build competency to evaluate, deploy, and manage AI-driven deal sourcing and owner outreach systems.",
+      "We create a custom system with automated checklists, expiry tracking, client portals, and compliance checks — tailored to your visa types and team.",
   },
   {
     number: "03",
-    icon: Rocket,
-    title: "Implementation",
+    icon: Gauge,
+    title: "Optimize & Scale",
     description:
-      "Deploying private, proprietary search engines. Custom-built reasoning agents trained on your acquisition criteria, industry focus, and ideal target profile.",
+      "With the system running, we monitor performance, add new visa types, and refine workflows so your agency can handle more volume without more staff.",
   },
 ];
 
@@ -42,35 +42,28 @@ const Roadmap = () => {
       },
       { threshold: 0.2 }
     );
-
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
     <section ref={sectionRef} id="roadmap" className="py-16 sm:py-24 lg:py-36 relative overflow-hidden">
-      {/* Decorative lines */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-
-      {/* Subtle background */}
       <div className="absolute inset-0 bg-card/40 backdrop-blur-sm" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-        {/* Section Header */}
         <div className={`text-center mb-12 sm:mb-16 lg:mb-24 transition-all duration-1000 ${visibleCards.length > 0 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <span className="inline-block px-3 sm:px-5 py-2 sm:py-2.5 border border-primary/40 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-primary mb-6 sm:mb-8">
-            Engagement Process
+            Our Approach
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-[-0.02em] text-foreground">
-            Transformation{" "}
-            <span className="text-primary">Roadmap</span>
+            Your{" "}
+            <span className="text-primary">Transformation</span>
           </h2>
         </div>
 
-        {/* Steps */}
         <div className="relative">
-          {/* Connecting line */}
           <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-border/50 -translate-y-1/2 overflow-hidden">
             <div className={`h-full bg-primary/50 transition-all duration-1500 ease-out ${visibleCards.length === 3 ? 'w-full' : 'w-0'}`} />
           </div>
@@ -80,14 +73,10 @@ const Roadmap = () => {
               <div
                 key={step.title}
                 className={`relative transition-all duration-700 ${
-                  visibleCards.includes(index)
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 translate-y-12'
+                  visibleCards.includes(index) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
                 }`}
               >
-                {/* Card */}
                 <div className="bg-background/60 backdrop-blur-sm border border-border/60 p-6 sm:p-8 lg:p-10 xl:p-12 h-full group hover:border-primary/50 transition-all duration-500 hover:shadow-lg hover:shadow-primary/5">
-                  {/* Step number and icon row */}
                   <div className="flex items-center justify-between mb-6 sm:mb-8 lg:mb-10">
                     <span className={`text-4xl sm:text-5xl lg:text-6xl font-display font-bold text-primary transition-all duration-500 ${visibleCards.includes(index) ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}>
                       {step.number}
@@ -97,18 +86,15 @@ const Roadmap = () => {
                     </div>
                   </div>
 
-                  {/* Title */}
                   <h3 className="text-lg sm:text-xl font-sans font-bold text-foreground mb-3 sm:mb-5 uppercase tracking-wider">
                     {step.title}
                   </h3>
 
-                  {/* Description */}
                   <p className="text-sm sm:text-base text-muted-foreground leading-relaxed font-light">
                     {step.description}
                   </p>
                 </div>
 
-                {/* Arrow connector for desktop */}
                 {index < steps.length - 1 && (
                   <div className={`hidden lg:flex absolute top-1/2 -right-4 lg:-right-5 w-8 lg:w-10 h-8 lg:h-10 bg-background border border-border/60 items-center justify-center -translate-y-1/2 z-10 transition-all duration-500 ${visibleCards.includes(index + 1) ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
                     <div className="w-2 lg:w-2.5 h-2 lg:h-2.5 border-r-2 border-t-2 border-primary rotate-45" />
