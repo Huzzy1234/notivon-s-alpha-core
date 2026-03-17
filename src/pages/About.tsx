@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, MapPin, Users, Target, Zap, Shield } from "lucide-react";
+import { ArrowLeft, Mail, MapPin, Users, Zap } from "lucide-react";
 import hussainImage from "@/assets/hussain-founder.jpeg";
 
 const About = () => {
@@ -12,10 +12,10 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>About Hussain | Notivon - Search Fund Deal Sourcing</title>
+        <title>About Hussain | Notivon - Systems for Visa Agencies</title>
         <meta
           name="description"
-          content="Meet Hussain, founder of Notivon. Learn why he built an AI-powered deal sourcing system specifically for search fund entrepreneurs."
+          content="Meet Hussain, founder of Notivon. Learn why he's building custom systems to help visa and travel agencies save time, reduce errors, and scale."
         />
       </Helmet>
 
@@ -45,7 +45,6 @@ const About = () => {
         <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-12">
           <div className="container mx-auto max-w-6xl">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              {/* Image */}
               <div className="relative order-1 lg:order-1">
                 <div className="relative aspect-[3/4] w-64 sm:w-72 mx-auto lg:mx-0">
                   <img
@@ -58,17 +57,16 @@ const About = () => {
                 </div>
               </div>
 
-              {/* Intro */}
               <div className="order-2 lg:order-2">
                 <p className="text-primary text-sm font-semibold uppercase tracking-widest mb-4">
-                  Founder & CEO
+                  Founder
                 </p>
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6">
                   I'm Hussain
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-                  I built Notivon to solve one of the most painful parts of acquiring a small business: 
-                  <span className="text-foreground font-medium"> finding quality deals.</span>
+                  I built Notivon to solve a problem I kept seeing in the visa industry: 
+                  <span className="text-foreground font-medium"> agencies losing time and money to preventable process failures.</span>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
@@ -80,7 +78,7 @@ const About = () => {
                   </a>
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <MapPin className="w-5 h-5" />
-                    <span>Nigeria → North America</span>
+                    <span>Nigeria → Global</span>
                   </div>
                 </div>
               </div>
@@ -96,14 +94,14 @@ const About = () => {
             </h2>
             <div className="prose prose-lg prose-invert max-w-none">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                If you're a search fund entrepreneur, you know the struggle. You spend months—sometimes 
-                years—cold-calling business owners, scraping broker listings, and chasing leads that go 
-                nowhere. It's exhausting, time-consuming, and takes you away from what actually matters: 
-                <span className="text-foreground"> evaluating businesses and building relationships with sellers.</span>
+                If you run a visa agency, you know the pain. Chasing clients for missing documents, 
+                realizing a passport expired two weeks before submission, reformatting photos that 
+                don't meet embassy requirements, manually tracking dozens of applications at different stages. 
+                <span className="text-foreground"> It's exhausting, error-prone, and it costs you money.</span>
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                I saw this problem clearly and thought: what if there was a system that did the heavy 
-                lifting for you?
+                I saw agencies doing incredible work but held back by manual processes that should 
+                have been automated years ago. That's where Notivon comes in.
               </p>
             </div>
           </div>
@@ -117,16 +115,15 @@ const About = () => {
             </h2>
             <div className="prose prose-lg prose-invert max-w-none">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                I've spent the past few years working in the online automation space—copywriting, 
-                appointment setting, and building AI-powered systems for clients across the US, 
-                Australia, and Dubai. I've helped businesses automate outreach, qualify leads, and 
-                streamline operations.
+                I've spent years in the automation space — building systems, workflows, and 
+                AI-powered tools for businesses across the US, Australia, and Dubai. From 
+                automated outreach to lead qualification to operations management, I've helped 
+                companies eliminate manual bottlenecks and scale without adding headcount.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                In 2025, I started building Notivon. Originally, I was exploring solutions for private 
-                equity firms, but I quickly realized search funds had a much clearer problem: they need 
-                consistent, high-quality deal flow, but most are solo operators without the resources 
-                to build in-house sourcing teams.
+                In 2025, I turned my focus to the visa and travel industry. I realized these 
+                agencies had clear, solvable problems — document chaos, expiry tracking failures, 
+                compliance errors — but no one was building purpose-made systems for them. So I did.
               </p>
             </div>
           </div>
@@ -140,27 +137,26 @@ const About = () => {
             </h2>
             <div className="prose prose-lg prose-invert max-w-none mb-12">
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Most deal sourcing is reactive—you respond to broker listings, chase referrals, or 
-                cold-call from directories. <span className="text-primary font-semibold">Notivon is proactive.</span> The 
-                system monitors thousands of small businesses in your target geography and industry, 
-                flags companies showing succession signals (owner retirement age, family transitions, 
-                health issues), and reaches out on your behalf.
+                Most agencies try to use generic CRMs or spreadsheets to manage visa applications. 
+                <span className="text-primary font-semibold"> Notivon builds systems designed specifically for how visa agencies actually work.</span> From 
+                visa-type-specific document checklists to automatic expiry alerts to client self-service 
+                portals — everything is built around your real workflow, not forced into a template.
               </p>
             </div>
             
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="p-6 border border-border bg-background">
-                <Target className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">Proactive Monitoring</h3>
+                <Users className="w-8 h-8 text-primary mb-4" />
+                <h3 className="text-lg font-semibold text-foreground mb-2">Direct Access</h3>
                 <p className="text-muted-foreground">
-                  We track succession signals across thousands of businesses in your target market.
+                  You work directly with me. No junior associates, no handoffs. I'm accountable for results.
                 </p>
               </div>
               <div className="p-6 border border-border bg-background">
                 <Zap className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">Warm Leads Only</h3>
+                <h3 className="text-lg font-semibold text-foreground mb-2">Fast Delivery</h3>
                 <p className="text-muted-foreground">
-                  You get leads from owners who've already responded positively and want to talk.
+                  Most agencies are live within 2–4 weeks. You start seeing results immediately.
                 </p>
               </div>
             </div>
@@ -176,47 +172,14 @@ const About = () => {
             <div className="prose prose-lg prose-invert max-w-none">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                 Honestly? <span className="text-foreground font-medium">I want to win.</span> I'm based 
-                in Nigeria, and I know I'm not the typical profile you'd expect for someone in this 
-                space. But that's exactly why I'm hungry. I've spent years building skills, working 
-                with international clients, and proving I can deliver results regardless of where I'm 
-                located.
+                in Nigeria, and I know I'm not the typical profile you'd expect. But that's exactly 
+                why I'm hungry. I've spent years building skills, working with international clients, 
+                and proving I can deliver results regardless of where I'm located.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                I also genuinely believe in what search funds are trying to do. You're not just buying 
-                businesses to flip them—you're committing years of your life to grow and lead them. 
-                That takes guts, and if I can help you find the right business faster, that's a win 
-                for both of us.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* How I Work */}
-        <section className="py-16 px-4 sm:px-6 lg:px-12 border-t border-border">
-          <div className="container mx-auto max-w-4xl">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">
-              How I Work
-            </h2>
-            <div className="grid sm:grid-cols-2 gap-6 mb-12">
-              <div className="p-6 border border-border bg-background">
-                <Users className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">Max 10 Clients</h3>
-                <p className="text-muted-foreground">
-                  I keep my roster intentionally small so I can deliver high-touch, customized service.
-                </p>
-              </div>
-              <div className="p-6 border border-border bg-background">
-                <Shield className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">Direct Access</h3>
-                <p className="text-muted-foreground">
-                  You work directly with me. No junior associates, no handoffs. I'm accountable for results.
-                </p>
-              </div>
-            </div>
-            <div className="prose prose-lg prose-invert max-w-none">
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                If you're tired of cold outreach and want a system that continuously finds deals while 
-                you focus on what you do best—evaluating and closing—let's talk.
+                I believe visa agencies do essential work — helping people travel, reunite with family, 
+                start new careers abroad. If I can help you process applications faster and with fewer 
+                errors, that's a win for everyone.
               </p>
             </div>
           </div>
@@ -226,11 +189,10 @@ const About = () => {
         <section className="py-20 px-4 sm:px-6 lg:px-12 bg-primary/5 border-t border-border">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
-              Ready to Transform Your Deal Flow?
+              Ready to Streamline Your Agency?
             </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss how Notivon can help you find acquisition targets while you focus on 
-              evaluation and closing.
+              Let's discuss how a custom system can save your team hours every week.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
@@ -239,7 +201,7 @@ const About = () => {
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-primary text-primary-foreground text-lg font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all"
               >
-                Schedule a Call
+                Book a Call
               </a>
               <a
                 href="mailto:hussain@notivon.com"
@@ -258,7 +220,7 @@ const About = () => {
               © 2025 Notivon. All rights reserved.
             </p>
             <p className="text-sm text-muted-foreground">
-              Based in Nigeria | Working with searchers across North America
+              Based in Nigeria | Serving agencies worldwide
             </p>
           </div>
         </footer>
