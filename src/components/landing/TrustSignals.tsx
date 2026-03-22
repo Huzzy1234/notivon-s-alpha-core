@@ -10,7 +10,7 @@ const signals = [
   {
     icon: Zap,
     title: "Fast Turnaround",
-    description: "Most agencies are up and running within 2–4 weeks of the initial consultation.",
+    description: "Most agencies are up and running within 2–4 weeks of the first conversation.",
   },
   {
     icon: HeartHandshake,

@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, Calendar, MessageSquare, Phone } from "lucide-react";
+import { ArrowRight, MessageSquare, Phone, Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const Contact = () => {
@@ -32,14 +32,14 @@ const Contact = () => {
           </h2>
           
           <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed mb-10 sm:mb-14 font-light max-w-2xl mx-auto">
-            Book a free consultation to see how a custom system can save your team hours every week and reduce application errors.
+            Send us a message on WhatsApp and let's discuss how a custom system can save your team hours every week.
           </p>
 
           <div className="grid sm:grid-cols-3 gap-6 mb-12">
             <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '100ms' }}>
-              <Calendar className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-foreground font-semibold mb-2">Book a Call</h3>
-              <p className="text-sm text-muted-foreground">Free 15-min consultation</p>
+              <Send className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
+              <h3 className="text-foreground font-semibold mb-2">Send a Message</h3>
+              <p className="text-sm text-muted-foreground">Reach us on WhatsApp</p>
             </div>
 
             <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
@@ -49,7 +49,7 @@ const Contact = () => {
             </div>
 
             <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
-              <Mail className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
+              <Phone className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
               <h3 className="text-foreground font-semibold mb-2">Go Live</h3>
               <p className="text-sm text-muted-foreground">Launch within 2–4 weeks</p>
             </div>
@@ -57,25 +57,14 @@ const Contact = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
             <a
-              href="https://calendly.com/hussainhussainakan/10min"
+              href="https://wa.me/2349014390149"
               target="_blank"
               rel="noopener noreferrer"
               className={`group inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
               style={{ transitionDelay: '400ms' }}
             >
-              Book Your Free Consultation
+              Chat With Us on WhatsApp
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-
-            <a
-              href="https://wa.me/2349014390149"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`group inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 border-2 border-border bg-background/30 backdrop-blur-sm text-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:border-primary hover:text-primary transition-all ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transitionDelay: '500ms' }}
-            >
-              <Phone className="w-4 h-4" />
-              Chat on WhatsApp
             </a>
           </div>
 

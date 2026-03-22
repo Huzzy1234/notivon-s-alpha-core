@@ -34,16 +34,6 @@ const Footer = () => {
                     WhatsApp Us →
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="https://calendly.com/hussainhussainakan/10min"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm sm:text-base text-primary hover:text-primary/80 transition-colors font-semibold"
-                  >
-                    Book a Call →
-                  </a>
-                </li>
               </ul>
             </div>
 
