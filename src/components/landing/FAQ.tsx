@@ -104,12 +104,12 @@ const FAQ = () => {
             Still have questions? Let's talk.
           </p>
           <a
-            href="https://calendly.com/hussainhussainakan/10min"
+            href="https://wa.me/2349014390149"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 border border-primary/60 text-primary font-semibold uppercase tracking-wider text-sm hover:bg-primary hover:text-primary-foreground transition-all duration-300"
           >
-            Schedule a Call
+            Message Us on WhatsApp
           </a>
         </div>
       </div>

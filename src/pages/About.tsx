@@ -196,18 +196,18 @@ const About = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://calendly.com/hussainhussainakan/10min"
+                href="https://wa.me/2349014390149"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-primary text-primary-foreground text-lg font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all"
               >
-                Book a Call
+                WhatsApp Us
               </a>
               <a
-                href="mailto:hussain@notivon.com"
+                href="tel:09014390149"
                 className="px-8 py-4 border border-primary text-primary text-lg font-semibold uppercase tracking-wider hover:bg-primary/10 transition-all"
               >
-                Email Me
+                Call Us
               </a>
             </div>
           </div>
