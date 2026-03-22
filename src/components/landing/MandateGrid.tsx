@@ -1,4 +1,4 @@
-import { FileText, Camera, Bell } from "lucide-react";
+import { FileText, Camera, Bell, Users, BarChart3, Globe } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
 const services = [
@@ -6,7 +6,13 @@ const services = [
     icon: FileText,
     title: "Document Management",
     description:
-      "Automated collection, organization, and validation of all visa documents. Per-visa-type checklists ensure nothing is missed. Clients get a simple portal to upload everything in one place.",
+      "Automated collection, organization, and validation of all visa documents. Per-visa-type checklists ensure nothing is missed. Clients upload everything in one place.",
+  },
+  {
+    icon: Bell,
+    title: "Expiry Tracking & Alerts",
+    description:
+      "Monitor passport expiry dates, medical certificates, bank statements, and more. Get notified well in advance so you request renewals before they cause delays.",
   },
   {
     icon: Camera,
@@ -15,10 +21,22 @@ const services = [
       "Automatic checks for photo dimensions, file sizes, and format requirements. Flag issues before submission so applications aren't rejected for avoidable reasons.",
   },
   {
-    icon: Bell,
-    title: "Expiry Tracking & Alerts",
+    icon: Users,
+    title: "Client Portal",
     description:
-      "Monitor passport expiry dates, medical certificates, financial documents, and more. Get notified well in advance so you can request renewals before they cause delays.",
+      "Give each client a simple, branded portal to upload documents, see what's missing, and track their application status — no more chasing via WhatsApp or email.",
+  },
+  {
+    icon: BarChart3,
+    title: "Application Tracking",
+    description:
+      "See every application's status at a glance — from intake to submission to decision. Know exactly where each case stands and what needs attention.",
+  },
+  {
+    icon: Globe,
+    title: "Multi-Visa Type Support",
+    description:
+      "Student visas, work permits, tourist visas, family reunification — each with its own checklist, timeline, and requirements. One system handles them all.",
   },
 ];
 
@@ -53,15 +71,13 @@ const MandateGrid = () => {
           </h2>
         </div>
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-0 border border-border/60 backdrop-blur-sm bg-card/30">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-0 border border-border/60 backdrop-blur-sm bg-card/30">
           {services.map((item, index) => (
             <div
               key={item.title}
-              className={`p-6 sm:p-8 lg:p-10 xl:p-14 ${
-                index < services.length - 1 ? "border-b sm:border-b md:border-b-0 md:border-r border-border/60" : ""
-              } ${index === 1 ? "sm:border-r-0 md:border-r" : ""} group hover:bg-card/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5
+              className={`p-6 sm:p-8 lg:p-10 xl:p-14 border-b border-r border-border/60 last:border-r-0 [&:nth-child(3n)]:border-r-0 [&:nth-last-child(-n+3)]:border-b-0 sm:[&:nth-child(2n)]:border-r-0 sm:[&:nth-child(3n)]:border-r lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0 group hover:bg-card/50 transition-all duration-500 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/5
               ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
-              style={{ transitionDelay: isVisible ? `${index * 150}ms` : '0ms', transitionDuration: '800ms' }}
+              style={{ transitionDelay: isVisible ? `${index * 100}ms` : '0ms', transitionDuration: '800ms' }}
             >
               <div className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold text-muted/30 mb-4 sm:mb-6 lg:mb-8 group-hover:text-primary/20 transition-colors duration-500">
                 0{index + 1}
