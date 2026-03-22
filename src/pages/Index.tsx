@@ -4,7 +4,6 @@ import Hero from "@/components/landing/Hero";
 import ValueProposition from "@/components/landing/ValueProposition";
 import MandateGrid from "@/components/landing/MandateGrid";
 import HowItWorks from "@/components/landing/HowItWorks";
-import Roadmap from "@/components/landing/Roadmap";
 import TrustSignals from "@/components/landing/TrustSignals";
 import FAQ from "@/components/landing/FAQ";
 import Contact from "@/components/landing/Contact";
@@ -33,7 +32,6 @@ const Index = () => {
           <ValueProposition />
           <MandateGrid />
           <HowItWorks />
-          <Roadmap />
           <TrustSignals />
           <FAQ />
           <Contact />
