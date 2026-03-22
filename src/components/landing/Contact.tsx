@@ -1,4 +1,4 @@
-import { ArrowRight, Mail, Calendar, MessageSquare } from "lucide-react";
+import { ArrowRight, Mail, Calendar, MessageSquare, Phone } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const Contact = () => {
@@ -55,16 +55,33 @@ const Contact = () => {
             </div>
           </div>
 
-          <a
-            href="https://calendly.com/hussainhussainakan/10min"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`group inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transitionDelay: '400ms' }}
-          >
-            Book Your Free Consultation
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+            <a
+              href="https://calendly.com/hussainhussainakan/10min"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transitionDelay: '400ms' }}
+            >
+              Book Your Free Consultation
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+
+            <a
+              href="https://wa.me/2349014390149"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`group inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-10 py-4 sm:py-5 border-2 border-border bg-background/30 backdrop-blur-sm text-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:border-primary hover:text-primary transition-all ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+              style={{ transitionDelay: '500ms' }}
+            >
+              <Phone className="w-4 h-4" />
+              Chat on WhatsApp
+            </a>
+          </div>
+
+          <p className={`mt-6 text-sm text-muted-foreground transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+            Or call directly: <a href="tel:09014390149" className="text-primary hover:text-primary/80 font-medium transition-colors">09014390149</a>
+          </p>
         </div>
       </div>
     </section>

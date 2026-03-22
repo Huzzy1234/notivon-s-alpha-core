@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, Phone } from "lucide-react";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -68,10 +68,13 @@ const Navbar = () => {
                       Document Management
                     </button>
                     <button onClick={() => scrollToSection("services")} className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-                      Photo & Compliance
+                      Expiry Tracking
                     </button>
                     <button onClick={() => scrollToSection("services")} className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-                      Expiry Tracking
+                      Client Portals
+                    </button>
+                    <button onClick={() => scrollToSection("services")} className="w-full px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
+                      Application Tracking
                     </button>
                   </div>
                 </div>
@@ -85,24 +88,26 @@ const Navbar = () => {
               </div>
 
               <a
-                href="https://calendly.com/hussainhussainakan/10min"
+                href="https://wa.me/2349014390149"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 lg:px-6 py-2.5 lg:py-3 bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover"
+                className="px-5 lg:px-6 py-2.5 lg:py-3 bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all glow-cyan-hover inline-flex items-center gap-2"
               >
-                Book a Call
+                <Phone className="w-3.5 h-3.5" />
+                WhatsApp Us
               </a>
             </div>
 
             {/* Mobile */}
             <div className="flex md:hidden items-center gap-3">
               <a
-                href="https://calendly.com/hussainhussainakan/10min"
+                href="https://wa.me/2349014390149"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all"
+                className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all inline-flex items-center gap-1.5"
               >
-                Call
+                <Phone className="w-3 h-3" />
+                WhatsApp
               </a>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -118,7 +123,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ${
-            mobileMenuOpen ? "max-h-64 border-b border-border" : "max-h-0"
+            mobileMenuOpen ? "max-h-80 border-b border-border" : "max-h-0"
           } ${scrolled ? "bg-background/95 backdrop-blur-sm" : "bg-background/90 backdrop-blur-sm"}`}
         >
           <div className="container mx-auto px-4 py-4 flex flex-col gap-3">
@@ -134,20 +139,25 @@ const Navbar = () => {
             <button onClick={() => scrollToSection("contact")} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider py-2">
               Contact
             </button>
+            <a href="tel:09014390149" className="text-left text-sm font-medium text-primary hover:text-primary/80 transition-colors py-2 inline-flex items-center gap-2">
+              <Phone className="w-3.5 h-3.5" />
+              09014390149
+            </a>
           </div>
         </div>
       </nav>
 
-      {/* Sticky CTA */}
+      {/* Sticky WhatsApp CTA */}
       <a
-        href="https://calendly.com/hussainhussainakan/10min"
+        href="https://wa.me/2349014390149"
         target="_blank"
         rel="noopener noreferrer"
-        className={`fixed bottom-6 right-6 z-50 px-5 py-3 bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wider shadow-lg hover:bg-primary/90 transition-all duration-300 glow-cyan ${
+        className={`fixed bottom-6 right-6 z-50 px-5 py-3 bg-primary text-primary-foreground text-sm font-semibold uppercase tracking-wider shadow-lg hover:bg-primary/90 transition-all duration-300 glow-cyan inline-flex items-center gap-2 ${
           scrolled ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
         }`}
       >
-        Book a Call
+        <Phone className="w-4 h-4" />
+        WhatsApp Us
       </a>
     </>
   );
