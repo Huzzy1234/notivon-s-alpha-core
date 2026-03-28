@@ -35,65 +35,44 @@ const Hero = () => {
   }, [displayText, isDeleting, currentPhraseIndex, phrases]);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-16 sm:pt-20 px-4">
-      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-background/30 via-transparent to-background/60" />
-
+    <section className="min-h-[90vh] flex items-center justify-center relative overflow-hidden pt-20 px-4">
       <div className="container mx-auto px-2 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-        <div className="max-w-5xl">
+        <div className="max-w-3xl mx-auto text-center">
           <div className="animate-fade-up">
-            <span className="inline-block px-3 sm:px-5 py-2 sm:py-2.5 border border-primary/40 bg-primary/5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-primary mb-6 sm:mb-10 backdrop-blur-sm">
-              Systems for Visa & Travel Agencies
+            <span className="inline-block px-4 py-2 bg-primary/10 text-primary text-sm font-medium rounded-full mb-8">
+              For Visa & Travel Agencies
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] sm:leading-[1.05] tracking-[-0.02em] text-foreground mb-6 sm:mb-10 animate-fade-up-delay-1">
-            Help Your Agency
-            <br />
-            <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display leading-[1.15] text-foreground mb-6 animate-fade-up-delay-1">
+            Help Your Agency{" "}
+            <span className="text-primary">
               {displayText}
               <span className="animate-pulse">|</span>
             </span>
-            <br />
-            <span className="text-muted-foreground font-medium italic text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-              with Intelligent Automation
-            </span>
           </h1>
 
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl font-sans font-light text-muted-foreground max-w-2xl leading-relaxed mb-8 sm:mb-10 animate-fade-up-delay-2">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-10 animate-fade-up-delay-2">
             Custom-built systems that streamline document collection, flag expiring records, and eliminate costly mistakes — so you can process more applications with less effort.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 animate-fade-up-delay-3">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up-delay-3">
             <a
               href="https://wa.me/2349014390149"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan overflow-hidden"
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
             >
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-              <span className="relative">Chat With Us on WhatsApp</span>
-              <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              Chat With Us on WhatsApp
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a
               href="#how-it-works"
-              className="group inline-flex items-center justify-center gap-2 sm:gap-3 px-6 sm:px-10 py-4 sm:py-5 border-2 border-border bg-background/30 backdrop-blur-sm text-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:border-primary hover:text-primary transition-all h-fit"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-border bg-card text-foreground font-semibold text-sm rounded-lg hover:border-primary/50 hover:text-primary transition-all"
             >
               See How It Works
             </a>
           </div>
-        </div>
-
-        <div className="absolute bottom-16 right-8 lg:right-16 hidden lg:block animate-fade-up-delay-4">
-          <div className="w-24 lg:w-36 h-24 lg:h-36 border border-primary/20 relative">
-            <div className="absolute -top-2 -left-2 w-3 lg:w-4 h-3 lg:h-4 bg-primary animate-pulse" />
-            <div className="absolute -bottom-2 -right-2 w-3 lg:w-4 h-3 lg:h-4 bg-accent animate-pulse" style={{ animationDelay: "0.5s" }} />
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-10">
-        <div className="w-6 sm:w-7 h-10 sm:h-12 border-2 border-primary/40 flex items-start justify-center p-1.5 sm:p-2 backdrop-blur-sm">
-          <div className="w-1 sm:w-1.5 h-2 sm:h-3 bg-primary rounded-full" />
         </div>
       </div>
     </section>

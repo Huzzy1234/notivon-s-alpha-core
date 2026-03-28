@@ -35,31 +35,30 @@ const TrustSignals = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="trust" className="relative py-16 sm:py-20 lg:py-28 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        <div className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <span className="text-primary text-sm sm:text-base font-medium tracking-widest uppercase mb-4 block">
+    <section ref={sectionRef} id="trust" className="relative py-20 sm:py-28 bg-muted/30">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+        <div className={`text-center mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-4">
             Why Agencies Trust Us
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4 sm:mb-6 font-heading">
-            Built to Deliver Results
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
             We understand the visa industry because we build exclusively for it.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid sm:grid-cols-3 gap-6">
           {signals.map((signal, index) => (
             <div
               key={signal.title}
-              className={`bg-card/60 backdrop-blur-sm border border-border/40 p-8 sm:p-10 text-center group hover:border-primary/40 transition-all duration-500 ${
+              className={`bg-card border border-border rounded-xl p-8 text-center group hover:border-primary/30 hover:shadow-lg transition-all duration-500 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
               }`}
               style={{ transitionDelay: `${100 + index * 150}ms` }}
             >
-              <signal.icon className="w-10 h-10 text-primary mx-auto mb-5 group-hover:scale-110 transition-transform" />
-              <h3 className="text-lg font-bold text-foreground mb-3">{signal.title}</h3>
+              <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5 group-hover:bg-primary/15 transition-colors">
+                <signal.icon className="w-7 h-7 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold text-foreground mb-2">{signal.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{signal.description}</p>
             </div>
           ))}
