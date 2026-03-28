@@ -7,70 +7,66 @@ html {
 }
 
 /* Notivon Design System
-   Blue/gray tones for trust and tech sophistication
-   Playfair Display for headings, Inter for body
-   All colors in HSL format */
+   Warm navy + gold tones for trust and professionalism
+   DM Serif Display for headings, DM Sans for body */
 
 @layer base {
   :root {
-    /* Refined Blue-Gray Theme */
-    --background: 215 30% 9%; /* Deep blue-charcoal */
-    --foreground: 210 20% 95%; /* Cool white text */
+    --background: 220 20% 97%;
+    --foreground: 220 25% 12%;
 
-    --card: 210 25% 11%; /* Slightly lighter blue-gray */
-    --card-foreground: 210 20% 95%;
+    --card: 0 0% 100%;
+    --card-foreground: 220 25% 12%;
 
-    --popover: 210 25% 11%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 12%;
 
-    --primary: 192 90% 55%; /* Refined cyan-blue */
-    --primary-foreground: 215 30% 9%; /* Dark text on primary */
+    --primary: 220 60% 35%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 20% 18%; /* Blue-gray */
-    --secondary-foreground: 210 20% 95%;
+    --secondary: 40 70% 55%;
+    --secondary-foreground: 220 25% 12%;
 
-    --muted: 215 20% 15%; /* Muted blue-gray */
-    --muted-foreground: 210 15% 55%; /* Subdued text */
+    --muted: 220 15% 92%;
+    --muted-foreground: 220 10% 45%;
 
-    --accent: 200 85% 60%; /* Bright accent */
-    --accent-foreground: 215 30% 9%;
+    --accent: 40 75% 50%;
+    --accent-foreground: 220 25% 12%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 20% 95%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 215 20% 18%; /* Subtle blue-tinted border */
-    --input: 215 20% 12%;
-    --ring: 192 90% 55%; /* Cyan focus ring */
+    --border: 220 15% 88%;
+    --input: 220 15% 92%;
+    --ring: 220 60% 35%;
 
-    --radius: 0rem; /* Sharp edges - brutalist aesthetic */
+    --radius: 0.75rem;
 
-    /* Custom tokens for Notivon */
-    --slate: 215 15% 35%;
-    --slate-dark: 215 20% 20%;
-    --cyan-glow: 192 90% 55%;
-    --blue-accent: 220 80% 60%;
+    /* Custom tokens */
+    --warm-gold: 40 70% 55%;
+    --navy-deep: 220 40% 18%;
   }
 
   .dark {
-    --background: 215 30% 9%;
-    --foreground: 210 20% 95%;
-    --card: 210 25% 11%;
-    --card-foreground: 210 20% 95%;
-    --popover: 210 25% 11%;
-    --popover-foreground: 210 20% 95%;
-    --primary: 192 90% 55%;
-    --primary-foreground: 215 30% 9%;
-    --secondary: 215 20% 18%;
-    --secondary-foreground: 210 20% 95%;
-    --muted: 215 20% 15%;
-    --muted-foreground: 210 15% 55%;
-    --accent: 200 85% 60%;
-    --accent-foreground: 215 30% 9%;
+    --background: 220 25% 10%;
+    --foreground: 220 15% 95%;
+    --card: 220 20% 14%;
+    --card-foreground: 220 15% 95%;
+    --popover: 220 20% 14%;
+    --popover-foreground: 220 15% 95%;
+    --primary: 40 70% 55%;
+    --primary-foreground: 220 25% 10%;
+    --secondary: 220 30% 25%;
+    --secondary-foreground: 220 15% 95%;
+    --muted: 220 20% 18%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 40 75% 50%;
+    --accent-foreground: 220 25% 10%;
     --destructive: 0 62% 30%;
-    --destructive-foreground: 210 20% 95%;
-    --border: 215 20% 18%;
-    --input: 215 20% 12%;
-    --ring: 192 90% 55%;
+    --destructive-foreground: 220 15% 95%;
+    --border: 220 15% 22%;
+    --input: 220 20% 18%;
+    --ring: 40 70% 55%;
   }
 }
 
@@ -83,41 +79,16 @@ html {
     @apply bg-background text-foreground antialiased font-sans;
   }
 
-  /* Apply display font to headings */
   h1, h2, h3 {
     @apply font-display;
   }
 
-  /* Sharp, brutalist selection */
   ::selection {
     @apply bg-primary text-primary-foreground;
   }
 }
 
 @layer utilities {
-  /* Cyan glow effect for CTAs */
-  .glow-cyan {
-    box-shadow: 0 0 20px hsl(192 90% 55% / 0.4),
-                0 0 40px hsl(192 90% 55% / 0.2);
-  }
-
-  .glow-cyan-hover:hover {
-    box-shadow: 0 0 30px hsl(192 90% 55% / 0.6),
-                0 0 60px hsl(192 90% 55% / 0.3);
-  }
-
-  /* Blue accent glow */
-  .glow-blue {
-    box-shadow: 0 0 20px hsl(220 80% 60% / 0.3),
-                0 0 40px hsl(220 80% 60% / 0.15);
-  }
-
-  /* Brutalist text styles */
-  .text-brutal {
-    @apply tracking-tight font-bold uppercase;
-  }
-
-  /* Enhanced fade animations with better timing */
   .animate-fade-up {
     animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     opacity: 0;
@@ -142,86 +113,15 @@ html {
     animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
     opacity: 0;
   }
-
-  /* Scroll reveal animations */
-  .scroll-reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .scroll-reveal.revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Stagger delays for children */
-  .stagger-1 { transition-delay: 0.1s; }
-  .stagger-2 { transition-delay: 0.2s; }
-  .stagger-3 { transition-delay: 0.3s; }
-  .stagger-4 { transition-delay: 0.4s; }
-  .stagger-5 { transition-delay: 0.5s; }
-
-  /* Shimmer effect */
-  .shimmer {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      hsl(192 90% 55% / 0.1),
-      transparent
-    );
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-  }
-
-  /* Floating animation */
-  .float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  /* Glow pulse */
-  .glow-pulse {
-    animation: glowPulse 3s ease-in-out infinite;
-  }
 }
 
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes glowPulse {
-  0%, 100% { 
-    box-shadow: 0 0 20px hsl(192 90% 55% / 0.3);
-  }
-  50% { 
-    box-shadow: 0 0 40px hsl(192 90% 55% / 0.5),
-                0 0 60px hsl(192 90% 55% / 0.2);
-  }
-}
-
-@keyframes flow {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(400%); }
-}
-
-.animate-flow {
-  animation: flow 3s linear infinite;
 }
