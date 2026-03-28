@@ -17,58 +17,49 @@ const Contact = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="contact" className="py-16 sm:py-24 lg:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent" />
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-        <div className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <span className="inline-block px-3 sm:px-5 py-2 sm:py-2.5 border border-primary/40 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-primary mb-6 sm:mb-8">
-            Get Started
-          </span>
-          
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-[-0.02em] text-foreground mb-5 sm:mb-8 leading-tight">
-            Ready to Streamline Your{" "}
-            <span className="text-primary">Agency</span>?
+    <section ref={sectionRef} id="contact" className="py-20 sm:py-28 relative">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
+        <div className={`max-w-3xl mx-auto text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-5">
+            Ready to Streamline Your Agency?
           </h2>
           
-          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground leading-relaxed mb-10 sm:mb-14 font-light max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-2xl mx-auto">
             Send us a message on WhatsApp and let's discuss how a custom system can save your team hours every week.
           </p>
 
-          <div className="grid sm:grid-cols-3 gap-6 mb-12">
-            <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '100ms' }}>
-              <Send className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-foreground font-semibold mb-2">Send a Message</h3>
+          <div className="grid sm:grid-cols-3 gap-5 mb-10">
+            <div className={`bg-card border border-border rounded-xl p-6 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '100ms' }}>
+              <Send className="w-7 h-7 text-primary mx-auto mb-3" />
+              <h3 className="text-foreground font-semibold mb-1">Send a Message</h3>
               <p className="text-sm text-muted-foreground">Reach us on WhatsApp</p>
             </div>
 
-            <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
-              <MessageSquare className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-foreground font-semibold mb-2">Get a Plan</h3>
-              <p className="text-sm text-muted-foreground">Custom system proposal for your agency</p>
+            <div className={`bg-card border border-border rounded-xl p-6 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '200ms' }}>
+              <MessageSquare className="w-7 h-7 text-primary mx-auto mb-3" />
+              <h3 className="text-foreground font-semibold mb-1">Get a Plan</h3>
+              <p className="text-sm text-muted-foreground">Custom proposal for your agency</p>
             </div>
 
-            <div className={`bg-card/40 backdrop-blur-sm border border-border/40 p-6 sm:p-8 group hover:border-primary/40 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
-              <Phone className="w-8 h-8 text-primary mx-auto mb-4 group-hover:scale-110 transition-transform" />
-              <h3 className="text-foreground font-semibold mb-2">Go Live</h3>
+            <div className={`bg-card border border-border rounded-xl p-6 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '300ms' }}>
+              <Phone className="w-7 h-7 text-primary mx-auto mb-3" />
+              <h3 className="text-foreground font-semibold mb-1">Go Live</h3>
               <p className="text-sm text-muted-foreground">Launch within 2–4 weeks</p>
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-            <a
-              href="https://wa.me/2349014390149"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`group inline-flex items-center justify-center gap-2 sm:gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-primary text-primary-foreground font-semibold uppercase tracking-wider text-xs sm:text-sm hover:bg-primary/90 transition-all glow-cyan ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-              style={{ transitionDelay: '400ms' }}
-            >
-              Chat With Us on WhatsApp
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
+          <a
+            href="https://wa.me/2349014390149"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`group inline-flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transitionDelay: '400ms' }}
+          >
+            Chat With Us on WhatsApp
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
 
-          <p className={`mt-6 text-sm text-muted-foreground transition-all duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+          <p className={`mt-5 text-sm text-muted-foreground transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '600ms' }}>
             Or call directly: <a href="tel:09014390149" className="text-primary hover:text-primary/80 font-medium transition-colors">09014390149</a>
           </p>
         </div>
