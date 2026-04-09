@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu, X, Phone } from "lucide-react";
+import { ChevronDown, Menu, X, Phone, Calendar } from "lucide-react";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -86,6 +86,15 @@ const Navbar = () => {
                 </button>
               </div>
 
+              <a
+                href="https://calendly.com/hussainhussainakan/ai-discovery-meeting-clone"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-2.5 border border-border text-foreground text-sm font-semibold rounded-lg hover:border-primary/50 hover:text-primary transition-all inline-flex items-center gap-2"
+              >
+                <Calendar className="w-3.5 h-3.5" />
+                Book Demo
+              </a>
               <a
                 href="https://wa.me/2349014390149"
                 target="_blank"

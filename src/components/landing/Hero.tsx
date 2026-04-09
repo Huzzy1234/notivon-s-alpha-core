@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const Hero = () => {
@@ -67,10 +67,13 @@ const Hero = () => {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a
-              href="#how-it-works"
+              href="https://calendly.com/hussainhussainakan/ai-discovery-meeting-clone"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-border bg-card text-foreground font-semibold text-sm rounded-lg hover:border-primary/50 hover:text-primary transition-all"
             >
-              See How It Works
+              <Calendar className="w-4 h-4" />
+              Book a Free Demo
             </a>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { ArrowRight, MessageSquare, Phone, Send } from "lucide-react";
+import { ArrowRight, MessageSquare, Phone, Send, Calendar } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const Contact = () => {
@@ -25,7 +25,7 @@ const Contact = () => {
           </h2>
           
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed mb-10 max-w-2xl mx-auto">
-            Send us a message on WhatsApp and let's discuss how a custom system can save your team hours every week.
+            Send us a message on WhatsApp or book a free demo call — let's discuss how a custom system can save your team hours every week.
           </p>
 
           <div className="grid sm:grid-cols-3 gap-5 mb-10">
@@ -48,16 +48,26 @@ const Contact = () => {
             </div>
           </div>
 
-          <a
-            href="https://wa.me/2349014390149"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`group inline-flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transitionDelay: '400ms' }}
-          >
-            Chat With Us on WhatsApp
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          <div className={`flex flex-col sm:flex-row gap-4 justify-center ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`} style={{ transitionDelay: '400ms' }}>
+            <a
+              href="https://wa.me/2349014390149"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+            >
+              Chat With Us on WhatsApp
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <a
+              href="https://calendly.com/hussainhussainakan/ai-discovery-meeting-clone"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-10 py-4 border border-border bg-card text-foreground font-semibold text-sm rounded-lg hover:border-primary/50 hover:text-primary transition-all"
+            >
+              <Calendar className="w-4 h-4" />
+              Book a Free Demo
+            </a>
+          </div>
 
           <p className={`mt-5 text-sm text-muted-foreground transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`} style={{ transitionDelay: '600ms' }}>
             Or call directly: <a href="tel:09014390149" className="text-primary hover:text-primary/80 font-medium transition-colors">09014390149</a>
