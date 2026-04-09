@@ -55,13 +55,13 @@ const ValueProposition = () => {
           {pillars.map((pillar, index) => (
             <div
               key={pillar.title}
-              className={`group p-7 bg-card border border-border rounded-xl hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 ${
+              className={`group p-7 bg-card border border-border rounded-xl card-hover hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
+              } transition-all duration-500`}
               style={{ transitionDelay: `${150 + index * 100}ms` }}
             >
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-5 group-hover:bg-primary/15 transition-colors">
-                <pillar.icon className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-5 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                <pillar.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
               </div>
               <h3 className="text-lg font-semibold text-foreground mb-2">
                 {pillar.title}

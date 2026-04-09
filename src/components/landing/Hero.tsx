@@ -39,16 +39,16 @@ const Hero = () => {
       <div className="container mx-auto px-2 sm:px-6 lg:px-12 xl:px-20 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <div className="animate-fade-up">
-            <span className="inline-block px-4 py-2 bg-primary/10 text-primary text-sm font-medium rounded-full mb-8">
+            <span className="inline-block px-4 py-2 bg-primary/10 text-primary text-sm font-medium rounded-full mb-8 border border-primary/20">
               For Visa & Travel Agencies
             </span>
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display leading-[1.15] text-foreground mb-6 animate-fade-up-delay-1">
             Help Your Agency{" "}
-            <span className="text-primary">
+            <span className="gradient-text">
               {displayText}
-              <span className="animate-pulse">|</span>
+              <span className="animate-pulse text-primary">|</span>
             </span>
           </h1>
 
@@ -61,7 +61,7 @@ const Hero = () => {
               href="https://wa.me/2349014390149"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/20"
             >
               Chat With Us on WhatsApp
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -70,7 +70,7 @@ const Hero = () => {
               href="https://calendly.com/hussainhussainakan/ai-discovery-meeting-clone"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-border bg-card text-foreground font-semibold text-sm rounded-lg hover:border-primary/50 hover:text-primary transition-all"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-border bg-card text-foreground font-semibold text-sm rounded-lg hover:border-primary/50 hover:text-primary hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
               <Calendar className="w-4 h-4" />
               Book a Free Demo

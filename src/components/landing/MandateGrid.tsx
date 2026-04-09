@@ -70,12 +70,12 @@ const MandateGrid = () => {
           {services.map((item, index) => (
             <div
               key={item.title}
-              className={`group bg-card border border-border rounded-xl p-7 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500 ${
+              className={`group bg-card border border-border rounded-xl p-7 card-hover hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5 ${
                 isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
+              } transition-all duration-500`}
               style={{ transitionDelay: `${index * 80}ms` }}
             >
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 transition-all duration-300">
                 <item.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
               </div>
 
