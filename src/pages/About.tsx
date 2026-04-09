@@ -171,15 +171,14 @@ const About = () => {
             </h2>
             <div className="prose prose-lg prose-invert max-w-none">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                Honestly? <span className="text-foreground font-medium">I want to win.</span> I'm based 
-                in Nigeria, and I know I'm not the typical profile you'd expect. But that's exactly 
-                why I'm hungry. I've spent years building skills, working with international clients, 
-                and proving I can deliver results regardless of where I'm located.
+                I believe visa agencies do essential work — helping people travel, reunite with family, 
+                and start new careers abroad. But too many agencies are held back by messy processes 
+                that eat into their time and profits.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                I believe visa agencies do essential work — helping people travel, reunite with family, 
-                start new careers abroad. If I can help you process applications faster and with fewer 
-                errors, that's a win for everyone.
+                <span className="text-foreground font-medium">My mission is simple:</span> help agencies 
+                process applications faster, with fewer errors, and with less stress. If your team can 
+                serve more clients without burning out, that's a win for everyone.
               </p>
             </div>
           </div>
