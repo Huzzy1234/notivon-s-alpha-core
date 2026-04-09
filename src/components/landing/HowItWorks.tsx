@@ -49,7 +49,10 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Connecting line (desktop only) */}
+          <div className="hidden lg:block absolute top-1/2 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-border to-transparent -translate-y-4" />
+
           {steps.map((step, index) => (
             <div
               key={step.title}
@@ -58,12 +61,12 @@ const HowItWorks = () => {
               }`}
               style={{ transitionDelay: `${index * 150}ms` }}
             >
-              <div className="bg-card border border-border rounded-xl p-8 h-full hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all duration-500">
-                <span className="text-4xl font-display text-primary/20 block mb-4">
+              <div className="bg-card border border-border rounded-xl p-8 h-full card-hover hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5">
+                <span className="text-5xl font-display gradient-text block mb-4">
                   {step.number}
                 </span>
 
-                <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5">
+                <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5 group-hover:bg-primary/15 transition-colors">
                   <step.icon className="w-7 h-7 text-primary" />
                 </div>
 
