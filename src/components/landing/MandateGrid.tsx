@@ -1,4 +1,4 @@
-import { FileText, Camera, Bell, Users, BarChart3, Globe } from "lucide-react";
+import { FileText, Camera, Bell, Users, BarChart3, Globe, MessageCircle } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
 const services = [
@@ -31,6 +31,11 @@ const services = [
     icon: Globe,
     title: "Multi-Visa Type Support",
     description: "Student visas, work permits, tourist visas, family reunification — each with its own checklist and requirements.",
+  },
+  {
+    icon: MessageCircle,
+    title: "WhatsApp Automation",
+    description: "Automated WhatsApp messages for appointment reminders, document requests, status updates, and follow-ups — so your clients stay informed without manual effort.",
   },
 ];
 
