@@ -62,23 +62,24 @@ const Hero = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fade-up-delay-3 mb-12">
               <a
-                href="https://wa.me/2349014390149"
+                href="https://calendly.com/hussainhussainakan/ai-discovery-meeting-clone"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-lg hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/20 border border-primary/20"
               >
-                Chat With Us on WhatsApp
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a
-                href="https://calendly.com/hussainhussainakan/ai-discovery-meeting-clone"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-border bg-card text-foreground font-semibold text-sm rounded-lg hover:border-primary hover:text-primary hover:bg-primary/5 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-sm"
-              >
                 <Calendar className="w-4 h-4" />
                 Book a Free Demo
               </a>
+              <button
+                onClick={() => {
+                  const el = document.getElementById("product");
+                  if (el) el.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-border bg-card text-foreground font-semibold text-sm rounded-lg hover:border-primary hover:text-primary hover:bg-primary/5 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-sm"
+              >
+                See System Demo
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
             </div>
             
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start animate-fade-up-delay-4">

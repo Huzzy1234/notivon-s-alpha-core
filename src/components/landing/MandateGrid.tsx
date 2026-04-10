@@ -82,18 +82,9 @@ const MandateGrid = () => {
                 } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
                 style={{ transitionDelay: `${index * 80}ms` }}
               >
-                {isWide && item.image ? (
-                  <div className="absolute top-0 right-0 w-[120%] md:w-3/5 h-[120%] md:h-full opacity-20 md:opacity-100 pointer-events-none transition-transform group-hover:scale-105 duration-1000 z-0 md:rounded-r-3xl overflow-hidden">
-                     {/* Desktop fade from left */}
-                     <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-transparent hidden md:block z-10 w-full" />
-                     {/* Mobile fade from top/left */}
-                     <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-transparent md:hidden z-10" />
-                     
-                     <img src={item.image} alt={item.title} className="w-full h-full object-cover object-left-top md:object-left translate-x-8 md:translate-x-0 group-hover:translate-x-2 transition-transform duration-1000 opacity-90 filter drop-shadow-2xl mix-blend-lighten" />
-                  </div>
-                ) : isWide ? (
+                {isWide && (
                   <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-bl-[100px] pointer-events-none transition-transform group-hover:scale-110 duration-700 z-0" />
-                ) : null}
+                )}
                 
                 <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 relative z-10 transition-all duration-300 ${isWide ? 'bg-primary text-primary-foreground shadow-lg' : 'bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:-translate-y-1'}`}>
                   <item.icon className="w-6 h-6" />
