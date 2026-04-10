@@ -4,21 +4,21 @@ import { useEffect, useState, useRef } from "react";
 const steps = [
   {
     icon: MessageSquare,
-    number: "01",
+    number: "1",
     title: "Discovery",
-    description: "We learn how your agency operates — your visa types, pain points, team size, and current workflow.",
+    description: "We learn how your agency operates — your visa types, bottlenecks, and workflow.",
   },
   {
     icon: Settings,
-    number: "02",
+    number: "2",
     title: "Custom Build",
-    description: "We design and build a system tailored to your agency. Document checklists, expiry alerts, client portals — whatever you need.",
+    description: "We build a system tailored to your agency with expiry alerts and client portals.",
   },
   {
     icon: Rocket,
-    number: "03",
+    number: "3",
     title: "Launch & Support",
-    description: "We deploy the system, train your team, and stay on for support. You start processing faster from week one.",
+    description: "We deploy the system, train your team, and stay on for support.",
   },
 ];
 
@@ -38,47 +38,47 @@ const HowItWorks = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="how-it-works" className="py-20 sm:py-28 relative">
+    <section ref={sectionRef} id="how-it-works" className="py-24 sm:py-32 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
-        <div className={`text-center mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-4">
-            How It Works
+        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display text-foreground mb-6">
+            From Conversation<br/>to <span className="text-primary italic">Live System</span>
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            From initial conversation to a running system in weeks, not months.
+            A frictionless onboarding process that gets your custom visa pipeline running in weeks, not months.
           </p>
         </div>
 
-        <div className="relative grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Connecting line (desktop only) */}
-          <div className="hidden lg:block absolute top-1/2 left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-border to-transparent -translate-y-4" />
+        <div className="relative mt-8">
+          <div className="hidden lg:block absolute top-[4.5rem] left-[15%] right-[15%] h-0.5 bg-border/50 z-0 overflow-hidden rounded-full">
+            <div className={`h-full bg-gradient-to-r from-primary/50 via-primary to-accent transition-all duration-[2s] ease-in-out ${isVisible ? 'w-full' : 'w-0'}`} />
+          </div>
 
-          {steps.map((step, index) => (
-            <div
-              key={step.title}
-              className={`relative text-center transition-all duration-700 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
-            >
-              <div className="bg-card border border-border rounded-xl p-8 h-full card-hover hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5">
-                <span className="text-5xl font-display gradient-text block mb-4">
-                  {step.number}
-                </span>
-
-                <div className="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5 group-hover:bg-primary/15 transition-colors">
-                  <step.icon className="w-7 h-7 text-primary" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-8 relative z-10">
+            {steps.map((step, index) => (
+              <div
+                key={step.title}
+                className={`relative text-center transition-all duration-700 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+                }`}
+                style={{ transitionDelay: `${index * 300}ms` }}
+              >
+                <div className="w-36 h-36 mx-auto bg-card border-2 border-border/50 rounded-full flex flex-col items-center justify-center mb-8 relative group hover:border-primary/80 transition-colors duration-500 shadow-xl shadow-primary/5 glass hover:-translate-y-2 transform">
+                  <span className="text-[5rem] font-display font-bold text-muted-foreground/10 absolute leading-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none group-hover:text-primary/10 transition-colors duration-500">
+                    {step.number}
+                  </span>
+                  <step.icon className="w-10 h-10 text-primary relative z-10 group-hover:scale-110 transition-transform duration-500 drop-shadow-sm" />
                 </div>
 
-                <h3 className="text-xl font-semibold text-foreground mb-3">
+                <h3 className="text-2xl font-display font-semibold text-foreground mb-4">
                   {step.title}
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-base text-muted-foreground leading-relaxed max-w-xs mx-auto">
                   {step.description}
                 </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

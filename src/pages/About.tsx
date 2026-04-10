@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
-import { ArrowLeft, Mail, MapPin, Users, Zap } from "lucide-react";
+import { Mail, MapPin, Users, Zap } from "lucide-react";
 import hussainImage from "@/assets/hussain-founder.jpeg";
+import Navbar from "@/components/landing/Navbar";
+import Footer from "@/components/landing/Footer";
 
 const About = () => {
   useEffect(() => {
@@ -19,30 +20,11 @@ const About = () => {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
-        {/* Navigation */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-12">
-            <div className="flex items-center justify-between h-16 sm:h-20">
-              <Link
-                to="/"
-                className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                <span className="text-sm font-medium uppercase tracking-wider">Back to Home</span>
-              </Link>
-              <Link
-                to="/"
-                className="text-xl sm:text-2xl font-bold tracking-[-0.02em] text-foreground hover:text-primary transition-colors"
-              >
-                NOTIVON
-              </Link>
-            </div>
-          </div>
-        </nav>
+      <div className="min-h-screen bg-background flex flex-col">
+        <Navbar />
 
         {/* Hero Section */}
-        <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-12">
+        <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-12 flex-1">
           <div className="container mx-auto max-w-6xl">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
               <div className="relative order-1 lg:order-1">
@@ -212,17 +194,7 @@ const About = () => {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-8 px-4 sm:px-6 lg:px-12 border-t border-border">
-          <div className="container mx-auto max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">
-              © 2025 Notivon. All rights reserved.
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Based in Nigeria | Serving agencies worldwide
-            </p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </>
   );

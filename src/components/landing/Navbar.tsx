@@ -34,12 +34,13 @@ const Navbar = () => {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 sm:h-18">
-            <button
+            <Link
+              to="/"
               onClick={scrollToTop}
-              className="text-xl sm:text-2xl font-display text-foreground hover:text-primary transition-colors"
+              className="text-2xl sm:text-3xl font-display font-bold tracking-tight text-foreground flex items-center gap-1 group"
             >
               Notivon
-            </button>
+            </Link>
 
             <div className="hidden md:flex items-center">
               <div className="flex items-center gap-8 mr-8">
@@ -47,34 +48,28 @@ const Navbar = () => {
                   Home
                 </button>
                 
-                <div className="relative">
-                  <button
-                    onClick={() => setServicesOpen(!servicesOpen)}
-                    onMouseEnter={() => setServicesOpen(true)}
-                    className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                  >
+                <div className="relative group">
+                  <Link to="/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2 flex items-center gap-1 group">
                     Services
-                    <ChevronDown className={`w-4 h-4 transition-transform ${servicesOpen ? "rotate-180" : ""}`} />
-                  </button>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 transition-opacity"><path d="m6 9 6 6 6-6"/></svg>
+                  </Link>
                   
-                  <div
-                    onMouseLeave={() => setServicesOpen(false)}
-                    className={`absolute top-full left-0 mt-2 w-52 bg-card border border-border rounded-lg shadow-lg overflow-hidden transition-all duration-200 ${
-                      servicesOpen ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
-                    }`}
-                  >
-                    <button onClick={() => scrollToSection("services")} className="w-full px-4 py-3 text-left text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-                      Document Management
-                    </button>
-                    <button onClick={() => scrollToSection("services")} className="w-full px-4 py-3 text-left text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-                      Expiry Tracking
-                    </button>
-                    <button onClick={() => scrollToSection("services")} className="w-full px-4 py-3 text-left text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-                      Client Portals
-                    </button>
-                    <button onClick={() => scrollToSection("services")} className="w-full px-4 py-3 text-left text-sm text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors">
-                      Application Tracking
-                    </button>
+                  {/* Dropdown Menu */}
+                  <div className="absolute top-full left-0 w-64 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top -translate-y-2 group-hover:translate-y-0">
+                    <div className="bg-card border border-border rounded-xl shadow-xl p-2 overflow-hidden flex flex-col gap-1">
+                      <Link to="/services#document-management" className="text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-left flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                        Document Management
+                      </Link>
+                      <Link to="/services#expiry-tracking" className="text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-left flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-md bg-accent/10 flex items-center justify-center text-accent"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 2h4"/><path d="m21 15-1.51-1.51a3.5 3.5 0 0 0-4.95 0L13.04 15"/><path d="M22 21H2"/><path d="M12 21V6"/><path d="M10 6h4"/><path d="M4 15v6"/><path d="M20 15v6"/></svg></div>
+                        Expiry Tracking
+                      </Link>
+                      <Link to="/services#whatsapp-automation" className="text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-left flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-md bg-emerald-500/10 flex items-center justify-center text-emerald-500"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg></div>
+                        WhatsApp Automation
+                      </Link>
+                    </div>
                   </div>
                 </div>
 

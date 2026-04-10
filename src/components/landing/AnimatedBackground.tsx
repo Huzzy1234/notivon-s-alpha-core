@@ -1,10 +1,16 @@
 const AnimatedBackground = () => {
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-muted/30 to-background" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 animate-float" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/4 animate-float-slow" />
-      <div className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-float" style={{ animationDelay: '3s' }} />
+    <div className="fixed inset-0 -z-10 overflow-hidden bg-background pointer-events-none">
+      {/* Subtle texture/mesh */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-primary/10 opacity-30 mix-blend-overlay z-0" />
+      
+      {/* Blend gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/40 to-background z-10 block" />
+      
+      {/* Floating orbs */}
+      <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-primary/20 blur-[150px] mix-blend-screen animate-float z-0 will-change-transform" />
+      <div className="absolute top-[20%] -right-[15%] w-[50%] h-[50%] rounded-full bg-accent/20 blur-[120px] mix-blend-screen animate-float-slow z-0 will-change-transform" />
+      <div className="absolute -bottom-[30%] left-[10%] w-[80%] h-[80%] rounded-full bg-primary/10 blur-[160px] mix-blend-screen animate-float z-0 will-change-transform delay-1000" />
     </div>
   );
 };
