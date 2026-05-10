@@ -11,7 +11,6 @@ const Footer = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      // scroll and offset heading
       const top = element.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top, behavior: "smooth" });
     }
@@ -27,17 +26,15 @@ const Footer = () => {
               <span className="text-3xl font-display font-bold tracking-tight text-foreground">Notivon</span>
             </Link>
             <p className="text-sm text-muted-foreground mb-6 leading-relaxed max-w-xs">
-              Custom-built systems that help visa and travel agencies process more applications with zero headaches.
+              Purpose-built operational software for Nigerian trade and compliance businesses.
             </p>
           </div>
 
           <div className="col-span-1">
-            <h4 className="text-xs font-bold text-foreground mb-6 uppercase tracking-widest">Platform</h4>
+            <h4 className="text-xs font-bold text-foreground mb-6 uppercase tracking-widest">Products</h4>
             <ul className="space-y-4">
-              <li><button onClick={() => scrollToSection("services")} className="text-sm text-muted-foreground hover:text-primary transition-colors">Document Management</button></li>
-              <li><button onClick={() => scrollToSection("services")} className="text-sm text-muted-foreground hover:text-primary transition-colors">Expiry Tracking</button></li>
-              <li><button onClick={() => scrollToSection("services")} className="text-sm text-muted-foreground hover:text-primary transition-colors">Client Portals</button></li>
-              <li><button onClick={() => scrollToSection("how-it-works")} className="text-sm text-muted-foreground hover:text-primary transition-colors">How It Works</button></li>
+              <li><Link to="/products/visaguard" className="text-sm text-muted-foreground hover:text-primary transition-colors">VisaGuard</Link></li>
+              <li><Link to="/products/clearvoy" className="text-sm text-muted-foreground hover:text-primary transition-colors">ClearVoy</Link></li>
             </ul>
           </div>
 

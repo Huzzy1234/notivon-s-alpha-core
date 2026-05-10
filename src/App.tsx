@@ -6,7 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import Index from "./pages/Index";
 import About from "./pages/About";
-import Services from "./pages/Services";
+import VisaGuard from "./pages/products/VisaGuard";
+import ClearVoy from "./pages/products/ClearVoy";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,8 +21,9 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/products/visaguard" element={<VisaGuard />} />
+            <Route path="/products/clearvoy" element={<ClearVoy />} />
             <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -19,23 +19,23 @@ const ValueProposition = () => {
   const pillars = [
     {
       icon: FileCheck,
-      title: "Smart Document Collection",
-      description: "Automated checklists that adapt per visa type. Clients upload once, the system organizes and validates everything.",
+      title: "Automated Document Handling",
+      description: "Checklists, validation, and tracking that adapt to your specific business — whether it's visa documents or customs paperwork.",
     },
     {
       icon: AlertTriangle,
-      title: "Expiry & Compliance Alerts",
-      description: "Passports, medical reports, bank statements — get flagged before a document expires and causes a rejection.",
+      title: "Proactive Compliance Alerts",
+      description: "Get flagged before an expiring passport blocks a submission or a missing document delays a shipment release.",
     },
     {
       icon: Clock,
-      title: "Hours Saved Per Application",
-      description: "Stop chasing clients for missing documents. Automated reminders and status tracking do the follow-up for you.",
+      title: "Hours Saved Every Week",
+      description: "Stop chasing clients and manually tracking progress. Automated reminders and status boards do the follow-up for you.",
     },
     {
       icon: TrendingDown,
       title: "Fewer Costly Mistakes",
-      description: "Catch common errors before submission — wrong photo dimensions, missing signatures, expired records.",
+      description: "Catch common errors before they cost you — wrong documents, missed deadlines, or miscommunicated status updates.",
     },
   ];
 
@@ -53,7 +53,7 @@ const ValueProposition = () => {
               Stop Losing Money to <span className="text-primary italic font-serif">Preventable Errors</span>
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Generic spreadsheets and CRMs aren't built for visa processing. We build purpose-made systems that adapt to your agency and let you process applications with zero headaches.
+              Generic spreadsheets and CRMs aren't built for compliance-driven businesses. We build purpose-made systems that adapt to your operations and let you work with zero headaches.
             </p>
             <div className="hidden lg:block w-32 h-1.5 bg-gradient-to-r from-primary to-transparent rounded-full opacity-50" />
           </div>

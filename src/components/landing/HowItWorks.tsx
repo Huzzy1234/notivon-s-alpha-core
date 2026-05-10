@@ -6,19 +6,19 @@ const steps = [
     icon: MessageSquare,
     number: "1",
     title: "Discovery",
-    description: "We learn how your agency operates — your visa types, bottlenecks, and workflow.",
+    description: "We learn how your business operates — your workflow, bottlenecks, and goals.",
   },
   {
     icon: Settings,
     number: "2",
     title: "Custom Build",
-    description: "We build a system tailored to your agency with expiry alerts and client portals.",
+    description: "We build a system tailored to your operations with the features you actually need.",
   },
   {
     icon: Rocket,
     number: "3",
     title: "Launch & Support",
-    description: "We deploy the system, train your team, and stay on for support.",
+    description: "We deploy the system, train your team, and stay on for ongoing support.",
   },
 ];
 
@@ -45,7 +45,7 @@ const HowItWorks = () => {
             From Conversation<br/>to <span className="text-primary italic">Live System</span>
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            A frictionless onboarding process that gets your custom visa pipeline running in weeks, not months.
+            A frictionless onboarding process that gets your custom operations system running in weeks, not months.
           </p>
         </div>
 

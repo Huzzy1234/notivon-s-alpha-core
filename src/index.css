@@ -4,6 +4,11 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 /* Notivon Design System
@@ -48,25 +53,25 @@ html {
   }
 
   .dark {
-    --background: 220 25% 10%;
+    --background: 220 25% 4%;
     --foreground: 220 15% 95%;
-    --card: 220 20% 14%;
+    --card: 220 20% 7%;
     --card-foreground: 220 15% 95%;
-    --popover: 220 20% 14%;
+    --popover: 220 20% 7%;
     --popover-foreground: 220 15% 95%;
-    --primary: 40 70% 55%;
-    --primary-foreground: 220 25% 10%;
-    --secondary: 220 30% 25%;
+    --primary: 215 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 30% 20%;
     --secondary-foreground: 220 15% 95%;
-    --muted: 220 20% 18%;
-    --muted-foreground: 220 10% 55%;
-    --accent: 40 75% 50%;
-    --accent-foreground: 220 25% 10%;
-    --destructive: 0 62% 30%;
+    --muted: 220 20% 12%;
+    --muted-foreground: 220 10% 60%;
+    --accent: 150 100% 45%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 80% 60%;
     --destructive-foreground: 220 15% 95%;
-    --border: 220 15% 22%;
-    --input: 220 20% 18%;
-    --ring: 40 70% 55%;
+    --border: 220 15% 14%;
+    --input: 220 20% 14%;
+    --ring: 215 100% 60%;
   }
 }
 
@@ -139,6 +144,100 @@ html {
   .gradient-text {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
   }
+
+  /* ── Cursor glow card ── */
+  .glow-card {
+    position: relative;
+    overflow: hidden;
+    --glow-x: 50%;
+    --glow-y: 50%;
+    --glow-opacity: 0;
+  }
+  .glow-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(
+      600px circle at var(--glow-x) var(--glow-y),
+      rgba(255, 255, 255, 0.05),
+      transparent 40%
+    );
+    opacity: var(--glow-opacity);
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Scroll reveal states ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(48px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-left.revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-right.revealed {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal-scale.revealed {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Stagger delays */
+  .delay-100 { transition-delay: 100ms; }
+  .delay-200 { transition-delay: 200ms; }
+  .delay-300 { transition-delay: 300ms; }
+  .delay-400 { transition-delay: 400ms; }
+  .delay-500 { transition-delay: 500ms; }
+
+  /* ── Shimmer scan line animation ── */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+    transform: translateX(-100%);
+    animation: shimmerScan 3s ease-in-out infinite;
+  }
+
+  /* ── Premium button glow pulse ── */
+  .btn-glow {
+    position: relative;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  }
+  .btn-glow:hover {
+    transform: translateY(-2px) scale(1.03);
+  }
+  .btn-glow:active {
+    transform: translateY(0) scale(0.97);
+  }
 }
 
 @keyframes fadeUp {
@@ -155,4 +254,36 @@ html {
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-20px); }
+}
+
+@keyframes shimmerScan {
+  0% { transform: translateX(-100%); }
+  60% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-18px) rotate(1deg); }
+}
+
+@keyframes heroFloatAlt {
+  0%, 100% { transform: translateY(0) rotate(1deg); }
+  50% { transform: translateY(-12px) rotate(-1deg); }
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(1); opacity: 0.08; }
+  50% { transform: scale(1.15); opacity: 0.15; }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.92) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
 }

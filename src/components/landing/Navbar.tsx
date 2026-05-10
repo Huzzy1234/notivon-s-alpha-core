@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu, X, Phone, Calendar } from "lucide-react";
+import { ChevronDown, Menu, X, Phone, Calendar, Shield, Ship } from "lucide-react";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -14,7 +13,6 @@ const Navbar = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
-    setServicesOpen(false);
     setMobileMenuOpen(false);
     const element = document.getElementById(id);
     if (element) element.scrollIntoView({ behavior: "smooth" });
@@ -48,26 +46,32 @@ const Navbar = () => {
                   Home
                 </button>
                 
+                {/* Products Dropdown */}
                 <div className="relative group">
-                  <Link to="/services" className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2 flex items-center gap-1 group">
-                    Services
+                  <button className="text-sm font-medium text-foreground hover:text-primary transition-colors py-2 flex items-center gap-1 group">
+                    Products
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50 group-hover:opacity-100 transition-opacity"><path d="m6 9 6 6 6-6"/></svg>
-                  </Link>
+                  </button>
                   
-                  {/* Dropdown Menu */}
-                  <div className="absolute top-full left-0 w-64 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top -translate-y-2 group-hover:translate-y-0">
+                  <div className="absolute top-full left-0 w-72 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top -translate-y-2 group-hover:translate-y-0">
                     <div className="bg-card border border-border rounded-xl shadow-xl p-2 overflow-hidden flex flex-col gap-1">
-                      <Link to="/services#document-management" className="text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-left flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-                        Document Management
+                      <Link to="/products/visaguard" className="text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-left flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-md bg-primary/10 flex items-center justify-center text-primary">
+                          <Shield className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground text-sm">VisaGuard</p>
+                          <p className="text-xs text-muted-foreground">For Visa & Travel Agencies</p>
+                        </div>
                       </Link>
-                      <Link to="/services#expiry-tracking" className="text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-left flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-md bg-accent/10 flex items-center justify-center text-accent"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 2h4"/><path d="m21 15-1.51-1.51a3.5 3.5 0 0 0-4.95 0L13.04 15"/><path d="M22 21H2"/><path d="M12 21V6"/><path d="M10 6h4"/><path d="M4 15v6"/><path d="M20 15v6"/></svg></div>
-                        Expiry Tracking
-                      </Link>
-                      <Link to="/services#whatsapp-automation" className="text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-left flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-md bg-emerald-500/10 flex items-center justify-center text-emerald-500"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z"/></svg></div>
-                        WhatsApp Automation
+                      <Link to="/products/clearvoy" className="text-sm text-muted-foreground hover:text-primary hover:bg-muted/50 px-4 py-3 rounded-lg transition-colors text-left flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-md bg-emerald-500/10 flex items-center justify-center text-emerald-600">
+                          <Ship className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground text-sm">ClearVoy</p>
+                          <p className="text-xs text-muted-foreground">For Customs Clearing Agents</p>
+                        </div>
                       </Link>
                     </div>
                   </div>
@@ -81,15 +85,6 @@ const Navbar = () => {
                 </button>
               </div>
 
-              <a
-                href="https://calendly.com/hussainhussainakan/ai-discovery-meeting-clone"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-5 py-2.5 border border-border text-foreground text-sm font-semibold rounded-lg hover:border-primary/50 hover:text-primary transition-all inline-flex items-center gap-2"
-              >
-                <Calendar className="w-3.5 h-3.5" />
-                Book Demo
-              </a>
               <a
                 href="https://wa.me/2349014390149"
                 target="_blank"
@@ -124,16 +119,25 @@ const Navbar = () => {
 
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 bg-card/95 backdrop-blur-md ${
-            mobileMenuOpen ? "max-h-80 border-b border-border" : "max-h-0"
+            mobileMenuOpen ? "max-h-96 border-b border-border" : "max-h-0"
           }`}
         >
           <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
             <button onClick={scrollToTop} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3">
               Home
             </button>
-            <button onClick={() => scrollToSection("services")} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3">
-              Services
-            </button>
+            
+            {/* Mobile Products */}
+            <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest pt-3 pb-1">Products</p>
+            <Link to="/products/visaguard" onClick={() => setMobileMenuOpen(false)} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3 pl-4 flex items-center gap-3">
+              <Shield className="w-4 h-4 text-primary" />
+              VisaGuard
+            </Link>
+            <Link to="/products/clearvoy" onClick={() => setMobileMenuOpen(false)} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3 pl-4 flex items-center gap-3">
+              <Ship className="w-4 h-4 text-emerald-500" />
+              ClearVoy
+            </Link>
+
             <Link to="/about" onClick={() => setMobileMenuOpen(false)} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3">
               About
             </Link>

@@ -8,28 +8,28 @@ import {
 
 const faqItems = [
   {
-    question: "What kind of visa agencies do you work with?",
-    answer: "We work with agencies of all sizes — from solo consultants processing student visas to large firms handling work permits, family visas, and tourist applications. The systems we build are tailored to your specific visa types and workflow.",
+    question: "What kind of businesses do you work with?",
+    answer: "We specialize in two industries: visa & travel agencies and customs clearing agents. Whether you're processing visa applications or clearing cargo at Nigerian ports, our systems are tailored to your specific workflow and operational needs.",
   },
   {
     question: "How is this different from generic CRM or project management tools?",
-    answer: "Generic tools aren't built for the visa industry. Our systems include visa-type-specific document checklists, automatic expiry tracking for passports and certificates, photo/file compliance checks, and client portals designed for document collection. It's purpose-built, not adapted.",
+    answer: "Generic tools aren't built for compliance-driven industries. Our systems include industry-specific features — visa-type document checklists, passport expiry tracking, shipment pipeline management, multi-stage release tracking, and WhatsApp client communication. It's purpose-built, not adapted.",
   },
   {
     question: "How long does it take to get set up?",
-    answer: "Most agencies are fully operational within 2–4 weeks. We start with a discovery call to understand your workflow, then build and deploy the system with training for your team.",
+    answer: "Most businesses are fully operational within 2–4 weeks. We start with a discovery call to understand your workflow, then build and deploy the system with training for your team.",
   },
   {
-    question: "Do my clients interact with the system?",
-    answer: "Yes — clients get a simple portal where they can upload documents, see what's missing, and track their application status. This drastically reduces back-and-forth communication.",
+    question: "Do you build custom features for my specific needs?",
+    answer: "Absolutely. Every system we build starts from a core platform (VisaGuard or ClearVoy) but is customized to match how your specific business operates. We adapt to your workflow, not the other way around.",
   },
   {
     question: "What happens if I need changes after launch?",
-    answer: "We provide ongoing support. Whether you need to add a new visa type, adjust compliance rules, or add features, we're here to help your system evolve with your business.",
+    answer: "We provide ongoing support. Whether you need to add new features, adjust compliance rules, or expand to new services, we're here to help your system evolve with your business.",
   },
   {
     question: "Is my data secure?",
-    answer: "Absolutely. All client data is encrypted and stored securely. We follow best practices for data protection and can work with your specific compliance requirements.",
+    answer: "Absolutely. All client and business data is encrypted and stored securely. We follow best practices for data protection and can work with your specific compliance requirements.",
   },
 ];
 
@@ -56,7 +56,7 @@ const FAQ = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            Everything you need to know about our systems for visa agencies.
+            Everything you need to know about our systems for trade and compliance businesses.
           </p>
         </div>
 

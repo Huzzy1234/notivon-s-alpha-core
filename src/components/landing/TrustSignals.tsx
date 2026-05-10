@@ -5,17 +5,17 @@ const signals = [
   {
     icon: ShieldCheck,
     title: "Built for Compliance",
-    description: "Every system is designed around actual visa requirements — not generic templates.",
+    description: "Every system is designed around actual regulatory and operational requirements — not generic templates.",
   },
   {
     icon: Zap,
     title: "Fast Turnaround",
-    description: "Most agencies are up and running within 2–4 weeks of the first conversation.",
+    description: "Most businesses are up and running within 2–4 weeks of the first conversation.",
   },
   {
     icon: HeartHandshake,
     title: "Ongoing Support",
-    description: "We don't just build and disappear. You get continued support as your agency grows.",
+    description: "We don't just build and disappear. You get continued support as your business grows.",
   },
 ];
 
@@ -39,10 +39,10 @@ const TrustSignals = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
         <div className={`text-center mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-4">
-            Why Agencies Trust Us
+            Why Businesses Trust Us
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            We understand the visa industry because we build exclusively for it.
+            We build exclusively for Nigerian trade and compliance industries because focus produces better systems.
           </p>
         </div>
 
