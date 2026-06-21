@@ -1,5 +1,6 @@
 import { ArrowRight, MessageSquare, Phone, Calendar, Clock } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { PHONE_PRIMARY, PHONE_SECONDARY, WHATSAPP_NUMBER } from "@/lib/constants";
 
 const Contact = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -31,11 +32,12 @@ const Contact = () => {
               </div>
               
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground mb-6 leading-tight">
-                Ready to Streamline <br/>Your Agency?
+                Have a bottleneck worth fixing?<br/>
+                <span className="text-primary">Start a conversation.</span>
               </h2>
-              
+
               <p className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-md">
-                Send us a message or book a free discovery call. We'll outline exactly how a custom system can save your team hours every week.
+                Book a free discovery call and we'll find the real problem — then tell you exactly what it would take to fix it.
               </p>
 
               <div className="space-y-5 mb-12">
@@ -60,14 +62,20 @@ const Contact = () => {
                   <Calendar className="w-4 h-4" />
                   Book a Free Demo
                 </a>
-                <a href="https://wa.me/2349014390149" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-primary/20 bg-background text-foreground font-semibold text-sm rounded-xl hover:border-primary/50 hover:bg-primary/5 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-primary/20 bg-background text-foreground font-semibold text-sm rounded-xl hover:border-primary/50 hover:bg-primary/5 hover:scale-[1.02] active:scale-[0.98] transition-all">
                   Chat With Us
                   <ArrowRight className="w-4 h-4 text-primary" />
                 </a>
               </div>
-              <p className="mt-6 text-sm text-muted-foreground font-medium flex items-center gap-2">
-                 Or call directly: <a href="tel:09014390149" className="text-primary hover:text-primary/80 transition-colors hover:underline font-bold flex items-center gap-1.5"><Phone className="w-3.5 h-3.5" /> 09014390149</a>
-              </p>
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 text-sm text-muted-foreground font-medium">
+                <a href={`tel:${PHONE_PRIMARY}`} className="text-primary hover:text-primary/80 transition-colors hover:underline font-bold flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5" /> {PHONE_PRIMARY}
+                </a>
+                <span className="hidden sm:inline text-muted-foreground/30">·</span>
+                <a href={`tel:${PHONE_SECONDARY}`} className="text-primary hover:text-primary/80 transition-colors hover:underline font-bold flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5" /> {PHONE_SECONDARY}
+                </a>
+              </div>
             </div>
 
             <div className="relative z-10 hidden lg:block h-full">

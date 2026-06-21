@@ -1,23 +1,24 @@
 import { Helmet } from "react-helmet-async";
-import Navbar from "@/components/landing/Navbar";
-import Hero from "@/components/landing/Hero";
-import ProductShowcase from "@/components/landing/ProductShowcase";
-import ValueProposition from "@/components/landing/ValueProposition";
-import HowItWorks from "@/components/landing/HowItWorks";
-import TrustSignals from "@/components/landing/TrustSignals";
-import FAQ from "@/components/landing/FAQ";
-import Contact from "@/components/landing/Contact";
-import Footer from "@/components/landing/Footer";
-import AnimatedBackground from "@/components/landing/AnimatedBackground";
+import Navbar from "@/components/layout/Navbar";
+import Hero from "@/components/sections/Hero";
+import WhatWeBuild from "@/components/sections/WhatWeBuild";
+import ProductShowcase from "@/components/sections/ProductShowcase";
+import ValueProposition from "@/components/sections/ValueProposition";
+import HowItWorks from "@/components/sections/HowItWorks";
+import TrustSignals from "@/components/sections/TrustSignals";
+import FAQ from "@/components/sections/FAQ";
+import Contact from "@/components/sections/Contact";
+import Footer from "@/components/layout/Footer";
+import AnimatedBackground from "@/components/sections/AnimatedBackground";
 
 const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Notivon | Operational Software for Nigerian Trade & Compliance</title>
+        <title>Notivon | Custom Systems That Fix What's Costing Your Business</title>
         <meta
           name="description"
-          content="Notivon builds purpose-made operational software for Nigerian trade and compliance businesses. From visa agencies to customs clearing agents — automate your workflow, reduce errors, and scale faster."
+          content="Notivon builds custom operational systems around how your business actually works. Not off-the-shelf software. Not a template. We find the real bottleneck — then build only what solves it."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="canonical" href="https://notivon.com" />
@@ -29,6 +30,7 @@ const Index = () => {
         <Navbar />
         <main>
           <Hero />
+          <WhatWeBuild />
           <ProductShowcase />
           <ValueProposition />
           <HowItWorks />

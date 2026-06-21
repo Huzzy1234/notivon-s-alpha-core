@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown, Menu, X, Phone, Calendar, Shield, Ship } from "lucide-react";
+import { PHONE_PRIMARY, WHATSAPP_NUMBER } from "@/lib/constants";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -42,9 +43,9 @@ const Navbar = () => {
 
             <div className="hidden md:flex items-center">
               <div className="flex items-center gap-8 mr-8">
-                <button onClick={scrollToTop} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                <Link to="/" onClick={scrollToTop} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                   Home
-                </button>
+                </Link>
                 
                 {/* Products Dropdown */}
                 <div className="relative group">
@@ -86,7 +87,7 @@ const Navbar = () => {
               </div>
 
               <a
-                href="https://wa.me/2349014390149"
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-5 py-2.5 bg-primary text-primary-foreground text-sm font-semibold rounded-lg hover:bg-primary/90 transition-all inline-flex items-center gap-2"
@@ -98,7 +99,7 @@ const Navbar = () => {
 
             <div className="flex md:hidden items-center gap-3">
               <a
-                href="https://wa.me/2349014390149"
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-semibold rounded-lg hover:bg-primary/90 transition-all inline-flex items-center gap-1.5"
@@ -123,9 +124,9 @@ const Navbar = () => {
           }`}
         >
           <div className="container mx-auto px-4 py-4 flex flex-col gap-1">
-            <button onClick={scrollToTop} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3">
               Home
-            </button>
+            </Link>
             
             {/* Mobile Products */}
             <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest pt-3 pb-1">Products</p>
@@ -144,9 +145,9 @@ const Navbar = () => {
             <button onClick={() => scrollToSection("contact")} className="text-left text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-3">
               Contact
             </button>
-            <a href="tel:09014390149" className="text-sm font-medium text-primary hover:text-primary/80 transition-colors py-3 inline-flex items-center gap-2">
+            <a href={`tel:${PHONE_PRIMARY}`} className="text-sm font-medium text-primary hover:text-primary/80 transition-colors py-3 inline-flex items-center gap-2">
               <Phone className="w-3.5 h-3.5" />
-              09014390149
+              {PHONE_PRIMARY}
             </a>
           </div>
         </div>
@@ -154,7 +155,7 @@ const Navbar = () => {
 
       {/* Sticky WhatsApp button */}
       <a
-        href="https://wa.me/2349014390149"
+        href={`https://wa.me/${WHATSAPP_NUMBER}`}
         target="_blank"
         rel="noopener noreferrer"
         className={`fixed bottom-6 right-6 z-50 w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center hover:bg-primary/90 transition-all duration-300 ${

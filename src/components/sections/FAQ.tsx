@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from "react";
+import { WHATSAPP_NUMBER } from "@/lib/constants";
 import {
   Accordion,
   AccordionContent,
@@ -9,11 +10,11 @@ import {
 const faqItems = [
   {
     question: "What kind of businesses do you work with?",
-    answer: "We specialize in two industries: visa & travel agencies and customs clearing agents. Whether you're processing visa applications or clearing cargo at Nigerian ports, our systems are tailored to your specific workflow and operational needs.",
+    answer: "We work with businesses in any industry where manual processes, compliance requirements, or operational complexity are creating bottlenecks. Our built systems span visa agencies, customs clearing, logistics, AI lead-gen, and deal-sourcing — but if you have a workflow problem, we want to hear it.",
   },
   {
     question: "How is this different from generic CRM or project management tools?",
-    answer: "Generic tools aren't built for compliance-driven industries. Our systems include industry-specific features — visa-type document checklists, passport expiry tracking, shipment pipeline management, multi-stage release tracking, and WhatsApp client communication. It's purpose-built, not adapted.",
+    answer: "Generic tools aren't built around your specific workflow. We build purpose-made systems — whether that's visa-type document checklists, shipment pipeline management, import-likelihood scoring, or deal-sourcing engines. Everything is designed around how your business actually operates, not forced into a template.",
   },
   {
     question: "How long does it take to get set up?",
@@ -56,7 +57,7 @@ const FAQ = () => {
             Frequently Asked Questions
           </h2>
           <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            Everything you need to know about our systems for trade and compliance businesses.
+            Everything you need to know before we build your system.
           </p>
         </div>
 
@@ -90,7 +91,7 @@ const FAQ = () => {
             Still have questions? Let's talk.
           </p>
           <a
-            href="https://wa.me/2349014390149"
+            href={`https://wa.me/${WHATSAPP_NUMBER}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-3 border border-primary text-primary font-semibold text-sm rounded-lg hover:bg-primary hover:text-primary-foreground transition-all duration-300"

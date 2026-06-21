@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
+import { PHONE_PRIMARY, PHONE_SECONDARY, EMAIL } from "@/lib/constants";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -26,7 +27,7 @@ const Footer = () => {
               <span className="text-3xl font-display font-bold tracking-tight text-foreground">Notivon</span>
             </Link>
             <p className="text-sm text-muted-foreground mb-6 leading-relaxed max-w-xs">
-              Purpose-built operational software for Nigerian trade and compliance businesses.
+              We build custom systems that fix what's actually costing your business.
             </p>
           </div>
 
@@ -44,7 +45,8 @@ const Footer = () => {
               <li><Link to="/about" className="text-sm text-muted-foreground hover:text-primary transition-colors">About Us</Link></li>
               <li><button onClick={() => scrollToSection("contact")} className="text-sm text-muted-foreground hover:text-primary transition-colors">Contact</button></li>
               <li><button onClick={() => scrollToSection("faq")} className="text-sm text-muted-foreground hover:text-primary transition-colors">FAQ</button></li>
-              <li><a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</a></li>
+              <li><Link to="/privacy" className="text-sm text-muted-foreground hover:text-primary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="text-sm text-muted-foreground hover:text-primary transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
 
@@ -52,15 +54,21 @@ const Footer = () => {
             <h4 className="text-xs font-bold text-foreground mb-6 uppercase tracking-widest">Connect</h4>
             <ul className="space-y-4">
               <li>
-                <a href="mailto:hussain@notivon.com" className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors w-fit">
+                <a href={`mailto:${EMAIL}`} className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors w-fit">
                   <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors"><Mail className="w-4 h-4" /></div>
-                  hussain@notivon.com
+                  {EMAIL}
                 </a>
               </li>
               <li>
-                <a href="tel:09014390149" className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors w-fit">
+                <a href={`tel:${PHONE_PRIMARY}`} className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors w-fit">
                   <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors"><Phone className="w-4 h-4" /></div>
-                  09014390149
+                  {PHONE_PRIMARY}
+                </a>
+              </li>
+              <li>
+                <a href={`tel:${PHONE_SECONDARY}`} className="group flex items-center gap-3 text-sm text-muted-foreground hover:text-primary transition-colors w-fit">
+                  <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors"><Phone className="w-4 h-4" /></div>
+                  {PHONE_SECONDARY}
                 </a>
               </li>
               <li>
@@ -79,12 +87,12 @@ const Footer = () => {
             © {currentYear} Notivon. All rights reserved.
           </p>
           <div className="flex items-center gap-8">
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-medium">
+            <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-medium">
               Privacy Policy
-            </a>
-            <a href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-medium">
+            </Link>
+            <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors font-medium">
               Terms of Service
-            </a>
+            </Link>
           </div>
         </div>
       </div>

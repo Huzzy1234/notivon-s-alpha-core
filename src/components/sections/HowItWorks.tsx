@@ -5,20 +5,20 @@ const steps = [
   {
     icon: MessageSquare,
     number: "1",
-    title: "Discovery",
-    description: "We learn how your business operates — your workflow, bottlenecks, and goals.",
+    title: "Find the real bottleneck",
+    description: "We sit with your business and find the real bottleneck — not whatever you assumed needed fixing.",
   },
   {
     icon: Settings,
     number: "2",
-    title: "Custom Build",
-    description: "We build a system tailored to your operations with the features you actually need.",
+    title: "Scope & build only that",
+    description: "We scope and build only what solves that problem. No bloated features, no unnecessary cost.",
   },
   {
     icon: Rocket,
     number: "3",
-    title: "Launch & Support",
-    description: "We deploy the system, train your team, and stay on for ongoing support.",
+    title: "Hand over & maintain",
+    description: "We hand over a working system — then stay on to maintain and extend it as your business grows.",
   },
 ];
 
@@ -40,13 +40,15 @@ const HowItWorks = () => {
   return (
     <section ref={sectionRef} id="how-it-works" className="py-24 sm:py-32 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
-        <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display text-foreground mb-6">
-            From Conversation<br/>to <span className="text-primary italic">Live System</span>
-          </h2>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            A frictionless onboarding process that gets your custom operations system running in weeks, not months.
+        <div className={`mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            How We Work
           </p>
+          <div className="w-12 h-[2px] bg-primary/50 rounded-full mb-8" />
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display text-foreground mb-6 max-w-xl">
+            From Conversation to{" "}
+            <span className="text-primary italic">Live System</span>
+          </h2>
         </div>
 
         <div className="relative mt-8">
@@ -79,6 +81,18 @@ const HowItWorks = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Pull quote */}
+        <div className={`mt-20 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`} style={{ transitionDelay: "900ms" }}>
+          <blockquote className="border-l-2 border-primary/40 pl-8 max-w-3xl">
+            <p className="text-xl sm:text-2xl text-foreground leading-relaxed font-display">
+              Most software agencies sell you a template and call it custom.{" "}
+              <span className="text-primary font-semibold">
+                We diagnose the actual problem first — then build only what solves it.
+              </span>
+            </p>
+          </blockquote>
         </div>
       </div>
     </section>

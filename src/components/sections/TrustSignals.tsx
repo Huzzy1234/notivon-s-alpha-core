@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from "react";
-import { ShieldCheck, Zap, HeartHandshake } from "lucide-react";
+import { Workflow, Zap, HeartHandshake } from "lucide-react";
 
 const signals = [
   {
-    icon: ShieldCheck,
-    title: "Built for Compliance",
-    description: "Every system is designed around actual regulatory and operational requirements — not generic templates.",
+    icon: Workflow,
+    title: "Built Around Your Workflow",
+    description: "Every system is designed around how your business actually operates — not forced into a generic template.",
   },
   {
     icon: Zap,
@@ -37,12 +37,12 @@ const TrustSignals = () => {
   return (
     <section ref={sectionRef} id="trust" className="relative py-20 sm:py-28 bg-muted/30">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-        <div className={`text-center mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`mb-14 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display text-foreground mb-4">
             Why Businesses Trust Us
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            We build exclusively for Nigerian trade and compliance industries because focus produces better systems.
+          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl">
+            Every system is scoped around your real workflow — built to solve the problem that's actually costing you.
           </p>
         </div>
 

@@ -1,4 +1,4 @@
-import { FileCheck, Clock, AlertTriangle, TrendingDown } from "lucide-react";
+import { Workflow, Clock, AlertTriangle, TrendingDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const ValueProposition = () => {
@@ -18,24 +18,24 @@ const ValueProposition = () => {
 
   const pillars = [
     {
-      icon: FileCheck,
-      title: "Automated Document Handling",
-      description: "Checklists, validation, and tracking that adapt to your specific business — whether it's visa documents or customs paperwork.",
+      icon: Workflow,
+      title: "Manual Work, Automated",
+      description: "The repetitive tasks eating your team's day — data entry, follow-ups, tracking, reporting — handled automatically by a system built around how you work.",
     },
     {
       icon: AlertTriangle,
-      title: "Proactive Compliance Alerts",
-      description: "Get flagged before an expiring passport blocks a submission or a missing document delays a shipment release.",
+      title: "Proactive Alerts",
+      description: "Get flagged before something slips — a missed deadline, an expiring record, a stalled deal — instead of finding out when it's already cost you.",
     },
     {
       icon: Clock,
       title: "Hours Saved Every Week",
-      description: "Stop chasing clients and manually tracking progress. Automated reminders and status boards do the follow-up for you.",
+      description: "Stop chasing updates and manually tracking progress. Automated reminders and live status boards do the follow-up for you.",
     },
     {
       icon: TrendingDown,
       title: "Fewer Costly Mistakes",
-      description: "Catch common errors before they cost you — wrong documents, missed deadlines, or miscommunicated status updates.",
+      description: "Catch common errors before they cost you — wrong data, missed deadlines, or dropped handoffs between people and tools.",
     },
   ];
 
@@ -53,7 +53,7 @@ const ValueProposition = () => {
               Stop Losing Money to <span className="text-primary italic font-serif">Preventable Errors</span>
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Generic spreadsheets and CRMs aren't built for compliance-driven businesses. We build purpose-made systems that adapt to your operations and let you work with zero headaches.
+              Generic spreadsheets and CRMs aren't built for how your business actually runs. We build purpose-made systems that fit your operations and let your team work without the manual headaches.
             </p>
             <div className="hidden lg:block w-32 h-1.5 bg-gradient-to-r from-primary to-transparent rounded-full opacity-50" />
           </div>

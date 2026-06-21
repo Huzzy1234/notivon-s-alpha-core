@@ -1,9 +1,9 @@
-import { ArrowDown, Star, CheckCircle, Shield, Ship } from "lucide-react";
+import { ArrowDown, Shield, Ship } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useParallax, useMagnetic } from "@/hooks/useAnimations";
 
 const Hero = () => {
-  const phrases = ["Automated", "Streamlined", "Simplified"];
+  const phrases = ["money", "time", "growth"];
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -79,17 +79,18 @@ const Hero = () => {
             >
               <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full mb-8 border border-primary/20 shadow-sm shadow-primary/5">
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                For Nigerian Trade & Compliance Businesses
+                Custom Systems Builder
               </span>
             </div>
 
             {/* H1 */}
             <h1
-              className={`text-[2.6rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display leading-[1.05] tracking-tight text-foreground mb-6 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+              className={`text-[2.4rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl font-display leading-[1.05] tracking-tight text-foreground mb-6 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
               style={{ transitionDelay: "100ms" }}
             >
-              Your Operations,{" "}
+              We find what's costing
               <br className="hidden lg:block" />
+              your business{" "}
               <span
                 className="inline-block bg-clip-text text-transparent"
                 style={{
@@ -101,6 +102,8 @@ const Hero = () => {
                 {displayText}
                 <span className="text-foreground font-sans font-light opacity-30 ml-0.5 animate-pulse">|</span>
               </span>
+              <br className="hidden lg:block" />
+              — then build the fix.
             </h1>
 
             {/* Tagline */}
@@ -108,35 +111,14 @@ const Hero = () => {
               className={`text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
               style={{ transitionDelay: "200ms" }}
             >
-              We build purpose-made software for visa agencies and customs clearing agents.
-              Stop fighting spreadsheets — start running your business.
+              Not off-the-shelf software. Not a template.
+              A system built around how your business really runs.
             </p>
-
-            {/* Social proof */}
-            <div
-              className={`flex flex-col sm:flex-row items-center gap-4 mb-10 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ transitionDelay: "300ms" }}
-            >
-              <div className="flex -space-x-3">
-                <div className="w-10 h-10 rounded-full border-2 border-background glass bg-card/80 flex items-center justify-center text-primary"><CheckCircle className="w-5 h-5" /></div>
-                <div className="w-10 h-10 rounded-full border-2 border-background glass bg-card/80 flex items-center justify-center text-primary"><CheckCircle className="w-5 h-5" /></div>
-                <div className="w-10 h-10 rounded-full border-2 border-background glass bg-card/80 flex items-center justify-center text-primary"><CheckCircle className="w-5 h-5" /></div>
-                <div className="w-10 h-10 rounded-full border-2 border-background glass bg-primary/20 flex items-center justify-center font-bold text-xs text-primary">+10</div>
-              </div>
-              <div className="flex flex-col items-center sm:items-start">
-                <div className="flex gap-1 text-accent">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
-                  ))}
-                </div>
-                <p className="text-xs font-semibold text-muted-foreground mt-1 tracking-wide uppercase">Trusted by leading agencies</p>
-              </div>
-            </div>
 
             {/* Scroll prompt with magnetic effect */}
             <div
               className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ transitionDelay: "500ms" }}
+              style={{ transitionDelay: "300ms" }}
             >
               <button
                 ref={cta.ref}

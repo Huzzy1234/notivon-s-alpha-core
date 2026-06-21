@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {
   Shield,
   Ship,
+  TrendingUp,
   FileText,
   Bell,
   Users,
@@ -9,8 +10,10 @@ import {
   MapPin,
   ArrowRight,
   Play,
+  Search,
+  Target,
 } from "lucide-react";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useCursorGlow, useMagnetic } from "@/hooks/useAnimations";
 
 const products = [
@@ -29,11 +32,14 @@ const products = [
     ],
     link: "/products/visaguard",
     mockupImg: "/visaguard-mockup.png",
-    demoEmbed: "https://www.loom.com/embed/bf8c944baa184547a39bbe3b268eb6c8?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true",
+    demoEmbed:
+      "https://www.loom.com/embed/bf8c944baa184547a39bbe3b268eb6c8?hide_owner=true&hide_share=true&hide_title=true&hideEmbedTopBar=true",
+    status: ["BUILT", "IN ACTIVE SALES"],
     accent: {
       badge: "bg-primary/10 text-primary border-primary/20",
       dot: "bg-primary",
-      iconBg: "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground",
+      iconBg:
+        "bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground",
       featureIcon: "text-primary",
       border: "hover:border-primary/40",
       cta: "text-primary",
@@ -41,6 +47,7 @@ const products = [
       playIcon: "text-primary",
       playText: "text-primary",
       shadow: "shadow-primary/10",
+      statusBg: "bg-primary/10 text-primary",
     },
   },
   {
@@ -59,10 +66,12 @@ const products = [
     link: "/products/clearvoy",
     mockupImg: "/clearvoy-mockup.png",
     demoEmbed: "https://kommodo.ai/recordings/H8BiIYDheGNcgztGJ7ei?onlyRecording=1",
+    status: ["DESIGNED & BUILT"],
     accent: {
       badge: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
       dot: "bg-emerald-500",
-      iconBg: "bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-600 group-hover:text-white",
+      iconBg:
+        "bg-emerald-500/10 text-emerald-500 group-hover:bg-emerald-600 group-hover:text-white",
       featureIcon: "text-emerald-500",
       border: "hover:border-emerald-500/40",
       cta: "text-emerald-400",
@@ -70,16 +79,16 @@ const products = [
       playIcon: "text-emerald-400",
       playText: "text-emerald-400",
       shadow: "shadow-emerald-500/10",
+      statusBg: "bg-emerald-500/10 text-emerald-400",
     },
   },
 ];
 
-// Magnetic play button wrapper
 const MagneticPlay = ({
   product,
   onClick,
 }: {
-  product: typeof products[0];
+  product: (typeof products)[0];
   onClick: () => void;
 }) => {
   const mag = useMagnetic<HTMLButtonElement>(0.45);
@@ -90,20 +99,19 @@ const MagneticPlay = ({
       onMouseMove={mag.onMouseMove}
       onMouseLeave={mag.onMouseLeave}
       onClick={onClick}
-      className={`relative z-10 w-20 h-20 rounded-full ${product.accent.playRing} border-2 flex items-center justify-center shadow-2xl backdrop-blur-sm btn-glow`}
+      className={`relative z-10 w-20 h-20 rounded-full ${product.accent.playRing} border-2 flex items-center justify-center shadow-2xl backdrop-blur-sm`}
     >
       <Play className={`w-8 h-8 ml-1 ${product.accent.playIcon}`} />
     </button>
   );
 };
 
-// Single product card with cursor glow
 const ProductCard = ({
   product,
   delay,
   isVisible,
 }: {
-  product: typeof products[0];
+  product: (typeof products)[0];
   delay: number;
   isVisible: boolean;
 }) => {
@@ -112,12 +120,11 @@ const ProductCard = ({
 
   return (
     <div
-      className={`group relative bg-card border border-border/60 rounded-3xl overflow-hidden transition-all duration-700 ${product.accent.border} hover:shadow-2xl hover:${product.accent.shadow} ${
+      className={`group relative bg-card border border-border/60 rounded-3xl overflow-hidden transition-all duration-700 ${product.accent.border} hover:shadow-2xl ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       }`}
       style={{ transitionDelay: `${delay}ms` }}
     >
-      {/* Cursor glow overlay — follows mouse */}
       <div
         ref={glow.ref}
         onMouseMove={glow.onMouseMove}
@@ -128,34 +135,45 @@ const ProductCard = ({
       <div className="grid lg:grid-cols-2 gap-0 relative z-10">
         {/* Left: Product Info */}
         <div className="relative p-8 sm:p-10 lg:p-12 flex flex-col justify-center">
-          {/* Badge */}
-          <div className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-full mb-6 border w-fit ${product.accent.badge}`}>
+          <div
+            className={`inline-flex items-center gap-2 px-3 py-1.5 text-xs font-bold uppercase tracking-widest rounded-full mb-6 border w-fit ${product.accent.badge}`}
+          >
             <span className={`w-2 h-2 rounded-full ${product.accent.dot} animate-pulse`} />
             {product.tagline}
           </div>
 
-          {/* Name + Icon */}
           <div className="flex items-center gap-4 mb-4">
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 ${product.accent.iconBg}`}>
+            <div
+              className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-300 ${product.accent.iconBg}`}
+            >
               <product.icon className="w-7 h-7" />
             </div>
-            <h3 className="text-3xl sm:text-4xl font-display font-bold text-foreground">
-              {product.name}
-            </h3>
+            <div>
+              <h3 className="text-3xl sm:text-4xl font-display font-bold text-foreground">
+                {product.name}
+              </h3>
+              <div className="flex gap-1.5 mt-1 flex-wrap">
+                {product.status.map((s) => (
+                  <span
+                    key={s}
+                    className={`text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded ${product.accent.statusBg}`}
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
 
-          {/* Description */}
           <p className="text-muted-foreground leading-relaxed mb-8 text-base max-w-md">
             {product.description}
           </p>
 
-          {/* Feature Pills */}
           <div className="flex flex-wrap gap-2 mb-8">
-            {product.features.map((feature, i) => (
+            {product.features.map((feature) => (
               <div
                 key={feature.label}
-                className="flex items-center gap-2 px-3 py-2 bg-background/80 rounded-lg border border-border/50 reveal"
-                style={{ transitionDelay: `${i * 80}ms` }}
+                className="flex items-center gap-2 px-3 py-2 bg-background/80 rounded-lg border border-border/50"
               >
                 <feature.icon className={`w-3.5 h-3.5 ${product.accent.featureIcon}`} />
                 <span className="text-xs font-semibold text-foreground">{feature.label}</span>
@@ -163,7 +181,6 @@ const ProductCard = ({
             ))}
           </div>
 
-          {/* CTA Arrow */}
           <Link
             to={product.link}
             className={`inline-flex items-center gap-2 text-sm font-bold ${product.accent.cta} group/link w-fit`}
@@ -182,12 +199,13 @@ const ProductCard = ({
                 frameBorder="0"
                 allowFullScreen
                 className="absolute inset-0 w-full h-full"
-                style={{ animation: "fadeInScale 0.4s cubic-bezier(0.16,1,0.3,1) forwards" }}
               />
             </div>
           ) : (
-            <div className="w-full aspect-video lg:aspect-auto lg:h-full min-h-[260px] sm:min-h-[300px] relative flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-background via-card to-background cursor-pointer group/play">
-              {/* High-fidelity mockup fades out on hover */}
+            <div
+              className="w-full aspect-video lg:aspect-auto lg:h-full min-h-[260px] sm:min-h-[300px] relative flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-background via-card to-background cursor-pointer group/play"
+              onClick={() => setActiveDemo(true)}
+            >
               <div className="absolute inset-0 p-6 md:p-8 flex items-center justify-center overflow-hidden pointer-events-none">
                 <img
                   src={product.mockupImg}
@@ -196,7 +214,6 @@ const ProductCard = ({
                 />
               </div>
 
-              {/* Magnetic play button */}
               <MagneticPlay product={product} onClick={() => setActiveDemo(true)} />
 
               <span className={`relative z-10 text-sm font-bold ${product.accent.playText}`}>
@@ -219,7 +236,9 @@ const ProductShowcase = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
+      ([entry]) => {
+        if (entry.isIntersecting) setIsVisible(true);
+      },
       { threshold: 0.05 }
     );
     if (sectionRef.current) observer.observe(sectionRef.current);
@@ -227,20 +246,32 @@ const ProductShowcase = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="products" className="py-20 sm:py-28 relative">
+    <section ref={sectionRef} id="products" className="py-20 sm:py-28 border-t border-border/40 relative">
       <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-        <div className={`text-center mb-14 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display text-foreground mb-4">
-            Two Industries.{" "}
-            <span className="gradient-text">One Platform.</span>
-          </h2>
-          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-            Choose the product built for your industry. Each one is designed around
-            how you actually work — not forced into a generic template.
+
+        {/* Header */}
+        <div
+          className={`mb-14 transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            Track Record
           </p>
+          <div className="w-12 h-[2px] bg-primary/50 rounded-full mb-8" />
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display text-foreground leading-tight">
+              Systems We've{" "}
+              <span className="gradient-text">Already Built</span>
+            </h2>
+            <p className="text-muted-foreground text-sm sm:text-base max-w-sm sm:text-right">
+              Examples of systems designed and built for real engagements — each one created to solve a specific problem.
+            </p>
+          </div>
         </div>
 
-        <div className="space-y-12">
+        {/* Main products with demo videos */}
+        <div className="space-y-10 mb-10">
           {products.map((product, index) => (
             <ProductCard
               key={product.id}
@@ -250,6 +281,58 @@ const ProductShowcase = () => {
             />
           ))}
         </div>
+
+        {/* Past client engagement — Dealflow */}
+        <div
+          className={`transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+          }`}
+          style={{ transitionDelay: "600ms" }}
+        >
+          <div className="group relative bg-card border border-border/60 rounded-2xl overflow-hidden hover:border-amber-500/30 hover:shadow-xl transition-all duration-500 p-8">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+              <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-amber-500/10 text-amber-500 shrink-0">
+                <TrendingUp className="w-7 h-7" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-3 mb-2">
+                  <h3 className="text-xl font-display font-bold text-foreground">Dealflow/</h3>
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">
+                    BUILT
+                  </span>
+                </div>
+                <p className="text-xs font-bold uppercase tracking-widest text-amber-500 mb-3">
+                  For US Acquisition Firms
+                </p>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-xl">
+                  Deal sourcing & outreach system built for search funds and independent sponsors — automated pipeline from target identification to first contact.
+                </p>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {[
+                    { icon: Search, label: "Deal Sourcing" },
+                    { icon: MessageCircle, label: "Outreach Engine" },
+                    { icon: TrendingUp, label: "Pipeline Tracking" },
+                    { icon: Target, label: "Scoring & Filters" },
+                  ].map((f) => (
+                    <div
+                      key={f.label}
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 bg-background/60 rounded-lg border border-border/40"
+                    >
+                      <f.icon className="w-3 h-3 text-amber-500" />
+                      <span className="text-xs font-medium text-foreground">{f.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="shrink-0">
+                <span className="text-xs text-muted-foreground/50 font-medium uppercase tracking-widest">
+                  Private engagement
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

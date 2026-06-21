@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { PHONE_PRIMARY, WHATSAPP_NUMBER } from "@/lib/constants";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import {
@@ -14,8 +15,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useCursorGlow } from "@/hooks/useAnimations";
-import Navbar from "@/components/landing/Navbar";
-import Footer from "@/components/landing/Footer";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 const features = [
   {
@@ -155,7 +156,7 @@ const ClearVoy = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <a
-                    href="https://wa.me/2349014390149"
+                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-emerald-600 text-white font-semibold text-sm rounded-xl hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-600/20 btn-glow"
@@ -332,7 +333,7 @@ const ClearVoy = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://wa.me/2349014390149"
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-emerald-600 text-white text-lg font-semibold uppercase tracking-wider hover:bg-emerald-700 transition-all rounded-xl shadow-xl shadow-emerald-600/20"
@@ -340,7 +341,7 @@ const ClearVoy = () => {
                 WhatsApp Us
               </a>
               <a
-                href="tel:09014390149"
+                href={`tel:${PHONE_PRIMARY}`}
                 className="px-8 py-4 border border-emerald-600 text-emerald-600 text-lg font-semibold uppercase tracking-wider hover:bg-emerald-500/10 transition-all rounded-xl"
               >
                 Call Us

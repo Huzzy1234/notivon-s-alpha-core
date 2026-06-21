@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { Mail, MapPin, Users, Zap } from "lucide-react";
+import { PHONE_PRIMARY, PHONE_SECONDARY, WHATSAPP_NUMBER, EMAIL } from "@/lib/constants";
 import hussainImage from "@/assets/hussain-founder.jpeg";
-import Navbar from "@/components/landing/Navbar";
-import Footer from "@/components/landing/Footer";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 
 const About = () => {
   useEffect(() => {
@@ -13,10 +14,10 @@ const About = () => {
   return (
     <>
       <Helmet>
-        <title>About Hussain | Notivon - Operational Software for Nigerian Trade & Compliance</title>
+        <title>About Hussain | Notivon — Custom Systems Builder</title>
         <meta
           name="description"
-          content="Meet Hussain, founder of Notivon. Learn why he's building custom operational systems to help Nigerian trade and compliance businesses save time, reduce errors, and scale."
+          content="Meet Hussain, founder of Notivon. He finds what's actually costing a business money or time, then builds the custom system that fixes it."
         />
       </Helmet>
 
@@ -47,16 +48,16 @@ const About = () => {
                   I'm Hussain
                 </h1>
                 <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-                  I built Notivon to solve a problem I kept seeing across Nigerian trade and compliance businesses: 
-                  <span className="text-foreground font-medium"> companies losing time and money to manual, error-prone operations.</span>
+                  I built Notivon around one idea: find what's actually costing a business money or time —
+                  <span className="text-foreground font-medium"> then build the custom system that fixes it.</span>
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <a
-                    href="mailto:hussain@notivon.com"
+                    href={`mailto:${EMAIL}`}
                     className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
                   >
                     <Mail className="w-5 h-5" />
-                    <span>hussain@notivon.com</span>
+                    <span>{EMAIL}</span>
                   </a>
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <MapPin className="w-5 h-5" />
@@ -76,15 +77,15 @@ const About = () => {
             </h2>
             <div className="prose prose-lg prose-invert max-w-none">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                Whether it's a visa agency chasing clients for missing documents, realizing a passport 
-                expired two weeks before submission — or a customs clearing agent manually tracking 
-                shipments across WhatsApp groups, losing hours to paperwork at the port. 
-                <span className="text-foreground"> The pattern was the same: manual processes, costly errors, and wasted time.</span>
+                A visa agency chasing clients for documents and catching an expired passport two weeks
+                before submission. A clearing agent tracking shipments across WhatsApp groups and losing
+                hours to paperwork. A sales team copy-pasting leads between spreadsheets.
+                <span className="text-foreground"> Different industries, same pattern: manual processes, costly errors, and wasted time.</span>
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                I saw businesses doing incredible work but held back by tools that weren't built for 
-                them. Generic CRMs, spreadsheets, WhatsApp groups — none of it was designed for 
-                how these industries actually operate. That's where Notivon comes in.
+                I kept seeing businesses doing incredible work but held back by tools that weren't built
+                for them. Generic CRMs, spreadsheets, and WhatsApp groups patched together — none of it
+                designed for how they actually operate. That's where Notivon comes in.
               </p>
             </div>
           </div>
@@ -98,16 +99,16 @@ const About = () => {
             </h2>
             <div className="prose prose-lg prose-invert max-w-none">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                I've spent years in the automation space — building systems, workflows, and 
-                AI-powered tools for businesses across the US, Australia, and Dubai. From 
-                automated outreach to lead qualification to operations management, I've helped 
-                companies eliminate manual bottlenecks and scale without adding headcount.
+                I've spent years in the automation space — building systems, workflows, and
+                AI-powered tools for businesses across the US, Australia, Dubai, and Nigeria. From
+                automated outreach (Saydieko) to deal-sourcing engines (Dealflow) to operations
+                management, I've helped companies eliminate manual bottlenecks and scale without adding headcount.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                In 2025, I turned my focus to Nigerian trade and compliance businesses — visa agencies 
-                and customs clearing agents. I realized these industries had clear, solvable problems — 
-                document chaos, manual tracking, communication gaps — but no one was building purpose-made 
-                systems for them. So I did.
+                In 2025, I launched Notivon with a focus on Nigerian trade and compliance businesses —
+                visa agencies and customs clearing agents. VisaGuard and ClearVoy are the first systems
+                built under that banner. But the mandate is broader: any business where the right custom
+                system would change how they operate.
               </p>
             </div>
           </div>
@@ -121,10 +122,10 @@ const About = () => {
             </h2>
             <div className="prose prose-lg prose-invert max-w-none mb-12">
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Most businesses try to use generic CRMs or spreadsheets to manage complex, compliance-driven workflows. 
-                <span className="text-primary font-semibold"> Notivon builds systems designed specifically for how your industry actually works.</span> From 
-                visa-type-specific document checklists to multi-stage shipment release tracking to WhatsApp 
-                client updates — everything is built around your real workflow, not forced into a template.
+                Most businesses try to force generic CRMs or spreadsheets onto workflows they were never built for.
+                <span className="text-primary font-semibold"> Notivon builds systems designed specifically for how your business actually works.</span> From
+                document checklists to shipment tracking to lead-gen and outreach engines — everything is built
+                around your real workflow, not forced into a template.
               </p>
             </div>
             
@@ -155,14 +156,14 @@ const About = () => {
             </h2>
             <div className="prose prose-lg prose-invert max-w-none">
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                I believe Nigerian trade and compliance businesses do essential work — helping people 
-                travel, facilitating international trade, keeping goods moving across borders. But too 
-                many are held back by messy processes that eat into their time and profits.
+                Most businesses are doing great work but held back by tools that weren't built for them —
+                generic CRMs, spreadsheets, WhatsApp groups patched together. None of it was designed
+                for how they actually operate.
               </p>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                <span className="text-foreground font-medium">My mission is simple:</span> help these businesses 
-                operate faster, with fewer errors, and with less stress. If your team can serve more 
-                clients without burning out, that's a win for everyone.
+                <span className="text-foreground font-medium">My mission is simple:</span> find the real
+                bottleneck in how you work, scope only what solves it, and build a system that makes
+                your team faster and your business more profitable.
               </p>
             </div>
           </div>
@@ -179,7 +180,7 @@ const About = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://wa.me/2349014390149"
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 py-4 bg-primary text-primary-foreground text-lg font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all"
@@ -187,10 +188,10 @@ const About = () => {
                 WhatsApp Us
               </a>
               <a
-                href="tel:09014390149"
+                href={`tel:${PHONE_PRIMARY}`}
                 className="px-8 py-4 border border-primary text-primary text-lg font-semibold uppercase tracking-wider hover:bg-primary/10 transition-all"
               >
-                Call Us
+                {PHONE_PRIMARY}
               </a>
             </div>
           </div>
