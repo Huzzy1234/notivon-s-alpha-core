@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/layout/Navbar";
 import Hero from "@/components/sections/Hero";
+import TwoPaths from "@/components/sections/TwoPaths";
 import WhatWeBuild from "@/components/sections/WhatWeBuild";
 import ProductShowcase from "@/components/sections/ProductShowcase";
 import ValueProposition from "@/components/sections/ValueProposition";
@@ -9,29 +10,27 @@ import TrustSignals from "@/components/sections/TrustSignals";
 import FAQ from "@/components/sections/FAQ";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/layout/Footer";
-import AnimatedBackground from "@/components/sections/AnimatedBackground";
 
 const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Notivon | Custom Systems That Fix What's Costing Your Business</title>
+        <title>Notivon | We tell you where AI actually pays off — then build it</title>
         <meta
           name="description"
-          content="Notivon builds custom operational systems around how your business actually works. Not off-the-shelf software. Not a template. We find the real bottleneck — then build only what solves it."
+          content="Notivon is consulting + building, together. The AI Readiness Audit tells you honestly where AI and automation help your business — and where they don't. Then we build the systems that deliver it."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="canonical" href="https://notivon.com" />
       </Helmet>
 
-      <AnimatedBackground />
-
-      <div className="min-h-screen relative z-10">
+      <div className="min-h-screen relative grain">
         <Navbar />
         <main>
           <Hero />
-          <WhatWeBuild />
+          <TwoPaths />
           <ProductShowcase />
+          <WhatWeBuild />
           <ValueProposition />
           <HowItWorks />
           <TrustSignals />

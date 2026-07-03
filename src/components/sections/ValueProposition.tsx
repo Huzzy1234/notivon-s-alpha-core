@@ -1,92 +1,77 @@
 import { Workflow, Clock, AlertTriangle, TrendingDown } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { fadeUp, stagger, inView } from "@/lib/motion";
 
-const ValueProposition = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+const pillars = [
+  {
+    icon: Workflow,
+    title: "Manual work, automated",
+    description:
+      "The repetitive tasks eating your team's day — data entry, follow-ups, tracking, reporting — handled automatically by a system built around how you work.",
+  },
+  {
+    icon: AlertTriangle,
+    title: "Proactive alerts",
+    description:
+      "Get flagged before something slips — a missed deadline, an expiring record, a stalled deal — instead of finding out when it's already cost you.",
+  },
+  {
+    icon: Clock,
+    title: "Hours saved every week",
+    description:
+      "Stop chasing updates and manually tracking progress. Automated reminders and live status boards do the follow-up for you.",
+  },
+  {
+    icon: TrendingDown,
+    title: "Fewer costly mistakes",
+    description:
+      "Catch common errors before they cost you — wrong data, missed deadlines, or dropped handoffs between people and tools.",
+  },
+];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setIsVisible(true);
-      },
-      { threshold: 0.2 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+const ValueProposition = () => (
+  <section className="py-24 sm:py-32 border-t border-border/60">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 max-w-[1400px]">
+      <div className="grid lg:grid-cols-12 gap-14 lg:gap-12 items-start">
+        <motion.div variants={stagger()} {...inView} className="lg:col-span-5 lg:sticky lg:top-32">
+          <motion.p variants={fadeUp} className="tech-label mb-4">
+            Why it matters
+          </motion.p>
+          <motion.h2
+            variants={fadeUp}
+            className="font-display font-semibold text-3xl sm:text-4xl lg:text-5xl text-foreground mb-6 leading-tight"
+          >
+            Stop losing money to <span className="text-primary">preventable errors.</span>
+          </motion.h2>
+          <motion.p variants={fadeUp} className="text-muted-foreground text-lg leading-relaxed">
+            Generic spreadsheets and CRMs aren't built for how your business
+            actually runs. Purpose-made systems fit your operations — and let
+            your team work without the manual headaches.
+          </motion.p>
+        </motion.div>
 
-  const pillars = [
-    {
-      icon: Workflow,
-      title: "Manual Work, Automated",
-      description: "The repetitive tasks eating your team's day — data entry, follow-ups, tracking, reporting — handled automatically by a system built around how you work.",
-    },
-    {
-      icon: AlertTriangle,
-      title: "Proactive Alerts",
-      description: "Get flagged before something slips — a missed deadline, an expiring record, a stalled deal — instead of finding out when it's already cost you.",
-    },
-    {
-      icon: Clock,
-      title: "Hours Saved Every Week",
-      description: "Stop chasing updates and manually tracking progress. Automated reminders and live status boards do the follow-up for you.",
-    },
-    {
-      icon: TrendingDown,
-      title: "Fewer Costly Mistakes",
-      description: "Catch common errors before they cost you — wrong data, missed deadlines, or dropped handoffs between people and tools.",
-    },
-  ];
-
-  return (
-    <section ref={sectionRef} className="py-24 sm:py-32 relative overflow-hidden">
-      {/* Abstract Background Elements */}
-      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-16 lg:gap-12 items-center">
-          
-          <div className={`lg:col-span-5 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'}`}>
-            <h2 className="text-4xl sm:text-5xl font-display text-foreground mb-6 leading-tight">
-              Stop Losing Money to <span className="text-primary italic font-serif">Preventable Errors</span>
-            </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-              Generic spreadsheets and CRMs aren't built for how your business actually runs. We build purpose-made systems that fit your operations and let your team work without the manual headaches.
-            </p>
-            <div className="hidden lg:block w-32 h-1.5 bg-gradient-to-r from-primary to-transparent rounded-full opacity-50" />
-          </div>
-
-          <div className="lg:col-span-7 grid sm:grid-cols-2 gap-6 relative">
-            <div className="hidden sm:block absolute top-[50%] left-0 right-0 h-[1px] bg-border/60 z-0"></div>
-            <div className="hidden sm:block absolute top-0 bottom-0 left-[50%] w-[1px] bg-border/60 z-0"></div>
-
-            {pillars.map((pillar, index) => (
-              <div
-                key={pillar.title}
-                className={`relative group p-8 bg-card/80 backdrop-blur-md rounded-2xl border ${index === 0 ? 'border-primary/30 shadow-xl shadow-primary/5 bg-gradient-to-b from-primary/5 to-transparent' : 'border-border/50'} hover:border-primary/50 hover:bg-card hover:shadow-xl hover:shadow-primary/5 transition-all duration-500 z-10 ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
-                }`}
-                style={{ transitionDelay: `${200 + index * 100}ms` }}
-              >
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-all duration-300 ${index === 0 ? 'bg-primary text-primary-foreground shadow-md' : 'bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:-translate-y-1 group-hover:shadow-lg'}`}>
-                  <pillar.icon className="w-6 h-6" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-3">
-                  {pillar.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {pillar.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-        </div>
+        <motion.div
+          variants={stagger(0.1, 0.1)}
+          {...inView}
+          className="lg:col-span-7 grid sm:grid-cols-2 gap-4"
+        >
+          {pillars.map((pillar) => (
+            <motion.div
+              key={pillar.title}
+              variants={fadeUp}
+              className="surface-1 border border-border rounded-lg p-8 hover:border-primary/40 transition-colors duration-300"
+            >
+              <pillar.icon className="w-6 h-6 text-primary mb-5" strokeWidth={1.5} />
+              <h3 className="text-lg font-semibold text-foreground mb-3">{pillar.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {pillar.description}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default ValueProposition;

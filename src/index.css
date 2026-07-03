@@ -11,67 +11,90 @@ body {
   overflow-x: hidden;
 }
 
-/* Notivon Design System
-   Warm navy + gold tones for trust and professionalism
-   DM Serif Display for headings, DM Sans for body */
+/* ─────────────────────────────────────────────────────────────
+   Notivon Design System — "Kinetic Product OS"
+   Ink + brass: rich cool near-black surfaces, one confident
+   brass accent, hairline borders, film grain.
+   Clash Display (display) · General Sans (body) · JetBrains Mono (technical)
+   ───────────────────────────────────────────────────────────── */
 
 @layer base {
   :root {
-    --background: 220 20% 97%;
-    --foreground: 220 25% 12%;
+    --background: 224 28% 4%;
+    --foreground: 220 18% 94%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 25% 12%;
+    --card: 224 22% 7%;
+    --card-foreground: 220 18% 94%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 12%;
+    --popover: 224 22% 7%;
+    --popover-foreground: 220 18% 94%;
 
-    --primary: 220 60% 35%;
-    --primary-foreground: 0 0% 100%;
+    /* Brass — the one accent */
+    --primary: 41 96% 58%;
+    --primary-foreground: 224 30% 6%;
 
-    --secondary: 40 70% 55%;
-    --secondary-foreground: 220 25% 12%;
+    --secondary: 224 18% 11%;
+    --secondary-foreground: 220 18% 94%;
 
-    --muted: 220 15% 92%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 224 18% 10%;
+    --muted-foreground: 222 10% 62%;
 
-    --accent: 40 75% 50%;
-    --accent-foreground: 220 25% 12%;
+    --accent: 41 96% 58%;
+    --accent-foreground: 224 30% 6%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 74% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 88%;
-    --input: 220 15% 92%;
-    --ring: 220 60% 35%;
+    --border: 224 14% 14%;
+    --input: 224 16% 12%;
+    --ring: 41 96% 58%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    /* Custom tokens */
-    --warm-gold: 40 70% 55%;
-    --navy-deep: 220 40% 18%;
+    /* Elevated surface steps */
+    --surface-1: 224 22% 7%;
+    --surface-2: 224 20% 9%;
+    --surface-3: 224 18% 12%;
+
+    --sidebar-background: 224 24% 5%;
+    --sidebar-foreground: 220 14% 90%;
+    --sidebar-primary: 41 96% 58%;
+    --sidebar-primary-foreground: 224 30% 6%;
+    --sidebar-accent: 224 18% 10%;
+    --sidebar-accent-foreground: 220 14% 90%;
+    --sidebar-border: 224 14% 12%;
+    --sidebar-ring: 41 96% 58%;
   }
 
+  /* Dark-only design — .dark mirrors :root so the toggle is inert on marketing pages */
   .dark {
-    --background: 220 25% 4%;
-    --foreground: 220 15% 95%;
-    --card: 220 20% 7%;
-    --card-foreground: 220 15% 95%;
-    --popover: 220 20% 7%;
-    --popover-foreground: 220 15% 95%;
-    --primary: 215 100% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 30% 20%;
-    --secondary-foreground: 220 15% 95%;
-    --muted: 220 20% 12%;
-    --muted-foreground: 220 10% 60%;
-    --accent: 150 100% 45%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 80% 60%;
-    --destructive-foreground: 220 15% 95%;
-    --border: 220 15% 14%;
-    --input: 220 20% 14%;
-    --ring: 215 100% 60%;
+    --background: 224 28% 4%;
+    --foreground: 220 18% 94%;
+    --card: 224 22% 7%;
+    --card-foreground: 220 18% 94%;
+    --popover: 224 22% 7%;
+    --popover-foreground: 220 18% 94%;
+    --primary: 41 96% 58%;
+    --primary-foreground: 224 30% 6%;
+    --secondary: 224 18% 11%;
+    --secondary-foreground: 220 18% 94%;
+    --muted: 224 18% 10%;
+    --muted-foreground: 222 10% 62%;
+    --accent: 41 96% 58%;
+    --accent-foreground: 224 30% 6%;
+    --destructive: 0 74% 56%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 224 14% 14%;
+    --input: 224 16% 12%;
+    --ring: 41 96% 58%;
+    --sidebar-background: 224 24% 5%;
+    --sidebar-foreground: 220 14% 90%;
+    --sidebar-primary: 41 96% 58%;
+    --sidebar-primary-foreground: 224 30% 6%;
+    --sidebar-accent: 224 18% 10%;
+    --sidebar-accent-foreground: 220 14% 90%;
+    --sidebar-border: 224 14% 12%;
+    --sidebar-ring: 41 96% 58%;
   }
 }
 
@@ -82,6 +105,7 @@ body {
 
   body {
     @apply bg-background text-foreground antialiased font-sans;
+    font-feature-settings: "ss01" on, "cv01" on;
   }
 
   h1, h2, h3 {
@@ -91,61 +115,38 @@ body {
   ::selection {
     @apply bg-primary text-primary-foreground;
   }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.1)];
-  }
-  .dark .glass {
-    @apply bg-black/10 border-white/5;
-  }
-  .animate-fade-up {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-up-delay-1 {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
-    opacity: 0;
+  /* ── Film grain overlay — apply once at the page root ── */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    z-index: 60;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .animate-fade-up-delay-2 {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
-    opacity: 0;
+  /* ── Hairline divider ── */
+  .hairline {
+    @apply border-border/70;
+    border-width: 0.5px;
   }
 
-  .animate-fade-up-delay-3 {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
-    opacity: 0;
+  /* ── Technical mono label ── */
+  .tech-label {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground;
   }
 
-  .animate-fade-up-delay-4 {
-    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
-    opacity: 0;
-  }
-
-  .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-float-slow {
-    animation: float 8s ease-in-out infinite reverse;
-  }
-
-  .card-hover {
-    @apply transition-all duration-500;
-  }
-
-  .card-hover:hover {
-    transform: translateY(-4px);
-  }
-
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
-  }
-
-  /* ── Cursor glow card ── */
+  /* ── Cursor glow card (kept — subtle, purposeful) ── */
   .glow-card {
     position: relative;
     overflow: hidden;
@@ -156,10 +157,10 @@ body {
   .glow-card::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    inset: 0;
     background: radial-gradient(
-      600px circle at var(--glow-x) var(--glow-y),
-      rgba(255, 255, 255, 0.05),
+      480px circle at var(--glow-x) var(--glow-y),
+      hsl(41 96% 58% / 0.06),
       transparent 40%
     );
     opacity: var(--glow-opacity);
@@ -168,122 +169,21 @@ body {
     z-index: 1;
   }
 
-  /* ── Scroll reveal states ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(48px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .reveal.revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal-left {
-    opacity: 0;
-    transform: translateX(-60px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .reveal-left.revealed {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  .reveal-right {
-    opacity: 0;
-    transform: translateX(60px);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .reveal-right.revealed {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  .reveal-scale {
-    opacity: 0;
-    transform: scale(0.9);
-    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .reveal-scale.revealed {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  /* Stagger delays */
-  .delay-100 { transition-delay: 100ms; }
-  .delay-200 { transition-delay: 200ms; }
-  .delay-300 { transition-delay: 300ms; }
-  .delay-400 { transition-delay: 400ms; }
-  .delay-500 { transition-delay: 500ms; }
-
-  /* ── Shimmer scan line animation ── */
-  .shimmer {
-    position: relative;
-    overflow: hidden;
-  }
-  .shimmer::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
-    transform: translateX(-100%);
-    animation: shimmerScan 3s ease-in-out infinite;
-  }
-
-  /* ── Premium button glow pulse ── */
-  .btn-glow {
-    position: relative;
-    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-  }
-  .btn-glow:hover {
-    transform: translateY(-2px) scale(1.03);
-  }
-  .btn-glow:active {
-    transform: translateY(0) scale(0.97);
-  }
+  /* ── Surface steps ── */
+  .surface-1 { background-color: hsl(var(--surface-1)); }
+  .surface-2 { background-color: hsl(var(--surface-2)); }
+  .surface-3 { background-color: hsl(var(--surface-3)); }
 }
 
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-}
-
-@keyframes shimmerScan {
-  0% { transform: translateX(-100%); }
-  60% { transform: translateX(100%); }
-  100% { transform: translateX(100%); }
-}
-
-@keyframes heroFloat {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50% { transform: translateY(-18px) rotate(1deg); }
-}
-
-@keyframes heroFloatAlt {
-  0%, 100% { transform: translateY(0) rotate(1deg); }
-  50% { transform: translateY(-12px) rotate(-1deg); }
-}
-
-@keyframes orbPulse {
-  0%, 100% { transform: scale(1); opacity: 0.08; }
-  50% { transform: scale(1.15); opacity: 0.15; }
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes fadeInScale {
-  from { opacity: 0; transform: scale(0.92) translateY(20px); }
-  to   { opacity: 1; transform: scale(1)   translateY(0); }
 }

@@ -120,7 +120,7 @@ const ProductCard = ({
 
   return (
     <div
-      className={`group relative bg-card border border-border/60 rounded-3xl overflow-hidden transition-all duration-700 ${product.accent.border} hover:shadow-2xl ${
+      className={`group relative surface-1 border border-border rounded-lg overflow-hidden transition-all duration-700 ${product.accent.border} ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
       }`}
       style={{ transitionDelay: `${delay}ms` }}
@@ -210,7 +210,7 @@ const ProductCard = ({
                 <img
                   src={product.mockupImg}
                   alt={`${product.name} interface`}
-                  className="w-full h-auto object-cover rounded-xl shadow-2xl border border-white/10 transition-all duration-500 group-hover/play:opacity-30 group-hover/play:scale-105 shimmer"
+                  className="w-full h-auto object-cover rounded-md shadow-2xl border border-border transition-all duration-500 group-hover/play:opacity-30 group-hover/play:scale-[1.02]"
                 />
               </div>
 
@@ -255,17 +255,13 @@ const ProductShowcase = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">
-            Track Record
-          </p>
-          <div className="w-12 h-[2px] bg-primary/50 rounded-full mb-8" />
+          <p className="tech-label mb-4">Track record — the build side</p>
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display text-foreground leading-tight">
-              Systems We've{" "}
-              <span className="gradient-text">Already Built</span>
+            <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl text-foreground leading-tight">
+              Systems we've <span className="text-primary">already built.</span>
             </h2>
             <p className="text-muted-foreground text-sm sm:text-base max-w-sm sm:text-right">
-              Examples of systems designed and built for real engagements — each one created to solve a specific problem.
+              Built for real engagements — each one created to solve a specific, diagnosed problem.
             </p>
           </div>
         </div>
@@ -289,7 +285,7 @@ const ProductShowcase = () => {
           }`}
           style={{ transitionDelay: "600ms" }}
         >
-          <div className="group relative bg-card border border-border/60 rounded-2xl overflow-hidden hover:border-amber-500/30 hover:shadow-xl transition-all duration-500 p-8">
+          <div className="group relative surface-1 border border-border rounded-lg overflow-hidden hover:border-amber-500/30 transition-colors duration-500 p-8">
             <div className="flex flex-col sm:flex-row sm:items-center gap-6">
               <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-amber-500/10 text-amber-500 shrink-0">
                 <TrendingUp className="w-7 h-7" />

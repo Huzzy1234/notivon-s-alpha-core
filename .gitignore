@@ -23,3 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 visaguard-hub/
+
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+.playwright-mcp/
+.playwright-mcp/

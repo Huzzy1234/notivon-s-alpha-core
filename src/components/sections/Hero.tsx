@@ -1,212 +1,169 @@
-import { ArrowDown, Shield, Ship } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useParallax, useMagnetic } from "@/hooks/useAnimations";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { lazy, Suspense, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { fadeUp, stagger } from "@/lib/motion";
+import { useMagnetic } from "@/hooks/useAnimations";
+
+const SystemScene = lazy(() => import("@/components/three/SystemScene"));
+
+/** Static constellation for mobile / reduced-motion — no WebGL cost.
+    Deterministic pseudo-random layout echoing the live scene. */
+const FALLBACK_POINTS = Array.from({ length: 42 }, (_, i) => {
+  const a = i * 2.399963; // golden angle
+  const r = 24 + 168 * Math.sqrt(((i * 9301 + 49297) % 233) / 233);
+  return {
+    x: 200 + Math.cos(a) * r * 0.98,
+    y: 200 + Math.sin(a) * r * 0.92,
+    brass: i % 7 === 0,
+  };
+});
+
+const SceneFallback = () => (
+  <svg viewBox="0 0 400 400" className="w-full h-full" aria-hidden>
+    <g stroke="hsl(224 18% 30%)" strokeWidth="0.6" opacity="0.45">
+      {FALLBACK_POINTS.map((p, i) => {
+        const q = FALLBACK_POINTS[(i * 5 + 3) % FALLBACK_POINTS.length];
+        const dist = Math.hypot(p.x - q.x, p.y - q.y);
+        return dist < 150 ? <line key={i} x1={p.x} y1={p.y} x2={q.x} y2={q.y} /> : null;
+      })}
+    </g>
+    {FALLBACK_POINTS.map((p, i) => (
+      <rect
+        key={i}
+        x={p.x - (p.brass ? 3.4 : 2.6)}
+        y={p.y - (p.brass ? 3.4 : 2.6)}
+        width={p.brass ? 6.8 : 5.2}
+        height={p.brass ? 6.8 : 5.2}
+        transform={`rotate(45 ${p.x} ${p.y})`}
+        fill={p.brass ? "hsl(41 96% 58%)" : "hsl(224 20% 62%)"}
+        opacity={p.brass ? 1 : 0.85}
+      />
+    ))}
+  </svg>
+);
+
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return reduced;
+}
 
 const Hero = () => {
-  const phrases = ["money", "time", "growth"];
-  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
-  const [displayText, setDisplayText] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  // Parallax refs for the two floating dashboard images
-  const parallaxFast = useParallax<HTMLDivElement>(-0.12);
-  const parallaxSlow = useParallax<HTMLDivElement>(-0.07);
-
-  // Magnetic CTA button
-  const cta = useMagnetic<HTMLButtonElement>(0.4);
+  const cta = useMagnetic<HTMLAnchorElement>(0.4);
+  const reducedMotion = usePrefersReducedMotion();
+  const [canWebGL, setCanWebGL] = useState(false);
 
   useEffect(() => {
-    // Stagger mount so hero elements animate in
-    const t = setTimeout(() => setMounted(true), 50);
-    return () => clearTimeout(t);
+    // Only mount the WebGL scene on desktop-class pointers
+    setCanWebGL(window.matchMedia("(pointer: fine) and (min-width: 1024px)").matches);
   }, []);
 
-  // Typewriter effect
-  useEffect(() => {
-    const currentPhrase = phrases[currentPhraseIndex];
-    const typingSpeed = isDeleting ? 40 : 80;
-    const pauseTime = 3000;
-
-    if (!isDeleting && displayText === currentPhrase) {
-      const t = setTimeout(() => setIsDeleting(true), pauseTime);
-      return () => clearTimeout(t);
-    }
-    if (isDeleting && displayText === "") {
-      setIsDeleting(false);
-      setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
-      return;
-    }
-    const timeout = setTimeout(() => {
-      setDisplayText(
-        isDeleting
-          ? currentPhrase.substring(0, displayText.length - 1)
-          : currentPhrase.substring(0, displayText.length + 1)
-      );
-    }, typingSpeed);
-    return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentPhraseIndex]);
-
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-32 pb-20 px-4">
+    <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-28 pb-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 max-w-[1400px] w-full">
+        <div className="grid lg:grid-cols-12 gap-10 items-center">
 
-      {/* Animated background orbs — capped size to prevent overflow */}
-      <div
-        className="absolute top-[10%] left-[5%] w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] lg:w-[520px] lg:h-[520px] rounded-full pointer-events-none mix-blend-screen"
-        style={{
-          background: "radial-gradient(circle, hsl(215 100% 60% / 0.12) 0%, transparent 70%)",
-          animation: "orbPulse 7s ease-in-out infinite",
-        }}
-      />
-      <div
-        className="absolute bottom-[5%] right-[8%] w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] lg:w-[600px] lg:h-[600px] rounded-full pointer-events-none mix-blend-screen"
-        style={{
-          background: "radial-gradient(circle, hsl(150 100% 45% / 0.10) 0%, transparent 70%)",
-          animation: "orbPulse 9s ease-in-out infinite 1.5s",
-        }}
-      />
+          {/* ── Left: the argument ── */}
+          <motion.div
+            className="lg:col-span-7 max-w-2xl"
+            variants={stagger(0.1)}
+            initial="hidden"
+            animate="visible"
+          >
+            <motion.p variants={fadeUp} className="tech-label mb-8">
+              Notivon — Consulting + Building
+            </motion.p>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 relative z-10 w-full max-w-[1400px]">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-
-          {/* ── Left: Text ── */}
-          <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left z-20">
-
-            {/* Badge */}
-            <div
-              className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ transitionDelay: "0ms" }}
+            <motion.h1
+              variants={fadeUp}
+              className="font-display font-semibold text-[2.6rem] sm:text-6xl lg:text-[4.4rem] leading-[1.02] tracking-tight text-foreground mb-8"
             >
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary text-sm font-semibold rounded-full mb-8 border border-primary/20 shadow-sm shadow-primary/5">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                Custom Systems Builder
-              </span>
-            </div>
+              We tell you where AI actually pays off.
+              <br />
+              <span className="text-primary">Then we build it.</span>
+            </motion.h1>
 
-            {/* H1 */}
-            <h1
-              className={`text-[2.4rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl font-display leading-[1.05] tracking-tight text-foreground mb-6 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ transitionDelay: "100ms" }}
+            <motion.p
+              variants={fadeUp}
+              className="text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10 max-w-xl"
             >
-              We find what's costing
-              <br className="hidden lg:block" />
-              your business{" "}
-              <span
-                className="inline-block bg-clip-text text-transparent"
-                style={{
-                  backgroundImage: "linear-gradient(135deg, hsl(215 100% 65%), hsl(150 100% 45%), hsl(40 100% 60%))",
-                  backgroundSize: "200% 200%",
-                  animation: "gradientShift 4s ease infinite",
-                }}
-              >
-                {displayText}
-                <span className="text-foreground font-sans font-light opacity-30 ml-0.5 animate-pulse">|</span>
-              </span>
-              <br className="hidden lg:block" />
-              — then build the fix.
-            </h1>
+              An honest, paid diagnostic of where AI and automation help your
+              business — and where they don't. If a build makes sense, the
+              audit fee is credited toward it.
+            </motion.p>
 
-            {/* Tagline */}
-            <p
-              className={`text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-xl mx-auto lg:mx-0 transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ transitionDelay: "200ms" }}
-            >
-              Not off-the-shelf software. Not a template.
-              A system built around how your business really runs.
-            </p>
-
-            {/* Scroll prompt with magnetic effect */}
-            <div
-              className={`transition-all duration-700 ${mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
-              style={{ transitionDelay: "300ms" }}
-            >
-              <button
+            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
+              <Link
                 ref={cta.ref}
                 onMouseMove={cta.onMouseMove}
                 onMouseLeave={cta.onMouseLeave}
-                onClick={() => {
-                  document.getElementById("products")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="group mx-auto lg:mx-0 flex flex-col items-center lg:items-start gap-2 text-muted-foreground hover:text-primary transition-colors duration-300"
+                to="/scorecard"
+                className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-md hover:bg-primary/90 transition-colors"
               >
-                <span className="text-xs font-bold uppercase tracking-[0.2em]">Explore Platform</span>
-                <ArrowDown className="w-5 h-5 animate-bounce" />
-              </button>
-            </div>
-          </div>
+                Take the free AI Readiness Scorecard
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href="#products"
+                className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-border text-foreground font-semibold text-sm rounded-md hover:border-primary/50 hover:text-primary transition-colors"
+              >
+                See what we build
+                <ArrowUpRight className="w-4 h-4" />
+              </a>
+            </motion.div>
 
-          {/* ── Right: Floating isometric dashboards ── */}
-          <div className="relative h-[400px] lg:h-[600px] w-full hidden md:flex items-center justify-center">
+            <motion.p variants={fadeUp} className="mt-8 font-mono text-xs text-muted-foreground">
+              2 minutes · instant readiness score · no call required
+            </motion.p>
+          </motion.div>
 
-            {/* VisaGuard card — top right, floats slower */}
-            <div
-              ref={parallaxSlow}
-              className="absolute top-0 right-0 w-[78%] rounded-2xl overflow-hidden border border-primary/20 shadow-[0_0_60px_hsl(215_100%_60%/0.15)] shimmer"
-              style={{
-                animation: "heroFloatAlt 9s ease-in-out infinite",
-                transformOrigin: "center center",
-              }}
-            >
-              {/* Chrome bar */}
-              <div className="absolute top-0 left-0 right-0 h-8 bg-background/70 backdrop-blur border-b border-white/5 flex items-center px-3 gap-1.5 z-10">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/70" />
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
-                <div className="ml-auto flex items-center gap-1.5">
-                  <Shield className="w-3 h-3 text-primary/60" />
-                  <span className="text-[10px] text-primary/60 font-semibold">VisaGuard</span>
-                </div>
-              </div>
-              <img
-                src="/visaguard-mockup.png"
-                alt="VisaGuard Dashboard"
-                className="w-full h-auto mt-8 object-cover block"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-            </div>
-
-            {/* ClearVoy card — bottom left, floats faster */}
-            <div
-              ref={parallaxFast}
-              className="absolute bottom-0 left-0 w-[72%] rounded-2xl overflow-hidden border border-emerald-500/20 shadow-[0_0_60px_hsl(150_100%_45%/0.15)] shimmer z-20"
-              style={{
-                animation: "heroFloat 7s ease-in-out infinite",
-                transformOrigin: "center center",
-              }}
-            >
-              <div className="absolute top-0 left-0 right-0 h-8 bg-background/70 backdrop-blur border-b border-white/5 flex items-center px-3 gap-1.5 z-10">
-                <div className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-                <div className="w-2.5 h-2.5 rounded-full bg-yellow-400/70" />
-                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/70" />
-                <div className="ml-auto flex items-center gap-1.5">
-                  <Ship className="w-3 h-3 text-emerald-500/60" />
-                  <span className="text-[10px] text-emerald-500/60 font-semibold">ClearVoy</span>
-                </div>
-              </div>
-              <img
-                src="/clearvoy-mockup.png"
-                alt="ClearVoy Dashboard"
-                className="w-full h-auto mt-8 object-cover block"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-            </div>
-
-            {/* Connecting glow line */}
-            <div className="absolute inset-0 pointer-events-none">
-              <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="hsl(215, 100%, 60%)" stopOpacity="0.6" />
-                    <stop offset="100%" stopColor="hsl(150, 100%, 45%)" stopOpacity="0.6" />
-                  </linearGradient>
-                </defs>
-                <line x1="30%" y1="70%" x2="80%" y2="30%" stroke="url(#lineGrad)" strokeWidth="1" strokeDasharray="6 4" />
-              </svg>
-            </div>
-
-          </div>
+          {/* ── Right: the system ── */}
+          <motion.div
+            className="lg:col-span-5 relative h-[320px] sm:h-[420px] lg:h-[560px]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.2, delay: 0.3 }}
+            aria-hidden
+          >
+            {canWebGL && !reducedMotion ? (
+              <Suspense fallback={<SceneFallback />}>
+                <SystemScene />
+              </Suspense>
+            ) : (
+              <SceneFallback />
+            )}
+          </motion.div>
         </div>
       </div>
+
+      {/* ── Bottom index strip ── */}
+      <motion.div
+        className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 max-w-[1400px] w-full mt-16"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.9 }}
+      >
+        <div className="border-t border-border/70 pt-6 grid grid-cols-3 gap-4">
+          {[
+            ["01", "Diagnose", "Where AI helps — and where it doesn't"],
+            ["02", "Decide", "A roadmap you own, either way"],
+            ["03", "Build", "Only what earns its keep"],
+          ].map(([n, title, desc]) => (
+            <div key={n} className="flex flex-col gap-1">
+              <span className="font-mono text-[11px] text-primary">{n}</span>
+              <span className="text-sm font-semibold text-foreground">{title}</span>
+              <span className="text-xs text-muted-foreground hidden sm:block">{desc}</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
     </section>
   );
 };

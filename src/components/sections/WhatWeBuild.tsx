@@ -1,5 +1,6 @@
 import { Settings, Zap, BarChart2, Video } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { fadeUp, stagger, inView } from "@/lib/motion";
 
 const capabilities = [
   {
@@ -32,68 +33,48 @@ const capabilities = [
   },
 ];
 
-const WhatWeBuild = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
+const WhatWeBuild = () => (
+  <section className="py-20 sm:py-28 border-t border-border/60">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 max-w-[1400px]">
+      <motion.div variants={stagger()} {...inView}>
+        <motion.div variants={fadeUp} className="mb-12">
+          <p className="tech-label mb-4">The build track</p>
+          <h2 className="font-display font-semibold text-3xl sm:text-4xl text-foreground max-w-xl leading-tight">
+            What we build, when the audit says build.
+          </h2>
+        </motion.div>
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setIsVisible(true); },
-      { threshold: 0.1 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <section ref={sectionRef} className="py-20 sm:py-28 border-t border-border/40 relative">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
-
-        {/* Section label */}
-        <div className={`mb-12 transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-4">
-            What We Build
-          </p>
-          <div className="w-12 h-[2px] bg-primary/50 rounded-full" />
-        </div>
-
-        <div className="grid sm:grid-cols-2 gap-0 border border-border/60 rounded-2xl overflow-hidden">
-          {capabilities.map((cap, index) => {
-            const isTop = index < 2;
-            const isLeft = index % 2 === 0;
-            return (
-              <div
-                key={cap.number}
-                className={`group p-8 sm:p-10 relative transition-all duration-700 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                } ${!isTop ? "border-t border-border/60" : ""} ${
-                  isLeft && index !== 0 ? "" : ""
-                } ${index === 1 || index === 3 ? "sm:border-l sm:border-border/60" : ""} hover:bg-muted/30`}
-                style={{ transitionDelay: `${index * 100}ms` }}
-              >
-                <div className="flex items-start gap-6">
-                  <span className="text-[11px] font-bold text-muted-foreground/50 tracking-widest pt-1 shrink-0">
-                    {cap.number}
-                  </span>
-                  <div>
-                    <div className="flex items-center gap-3 mb-3">
-                      <cap.icon className="w-5 h-5 text-primary shrink-0" />
-                      <h3 className="text-lg font-semibold text-foreground capitalize">
-                        {cap.title}
-                      </h3>
-                    </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {cap.description}
-                    </p>
+        <div className="grid sm:grid-cols-2 border border-border rounded-lg overflow-hidden">
+          {capabilities.map((cap, index) => (
+            <motion.div
+              key={cap.number}
+              variants={fadeUp}
+              className={`group p-8 sm:p-10 hover:bg-muted/40 transition-colors duration-300 ${
+                index >= 2 ? "border-t border-border" : ""
+              } ${index % 2 === 1 ? "sm:border-l sm:border-border" : ""} ${
+                index === 1 ? "border-t sm:border-t-0 border-border" : ""
+              }`}
+            >
+              <div className="flex items-start gap-6">
+                <span className="font-mono text-[11px] text-primary pt-1 shrink-0">
+                  {cap.number}
+                </span>
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <cap.icon className="w-5 h-5 text-primary shrink-0" strokeWidth={1.5} />
+                    <h3 className="text-lg font-semibold text-foreground">{cap.title}</h3>
                   </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {cap.description}
+                  </p>
                 </div>
               </div>
-            );
-          })}
+            </motion.div>
+          ))}
         </div>
-      </div>
-    </section>
-  );
-};
+      </motion.div>
+    </div>
+  </section>
+);
 
 export default WhatWeBuild;

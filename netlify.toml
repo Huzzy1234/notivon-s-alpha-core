@@ -1,0 +1,25 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+# Lead capture env vars (set in Netlify UI → Site settings → Environment variables):
+#
+#   TELEGRAM_BOT_TOKEN — instant push to your phone (recommended, free):
+#                        1. In Telegram, message @BotFather → /newbot → copy the token
+#                        2. Message your new bot anything (e.g. "hi")
+#                        3. Open https://api.telegram.org/bot<TOKEN>/getUpdates
+#                           and copy "chat":{"id": ...} → that's TELEGRAM_CHAT_ID
+#   TELEGRAM_CHAT_ID   — your chat id from step 3
+#
+#   RESEND_API_KEY   — from resend.com (email notification)
+#   LEAD_TO_EMAIL    — where lead notifications go (e.g. hussain@notivon.com)
+#   LEAD_FROM_EMAIL  — optional verified sender, defaults to Resend onboarding
+#
+#   AIRTABLE_API_KEY — personal access token from airtable.com/create/tokens
+#   AIRTABLE_BASE_ID — the base holding the leads table
+#   AIRTABLE_TABLE   — optional table name, defaults to "Scorecard Leads"
+#
+# Each sink is optional; missing vars are skipped without breaking the funnel.

@@ -27,13 +27,16 @@ const Footer = () => {
               <span className="text-3xl font-display font-bold tracking-tight text-foreground">Notivon</span>
             </Link>
             <p className="text-sm text-muted-foreground mb-6 leading-relaxed max-w-xs">
-              We build custom systems that fix what's actually costing your business.
+              Consulting + building, together. We tell you where AI actually pays
+              off — then build the systems that deliver it.
             </p>
           </div>
 
           <div className="col-span-1">
-            <h4 className="text-xs font-bold text-foreground mb-6 uppercase tracking-widest">Products</h4>
+            <h4 className="text-xs font-bold text-foreground mb-6 uppercase tracking-widest">Services</h4>
             <ul className="space-y-4">
+              <li><Link to="/audit" className="text-sm text-muted-foreground hover:text-primary transition-colors">AI Readiness Audit</Link></li>
+              <li><Link to="/scorecard" className="text-sm text-muted-foreground hover:text-primary transition-colors">Free Scorecard</Link></li>
               <li><Link to="/products/visaguard" className="text-sm text-muted-foreground hover:text-primary transition-colors">VisaGuard</Link></li>
               <li><Link to="/products/clearvoy" className="text-sm text-muted-foreground hover:text-primary transition-colors">ClearVoy</Link></li>
             </ul>
