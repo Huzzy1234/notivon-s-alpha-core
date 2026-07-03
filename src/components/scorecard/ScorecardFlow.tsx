@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -561,16 +561,83 @@ const ResultView = ({
   );
 };
 
+/* ────────────────────────── Analyzing interstitial ────────────────────────── */
+
+const ANALYZE_STEPS = [
+  "Reading your answers",
+  "Scoring your operation",
+  "Mapping your opportunities",
+];
+
+/* A short, honest "working" beat before the result — so the read feels
+   computed for them, not pre-canned. ~2.2s, then the result reveals. */
+const AnalyzingInterstitial = () => {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(
+      () => setI((n) => Math.min(n + 1, ANALYZE_STEPS.length - 1)),
+      700
+    );
+    return () => clearInterval(t);
+  }, []);
+
+  return (
+    <motion.div
+      key="analyzing"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col items-center justify-center py-24 text-center"
+    >
+      <div className="relative w-14 h-14 mb-8">
+        <span className="absolute inset-0 rounded-full border-2 border-border" />
+        <motion.span
+          className="absolute inset-0 rounded-full border-2 border-transparent border-t-primary"
+          animate={{ rotate: 360 }}
+          transition={{ repeat: Infinity, duration: 0.9, ease: "linear" }}
+        />
+      </div>
+      <div className="h-6 overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={i}
+            initial={{ y: 8, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -8, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="tech-label"
+          >
+            {ANALYZE_STEPS[i]}…
+          </motion.p>
+        </AnimatePresence>
+      </div>
+      <p className="mt-4 text-xs text-muted-foreground/70">Analyzing your business</p>
+    </motion.div>
+  );
+};
+
 /* ────────────────────────── Flow controller ────────────────────────── */
 
 const ScorecardFlow = () => {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
   const [freeText, setFreeText] = useState("");
+  const [analyzing, setAnalyzing] = useState(false);
   const [done, setDone] = useState(false);
 
+  // After the questions, hold on a brief "analyzing" beat, then reveal.
+  useEffect(() => {
+    if (!analyzing) return;
+    const t = setTimeout(() => {
+      setAnalyzing(false);
+      setDone(true);
+    }, 2200);
+    return () => clearTimeout(t);
+  }, [analyzing]);
+
   const result = useMemo(() => (done ? computeResult(answers) : null), [done, answers]);
-  const progress = done ? 100 : (step / TOTAL_STEPS) * 100;
+  const progress = done || analyzing ? 100 : (step / TOTAL_STEPS) * 100;
 
   const onFreeTextStep = step === QUESTIONS.length;
   const q = QUESTIONS[Math.min(step, QUESTIONS.length - 1)];
@@ -587,7 +654,9 @@ const ScorecardFlow = () => {
       </div>
 
       <AnimatePresence mode="wait">
-        {done && result ? (
+        {analyzing ? (
+          <AnalyzingInterstitial />
+        ) : done && result ? (
           <ResultView answers={answers} result={result} />
         ) : onFreeTextStep ? (
           <FreeTextStep
@@ -595,7 +664,7 @@ const ScorecardFlow = () => {
             onChange={setFreeText}
             onNext={() => {
               setAnswers((a) => ({ ...a, businessDescription: freeText.trim() }));
-              setDone(true);
+              setAnalyzing(true);
             }}
           />
         ) : (
@@ -609,7 +678,7 @@ const ScorecardFlow = () => {
         )}
       </AnimatePresence>
 
-      {!done && step > 0 && (
+      {!done && !analyzing && step > 0 && (
         <button
           onClick={() => setStep(step - 1)}
           className="mt-10 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"

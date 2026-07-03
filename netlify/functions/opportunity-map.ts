@@ -45,7 +45,7 @@ const providers = (): Provider[] => [
           contents: [{ role: "user", parts: [{ text: user }] }],
           generationConfig: {
             maxOutputTokens: 2048,
-            temperature: 0.7,
+            temperature: 0.5,
             // 2.5-flash spends output budget on hidden "thinking" by default,
             // which truncates the map. We don't need chain-of-thought here.
             thinkingConfig: { thinkingBudget: 0 },
@@ -105,11 +105,17 @@ WHAT YOU KNOW (Notivon's field patterns)
 - Professional services: client intake, follow-up sequences, reporting.
 - Retail/commerce: order tracking, customer follow-up, inventory alerts.
 - Real estate: lead follow-up, viewing scheduling, document handling.
+- Beauty & personal care (salon, barber, spa): self-service booking + a shared calendar, automated appointment reminders that cut no-shows, client history & preferences (what they usually get), rebooking and loyalty nudges over WhatsApp.
+- Health & wellness (clinic, pharmacy): appointment scheduling & reminders, patient/customer records, prescription-refill reminders, results/status updates. Never anything clinical (no diagnosis, no treatment decisions).
+- Food & hospitality (restaurant, catering, hotel): order & reservation capture, WhatsApp ordering, prep/delivery coordination, repeat-customer offers, review requests.
+- Education & training: enrolment/registration, class schedules & reminders, fee reminders, attendance/progress updates to parents.
+- Logistics & delivery: dispatch & tracking, automatic status updates to customers, proof-of-delivery capture, rider coordination.
 - Universal truths: WhatsApp is where Nigerian business happens — automations that live inside WhatsApp win. Scattered data must be fixed BEFORE clever AI. Off-the-shelf tools fail when the workflow doesn't fit the template. The highest-payback builds replace re-typing, chasing, and checking.
 
 RULES
 - Use ONLY facts they gave you. Never invent details about their business. If their description is thin, say what you'd need to look at — do not fabricate.
-- Every opportunity must trace to something they actually said or selected.
+- Every opportunity must trace to something they actually said or selected. Ground it in their specifics — the channels they use, what customers wait on them for, what eats time after a sale, their volume and their pain — even when they wrote no free text. Name those specifics in the card (e.g. "you take bookings on Instagram and WhatsApp and clients no-show"), never generic filler.
+- CRITICAL — automate the admin AROUND the work, never the craft or physical service itself. Booking, reminders, records, follow-up, intake, status updates, payments — yes. Doing the actual service — no. A salon automates booking, reminders, no-show follow-up and client history — NOT "a system to style hair". A restaurant automates orders, reservations and repeat-customer offers — NOT cooking. A clinic automates appointments, records and refill reminders — NOT diagnosis. If a suggestion is the service itself rather than the paperwork or communication around it, drop it and pick another.
 - Exactly one section must be an honest "hold off" — something they might expect to automate but shouldn't yet, with the reason.
 - Never give implementation detail (which tools, architecture, steps to build). Name WHAT the system does and what it replaces, not HOW to build it. The how is Notivon's paid AI Readiness Audit.
 - Never promise results. Estimates are "roughly" and ranges.
@@ -179,11 +185,11 @@ const isValid = (body: unknown): body is MapRequest => {
   );
 };
 
-async function notifyTelegramMap(req: MapRequest, mapText: string): Promise<void> {
+async function notifyTelegramMap(req: MapRequest, mapText: string, provider: string): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
   if (!token || !chatId) return;
-  const text = `🗺 Opportunity Map generated for ${req.name} (${req.phone}):\n\n${mapText}`.slice(0, 4000);
+  const text = `🗺 Opportunity Map (via ${provider}) for ${req.name} (${req.phone}):\n\n${mapText}`.slice(0, 4000);
   await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -265,7 +271,7 @@ export default async (req: Request): Promise<Response> => {
       } finally {
         controller.close();
         if (full.trim().length > 100) {
-          await notifyTelegramMap(mapReq, full).catch(() => undefined);
+          await notifyTelegramMap(mapReq, full, upstream.label).catch(() => undefined);
         }
       }
     },
