@@ -10,6 +10,7 @@ interface ScorecardLead {
   phone: string;
   email?: string;
   answers: Record<string, string | string[]>;
+  answersReadable?: string; // client-built, human-readable labels
   total: number;
   band: string;
   submittedAt: string;
@@ -35,6 +36,10 @@ const formatAnswers = (answers: Record<string, string | string[]>): string =>
     .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(", ") : v}`)
     .join("\n");
 
+/** Prefer the client's human-readable summary; fall back to raw slugs. */
+const answersBlock = (lead: ScorecardLead): string =>
+  lead.answersReadable?.trim() || formatAnswers(lead.answers ?? {});
+
 /** Digits-only local Nigerian numbers (0xxxxxxxxxx) → international for wa.me. */
 const toWaNumber = (phone: string): string =>
   phone.length === 11 && phone.startsWith("0") ? `234${phone.slice(1)}` : phone;
@@ -45,17 +50,18 @@ async function notifyTelegram(lead: ScorecardLead): Promise<void> {
   if (!token || !chatId) return;
 
   const text = [
-    `🔔 New scorecard lead`,
+    `🔔 New Opportunity Map lead`,
     ``,
     `👤 ${lead.name}`,
     `📱 ${lead.phone} → https://wa.me/${toWaNumber(lead.phone)}`,
     lead.email ? `✉️ ${lead.email}` : null,
     `📊 ${lead.total}/100 — ${lead.band}`,
     ``,
-    formatAnswers(lead.answers ?? {}),
+    answersBlock(lead),
   ]
     .filter((l) => l !== null)
-    .join("\n");
+    .join("\n")
+    .slice(0, 4000);
 
   await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
     method: "POST",
@@ -87,7 +93,7 @@ async function notifyByEmail(lead: ScorecardLead): Promise<void> {
         `Submitted: ${lead.submittedAt}`,
         "",
         "Answers:",
-        formatAnswers(lead.answers ?? {}),
+        answersBlock(lead),
       ].join("\n"),
     }),
   });
@@ -114,7 +120,7 @@ async function appendToAirtable(lead: ScorecardLead): Promise<void> {
             Email: lead.email ?? "",
             Score: lead.total,
             Band: lead.band,
-            Answers: formatAnswers(lead.answers ?? {}),
+            Answers: answersBlock(lead),
             "Submitted At": lead.submittedAt,
             Source: lead.source,
           },

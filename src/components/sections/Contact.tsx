@@ -30,7 +30,7 @@ const Contact = () => (
             variants={fadeUp}
             className="text-lg text-muted-foreground leading-relaxed mb-10 max-w-xl"
           >
-            Start with the free two-minute Scorecard, or go straight to the
+            Get your free AI Opportunity Map — three specific ideas for your business in three minutes — or go straight to the
             audit if you're ready for the full picture.
           </motion.p>
 
@@ -39,7 +39,7 @@ const Contact = () => (
               to="/scorecard"
               className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-md hover:bg-primary/90 transition-colors"
             >
-              Take the free Scorecard
+              Get my free Opportunity Map
               <ArrowRight className="w-4 h-4" />
             </Link>
             <a

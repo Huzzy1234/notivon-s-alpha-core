@@ -11,8 +11,8 @@ const NODE_COUNT = 120;
 const RADIUS = 2.1;
 const LINK_DISTANCE = 0.72;
 
-const BRASS = new THREE.Color("hsl(41, 96%, 58%)");
-const DIM = new THREE.Color("hsl(224, 20%, 62%)");
+const BRASS = new THREE.Color("hsl(215, 100%, 60%)");
+const DIM = new THREE.Color("hsl(220, 20%, 62%)");
 
 /** Fibonacci sphere with mild radial jitter — organic but structured. */
 function generatePoints(): THREE.Vector3[] {

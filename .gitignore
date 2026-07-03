@@ -30,3 +30,6 @@ visaguard-hub/
 !.env.example
 .playwright-mcp/
 .playwright-mcp/
+
+# Local Netlify folder
+.netlify

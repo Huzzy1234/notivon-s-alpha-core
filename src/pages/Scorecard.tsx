@@ -6,10 +6,10 @@ import ScorecardFlow from "@/components/scorecard/ScorecardFlow";
 const Scorecard = () => (
   <>
     <Helmet>
-      <title>Free AI Readiness Scorecard | Notivon</title>
+      <title>Free AI Opportunity Map — 3 specific ideas for your business | Notivon</title>
       <meta
         name="description"
-        content="Answer 8 quick questions about your business and get an instant, honest read on where AI and automation would actually help you — and where they wouldn't. Free, 2 minutes, no call."
+        content="Answer a few questions, describe your business in your own words, and get an AI Opportunity Map written for you on the spot: three specific automation ideas, one honest 'don't automate this', and what waiting is costing you. Free, no call."
       />
       <link rel="canonical" href="https://notivon.com/scorecard" />
     </Helmet>
@@ -19,14 +19,15 @@ const Scorecard = () => (
       <main className="pt-32 pb-24 px-4 sm:px-6">
         <div className="container mx-auto max-w-3xl">
           <header className="max-w-2xl mx-auto mb-12">
-            <p className="tech-label mb-4">Free · 2 minutes · instant result</p>
+            <p className="tech-label mb-4">Free · 3 minutes · written for your business</p>
             <h1 className="font-display font-semibold text-3xl sm:text-4xl lg:text-5xl text-foreground leading-tight mb-4">
-              How ready is your business for AI?
+              Get your AI Opportunity Map.
             </h1>
             <p className="text-muted-foreground leading-relaxed">
-              Eight questions about how your business actually runs. You'll get a
-              readiness score and an honest read on where automation pays off for
-              you — and where it doesn't.
+              Answer a few questions, then describe your business in your own
+              words. You'll get a readiness score — and a map written for you on
+              the spot: three specific ideas worth money, one honest
+              "don't automate this yet", and what waiting is costing you.
             </p>
           </header>
           <ScorecardFlow />

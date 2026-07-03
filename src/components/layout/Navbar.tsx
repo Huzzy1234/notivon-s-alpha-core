@@ -100,7 +100,7 @@ const Navbar = () => {
                 to="/scorecard"
                 className="px-5 py-2.5 bg-primary text-primary-foreground text-sm font-semibold rounded-md hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
               >
-                Free Scorecard
+                Free Opportunity Map
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -110,7 +110,7 @@ const Navbar = () => {
                 to="/scorecard"
                 className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-semibold rounded-md hover:bg-primary/90 transition-colors"
               >
-                Free Scorecard
+                Free Opportunity Map
               </Link>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

@@ -36,7 +36,7 @@ const SceneFallback = () => (
         width={p.brass ? 6.8 : 5.2}
         height={p.brass ? 6.8 : 5.2}
         transform={`rotate(45 ${p.x} ${p.y})`}
-        fill={p.brass ? "hsl(41 96% 58%)" : "hsl(224 20% 62%)"}
+        fill={p.brass ? "hsl(215 100% 60%)" : "hsl(220 20% 62%)"}
         opacity={p.brass ? 1 : 0.85}
       />
     ))}
@@ -107,7 +107,7 @@ const Hero = () => {
                 to="/scorecard"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-primary text-primary-foreground font-semibold text-sm rounded-md hover:bg-primary/90 transition-colors"
               >
-                Take the free AI Readiness Scorecard
+                Get your free AI Opportunity Map
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a
@@ -120,7 +120,7 @@ const Hero = () => {
             </motion.div>
 
             <motion.p variants={fadeUp} className="mt-8 font-mono text-xs text-muted-foreground">
-              2 minutes · instant readiness score · no call required
+              3 minutes · 3 specific ideas for your business · no call required
             </motion.p>
           </motion.div>
 

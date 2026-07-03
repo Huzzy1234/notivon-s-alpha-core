@@ -20,8 +20,8 @@ const paths = [
       "Fee credited toward your build if you go ahead",
     ],
     cta: { label: "Start with the Audit", to: "/audit" },
-    footnote: "Not sure yet? The free Scorecard takes 2 minutes.",
-    footnoteLink: { label: "Take the Scorecard", to: "/scorecard" },
+    footnote: "Not sure yet? The free Opportunity Map takes 3 minutes.",
+    footnoteLink: { label: "Get my Opportunity Map", to: "/scorecard" },
   },
   {
     index: "02",

@@ -7,7 +7,11 @@
 export type QuestionId =
   | "industry"
   | "teamSize"
+  | "channels"
+  | "volume"
   | "timeSinks"
+  | "waitingOn"
+  | "afterSale"
   | "tools"
   | "dataHome"
   | "pain"
@@ -29,7 +33,15 @@ export interface Question {
   options: Option[];
 }
 
-export type Answers = Partial<Record<QuestionId, string | string[]>>;
+export type Answers = Partial<Record<QuestionId, string | string[]>> & {
+  /** When they pick "Something else" on a single-select question, what they
+      typed. Keyed as `${questionId}Other`. */
+  industryOther?: string;
+  painOther?: string;
+  /** Their own free-text description of how work moves through the business —
+      optional extra colour for the AI-generated Opportunity Map. */
+  businessDescription?: string;
+};
 
 export const QUESTIONS: Question[] = [
   {
@@ -37,12 +49,17 @@ export const QUESTIONS: Question[] = [
     index: 1,
     title: "What kind of business do you run?",
     options: [
-      { value: "visa-travel", label: "Visa / travel agency" },
-      { value: "customs-logistics", label: "Customs clearing / logistics" },
-      { value: "professional-services", label: "Professional services", hint: "Law, accounting, consulting, agencies" },
       { value: "commerce", label: "Retail / e-commerce" },
+      { value: "professional-services", label: "Professional services", hint: "Law, accounting, consulting, agencies" },
+      { value: "hospitality", label: "Food & hospitality", hint: "Restaurant, catering, hotel" },
+      { value: "health", label: "Health & wellness", hint: "Clinic, pharmacy, spa" },
+      { value: "beauty", label: "Beauty & personal care", hint: "Salon, barber, cosmetics" },
       { value: "real-estate", label: "Real estate / property" },
-      { value: "other", label: "Something else" },
+      { value: "education", label: "Education / training" },
+      { value: "logistics", label: "Logistics / delivery" },
+      { value: "visa-travel", label: "Visa / travel agency" },
+      { value: "customs", label: "Customs clearing" },
+      { value: "other", label: "Something else", hint: "Tell us in a few words" },
     ],
   },
   {
@@ -57,8 +74,34 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
-    id: "timeSinks",
+    id: "channels",
     index: 3,
+    title: "How do customers usually reach you?",
+    hint: "Pick every way they come in.",
+    multi: true,
+    options: [
+      { value: "whatsapp", label: "WhatsApp" },
+      { value: "calls", label: "Phone calls" },
+      { value: "social", label: "Instagram / social DMs" },
+      { value: "walk-in", label: "Walk-in / in person" },
+      { value: "website", label: "Website / online form" },
+      { value: "referrals", label: "Referrals / word of mouth" },
+    ],
+  },
+  {
+    id: "volume",
+    index: 4,
+    title: "Roughly how many customers or jobs do you handle a month?",
+    options: [
+      { value: "tiny", label: "Under 20" },
+      { value: "small", label: "20 – 100" },
+      { value: "medium", label: "100 – 500" },
+      { value: "large", label: "500+" },
+    ],
+  },
+  {
+    id: "timeSinks",
+    index: 5,
     title: "Where does your team's time actually go?",
     hint: "Pick everything that eats real hours.",
     multi: true,
@@ -72,8 +115,37 @@ export const QUESTIONS: Question[] = [
     ],
   },
   {
+    id: "waitingOn",
+    index: 6,
+    title: "What do your customers most often wait on you for?",
+    hint: "The things they message and call about.",
+    multi: true,
+    options: [
+      { value: "updates", label: "Status updates" },
+      { value: "documents", label: "Documents / paperwork" },
+      { value: "quotes", label: "Quotes / pricing" },
+      { value: "appointments", label: "Appointments / scheduling" },
+      { value: "delivery", label: "Delivery / fulfilment" },
+      { value: "repeat-questions", label: "Answers to the same questions" },
+    ],
+  },
+  {
+    id: "afterSale",
+    index: 7,
+    title: "Once you've won a customer, what eats the most time?",
+    hint: "The work that happens after they say yes.",
+    multi: true,
+    options: [
+      { value: "onboarding", label: "Onboarding / collecting their info" },
+      { value: "fulfilment", label: "Doing the actual work" },
+      { value: "invoicing", label: "Invoicing / chasing payment" },
+      { value: "followup", label: "Follow-up / repeat business" },
+      { value: "handovers", label: "Handovers between the team" },
+    ],
+  },
+  {
     id: "tools",
-    index: 4,
+    index: 8,
     title: "What runs the business today?",
     options: [
       { value: "chat-paper", label: "WhatsApp, calls & paper", hint: "It works, until it doesn't" },
@@ -84,7 +156,7 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: "dataHome",
-    index: 5,
+    index: 9,
     title: "If you needed a client's full history right now, where is it?",
     options: [
       { value: "scattered", label: "Scattered — chats, paper, memory" },
@@ -95,18 +167,19 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: "pain",
-    index: 6,
+    index: 10,
     title: "What's the pain that made you take this?",
     options: [
       { value: "losing-leads", label: "Leads slip through the cracks" },
       { value: "errors-deadlines", label: "Errors & missed deadlines" },
       { value: "cant-scale", label: "Can't grow without hiring more" },
       { value: "no-visibility", label: "No visibility on what's happening" },
+      { value: "other", label: "Something else", hint: "Tell us in your own words" },
     ],
   },
   {
     id: "tried",
-    index: 7,
+    index: 11,
     title: "What have you already tried?",
     options: [
       { value: "nothing", label: "Nothing yet — this is the start" },
@@ -117,7 +190,7 @@ export const QUESTIONS: Question[] = [
   },
   {
     id: "adminHours",
-    index: 8,
+    index: 12,
     title: "Roughly how many hours a week does the team lose to repetitive admin?",
     options: [
       { value: "low", label: "Under 5 hours" },
@@ -162,6 +235,32 @@ export interface ScorecardResult {
 
 const clamp = (n: number) => Math.max(4, Math.min(97, Math.round(n)));
 
+/* ── Deterministic "money leaking" figure ──
+   Powers the hero stat and the CTA line, so a real number always shows even
+   when the AI map fails. Built on the same assumption the system prompt uses:
+   a junior admin hour costs ₦1,500–₦3,000. Representative weekly hours per
+   band × 4.33 weeks × the rate range, nudged mildly by monthly volume. */
+
+export interface MonthlyLoss {
+  low: number;
+  high: number;
+  display: string; // e.g. "₦175,000 – ₦350,000"
+}
+
+const WEEKLY_HOURS: Record<string, number> = { low: 3, medium: 10, high: 27, extreme: 50 };
+const VOLUME_MULT: Record<string, number> = { tiny: 0.9, small: 1, medium: 1.15, large: 1.3 };
+const round1k = (n: number) => Math.round(n / 1000) * 1000;
+const naira = (n: number) => `₦${n.toLocaleString("en-NG")}`;
+
+export function estimatedMonthlyLoss(answers: Answers): MonthlyLoss {
+  const hours = WEEKLY_HOURS[answers.adminHours as string] ?? WEEKLY_HOURS.medium;
+  const mult = VOLUME_MULT[answers.volume as string] ?? 1;
+  const monthly = hours * 4.33 * mult;
+  const low = round1k(monthly * 1500);
+  const high = round1k(monthly * 3000);
+  return { low, high, display: `${naira(low)} – ${naira(high)}` };
+}
+
 const TIME_SINK_LEVERAGE: Record<string, { title: string; detail: string }> = {
   "data-entry": {
     title: "Manual data entry is your clearest automation win",
@@ -192,11 +291,16 @@ const TIME_SINK_LEVERAGE: Record<string, { title: string; detail: string }> = {
 /* ── Narrative fragments, keyed by answers ── */
 
 const INDUSTRY_LABEL: Record<string, string> = {
-  "visa-travel": "visa & travel agency",
-  "customs-logistics": "customs clearing & logistics business",
-  "professional-services": "professional services firm",
   commerce: "retail / e-commerce business",
+  "professional-services": "professional services firm",
+  hospitality: "food & hospitality business",
+  health: "health & wellness business",
+  beauty: "beauty & personal care business",
   "real-estate": "real estate business",
+  education: "education / training business",
+  logistics: "logistics / delivery business",
+  "visa-travel": "visa & travel agency",
+  customs: "customs clearing business",
   other: "business",
 };
 
@@ -269,7 +373,10 @@ const PAIN_URGENCY: Record<string, string> = {
 };
 
 function buildNarrative(answers: Answers, timeSinks: string[]): Narrative {
-  const industry = INDUSTRY_LABEL[answers.industry as string] ?? "business";
+  const industry =
+    answers.industry === "other" && answers.industryOther?.trim()
+      ? answers.industryOther.trim()
+      : INDUSTRY_LABEL[answers.industry as string] ?? "business";
   const team = TEAM_LABEL[answers.teamSize as string] ?? "a team";
   const tools = TOOLS_LABEL[answers.tools as string] ?? "";
   const data = DATA_LABEL[answers.dataHome as string] ?? "";

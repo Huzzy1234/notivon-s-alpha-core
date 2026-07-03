@@ -60,7 +60,7 @@ const faqs = [
   },
   {
     q: "What does it cost?",
-    a: "It's a fixed fee, agreed before we start — no open-ended consulting hours. Take the free Scorecard or book a call and we'll give you the exact number for your size of business.",
+    a: "It's a fixed fee, agreed before we start — no open-ended consulting hours. Get the free Opportunity Map or book a call and we'll give you the exact number for your size of business.",
   },
   {
     q: "How long does it take?",
@@ -119,7 +119,7 @@ const Audit = () => (
                 to="/scorecard"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-border text-foreground font-semibold text-sm rounded-md hover:border-primary/50 hover:text-primary transition-colors"
               >
-                Not sure? Take the free Scorecard
+                Not sure? Get the free Opportunity Map
               </Link>
             </motion.div>
             <motion.p variants={fadeUp} className="mt-8 font-mono text-xs text-muted-foreground">
@@ -218,7 +218,7 @@ const Audit = () => (
               Ready for the honest read?
             </h2>
             <p className="text-muted-foreground mb-10 max-w-md mx-auto">
-              Book the audit, or start with the free two-minute Scorecard.
+              Book the audit, or start with the free Opportunity Map — three specific ideas in three minutes.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
               <a
@@ -235,7 +235,7 @@ const Audit = () => (
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-border text-foreground font-semibold text-sm rounded-md hover:border-primary/50 hover:text-primary transition-colors"
               >
                 <FileText className="w-4 h-4" />
-                Free Scorecard first
+                Free Opportunity Map first
               </Link>
             </div>
           </motion.div>
