@@ -15,6 +15,11 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
+import OpsLayout from "./pages/ops/OpsLayout";
+import OpsLogin from "./pages/ops/OpsLogin";
+import Scout from "./pages/ops/Scout";
+import Pipeline from "./pages/ops/Pipeline";
+import CostCalculator from "./pages/ops/CostCalculator";
 
 // Demos are code-split so they never weigh down the marketing bundle.
 const DocumentProcessor = lazy(() => import("./demos/systems/document-processor"));
@@ -47,6 +52,12 @@ const App = () => (
               }
             />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/ops/login" element={<OpsLogin />} />
+            <Route path="/ops" element={<OpsLayout />}>
+              <Route path="scout" element={<Scout />} />
+              <Route path="pipeline" element={<Pipeline />} />
+              <Route path="cost-calculator" element={<CostCalculator />} />
+            </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
