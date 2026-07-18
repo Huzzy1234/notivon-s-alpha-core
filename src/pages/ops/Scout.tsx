@@ -166,14 +166,14 @@ export default function Scout() {
   const [customNiche, setCustomNiche] = useState("");
   const [locationInput, setLocationInput] = useState(CAMPAIGNS.gmaps_bridge.defaultLocation);
   const [selectedState, setSelectedState] = useState<string>("Lagos");
-  
+
   const [script, setScript] = useState(CAMPAIGNS.gmaps_bridge.defaultScript);
   const [isLoading, setIsLoading] = useState(false);
   const [scanProgress, setScanProgress] = useState("");
   const [error, setError] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [meta, setMeta] = useState<SearchMeta | null>(null);
-  
+
   const [savingId, setSavingId] = useState<string | null>(null);
   const [hideSaved, setHideSaved] = useState(false);
 
@@ -197,7 +197,7 @@ export default function Scout() {
   useEffect(() => {
     const currentMonth = new Date().toISOString().substring(0, 7); // "YYYY-MM"
     const lastResetMonth = localStorage.getItem("scout_usage_month");
-    
+
     if (lastResetMonth !== currentMonth) {
       localStorage.setItem("scout_usage_month", currentMonth);
       localStorage.setItem("scout_usage_count", "0");
@@ -241,12 +241,12 @@ export default function Scout() {
   const handleCampaignChange = (newCamp: "gmaps_bridge" | "cargo_automation") => {
     setCampaign(newCamp);
     const config = CAMPAIGNS[newCamp];
-    
+
     // Default location and niche for campaign
     setLocationInput(config.defaultLocation);
     setNiche(config.categories[0].options[0]);
     setCustomNiche("");
-    
+
     // Set campaign-specific filter defaults
     if (newCamp === "gmaps_bridge") {
       setFilterWebsite("no_website");
@@ -355,7 +355,8 @@ export default function Scout() {
         reviewCount: lead.reviewCount,
         niche: finalNiche,
         location: locationInput,
-        status: "New"
+        status: "New",
+        whatsappLink: generateWhatsAppLink(lead) || ""
       };
 
       const res = await fetch("/.netlify/functions/scout-crm", {
@@ -406,7 +407,8 @@ export default function Scout() {
           reviewCount: lead.reviewCount,
           niche: finalNiche,
           location: locationInput,
-          status: "New"
+          status: "New",
+          whatsappLink: generateWhatsAppLink(lead) || ""
         };
 
         const res = await fetch("/.netlify/functions/scout-crm", {
@@ -469,10 +471,10 @@ export default function Scout() {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        
+
         {/* Left Column: Script & Form Settings */}
         <div className="lg:col-span-1 space-y-6">
-          
+
           {/* Active Campaign Presets */}
           <div className="bg-card border border-border rounded-xl p-4 shadow-sm">
             <label className="block text-xs font-semibold text-foreground uppercase tracking-wider mb-2.5">Active Campaign Presets</label>
@@ -484,11 +486,10 @@ export default function Scout() {
                     key={key}
                     type="button"
                     onClick={() => handleCampaignChange(key as any)}
-                    className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all text-center flex flex-col items-center justify-center gap-1 ${
-                      isSelected
+                    className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all text-center flex flex-col items-center justify-center gap-1 ${isSelected
                         ? "bg-primary/10 border-primary text-primary shadow-sm"
                         : "bg-muted/30 border-border/50 text-muted-foreground hover:bg-muted/55 hover:text-foreground"
-                    }`}
+                      }`}
                   >
                     <span>{value.name}</span>
                   </button>
@@ -596,7 +597,7 @@ export default function Scout() {
                   required
                 />
                 <MapPin className="absolute left-3 top-2.5 w-3.5 h-3.5 text-muted-foreground" />
-                
+
                 {showSuggestions && matchingSuggestions.length > 0 && (
                   <div className="absolute z-50 left-0 right-0 mt-1 bg-popover border border-border rounded-md shadow-lg max-h-48 overflow-y-auto">
                     {matchingSuggestions.map((loc) => (
@@ -615,7 +616,7 @@ export default function Scout() {
                   </div>
                 )}
               </div>
-              
+
               {/* Dynamic District suggestion chips for selected state */}
               <div className="flex flex-wrap gap-1.5 mt-2">
                 {NIGERIAN_STATES_DISTRICTS[selectedState]?.map((district) => {
@@ -629,11 +630,10 @@ export default function Scout() {
                         setLocationInput(fullLoc);
                         setShowSuggestions(false);
                       }}
-                      className={`text-[10px] px-2 py-0.5 rounded-full transition-colors border ${
-                        isSelected
+                      className={`text-[10px] px-2 py-0.5 rounded-full transition-colors border ${isSelected
                           ? "bg-primary/20 border-primary text-primary font-medium"
                           : "bg-muted/60 border-border/40 text-muted-foreground hover:bg-muted"
-                      }`}
+                        }`}
                     >
                       {district}
                     </button>
@@ -651,22 +651,20 @@ export default function Scout() {
                   <button
                     type="button"
                     onClick={() => setSearchProvider("google")}
-                    className={`py-1 text-[9px] font-bold rounded transition-all ${
-                      searchProvider === "google"
+                    className={`py-1 text-[9px] font-bold rounded transition-all ${searchProvider === "google"
                         ? "bg-primary text-primary-foreground shadow-sm"
                         : "text-muted-foreground hover:text-foreground hover:bg-background/20"
-                    }`}
+                      }`}
                   >
                     Google
                   </button>
                   <button
                     type="button"
                     onClick={() => setSearchProvider("tomtom")}
-                    className={`py-1 text-[9px] font-bold rounded transition-all ${
-                      searchProvider === "tomtom"
+                    className={`py-1 text-[9px] font-bold rounded transition-all ${searchProvider === "tomtom"
                         ? "bg-primary text-primary-foreground shadow-sm"
                         : "text-muted-foreground hover:text-foreground hover:bg-background/20"
-                    }`}
+                      }`}
                   >
                     TomTom (Free)
                   </button>
@@ -681,13 +679,12 @@ export default function Scout() {
                     type="button"
                     disabled={searchProvider === "tomtom"}
                     onClick={() => setScanMode("standard")}
-                    className={`py-1 text-[9px] font-bold rounded transition-all ${
-                      searchProvider === "tomtom"
+                    className={`py-1 text-[9px] font-bold rounded transition-all ${searchProvider === "tomtom"
                         ? "opacity-30 cursor-not-allowed text-muted-foreground/40 bg-transparent"
                         : scanMode === "standard"
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground hover:bg-background/20"
-                    }`}
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground hover:bg-background/20"
+                      }`}
                   >
                     ⚡ Standard
                   </button>
@@ -695,13 +692,12 @@ export default function Scout() {
                     type="button"
                     disabled={searchProvider === "tomtom"}
                     onClick={() => setScanMode("grid")}
-                    className={`py-1 text-[9px] font-bold rounded transition-all ${
-                      searchProvider === "tomtom"
+                    className={`py-1 text-[9px] font-bold rounded transition-all ${searchProvider === "tomtom"
                         ? "opacity-30 cursor-not-allowed text-muted-foreground/40 bg-transparent"
                         : scanMode === "grid"
-                        ? "bg-primary text-primary-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground hover:bg-background/20"
-                    }`}
+                          ? "bg-primary text-primary-foreground shadow-sm"
+                          : "text-muted-foreground hover:text-foreground hover:bg-background/20"
+                      }`}
                   >
                     🗺️ Deep Grid
                   </button>
@@ -722,7 +718,7 @@ export default function Scout() {
                 </div>
                 {filtersExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </button>
-              
+
               {filtersExpanded && (
                 <div className="p-3.5 border-t border-border bg-muted/5 space-y-3">
                   <div>
@@ -791,7 +787,7 @@ export default function Scout() {
         {/* Right Column: Search Results */}
         <div className="lg:col-span-2">
           <div className="bg-card border border-border rounded-xl p-5 shadow-sm min-h-[500px] flex flex-col">
-            
+
             {/* Header with Meta */}
             <div className="border-b border-border pb-3.5 mb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -810,27 +806,25 @@ export default function Scout() {
               </div>
               {meta && (
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <span className={`text-[9px] font-semibold px-2 py-0.5 rounded border capitalize ${
-                    meta.provider === "google"
+                  <span className={`text-[9px] font-semibold px-2 py-0.5 rounded border capitalize ${meta.provider === "google"
                       ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
                       : "bg-purple-500/10 text-purple-400 border-purple-500/20"
-                  }`}>
+                    }`}>
                     {meta.provider} engine
                   </span>
                   <span className="text-[10px] font-medium bg-muted text-muted-foreground px-2 py-0.5 rounded">
                     {meta.total} Leads Found
                   </span>
-                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded flex items-center gap-1 ${
-                    meta.phoneCoverage >= 70
+                  <span className={`text-[10px] font-medium px-2 py-0.5 rounded flex items-center gap-1 ${meta.phoneCoverage >= 70
                       ? "bg-emerald-500/10 text-emerald-500"
                       : meta.phoneCoverage >= 40
-                      ? "bg-amber-500/10 text-amber-500"
-                      : "bg-red-500/10 text-red-500"
-                  }`}>
+                        ? "bg-amber-500/10 text-amber-500"
+                        : "bg-red-500/10 text-red-500"
+                    }`}>
                     <Phone className="w-2.5 h-2.5" />
                     {meta.withPhone}/{meta.total} Phones ({meta.phoneCoverage}%)
                   </span>
-                  
+
                   {leads.some(l => !l.savedId && l.phone) && (
                     <button
                       onClick={handleSaveAllNew}
@@ -892,11 +886,10 @@ export default function Scout() {
                 return (
                   <div
                     key={idx}
-                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg border transition-all gap-4 ${
-                      lead.savedId
+                    className={`flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg border transition-all gap-4 ${lead.savedId
                         ? "bg-muted/5 border-border/40 opacity-75"
                         : "bg-muted/15 border-border/70 hover:border-primary/30"
-                    }`}
+                      }`}
                   >
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center flex-wrap gap-2">
@@ -944,7 +937,7 @@ export default function Scout() {
                         )}
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center gap-2 shrink-0 sm:self-center">
                       {/* Save to CRM button */}
                       {!lead.savedId && (
@@ -987,7 +980,7 @@ export default function Scout() {
 
           </div>
         </div>
-        
+
       </div>
     </div>
   );

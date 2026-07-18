@@ -17,6 +17,7 @@ interface CRMLead {
   notes?: string;
   scoutedAt?: string;
   contactedAt?: string;
+  whatsappLink?: string;
 }
 
 const COLUMNS: { id: CRMLead['status']; label: string; color: string; bg: string; border: string }[] = [
