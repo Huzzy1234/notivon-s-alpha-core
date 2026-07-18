@@ -234,7 +234,7 @@ async function deleteLead(webAppUrl: string, id: string): Promise<void> {
 }
 
 /* ── Main Handler ── */
-export default async (req: Request): Promise<Response> => {
+const webHandler = async (req: Request): Promise<Response> => {
   if (!checkAuth(req.headers)) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
@@ -311,3 +311,37 @@ export default async (req: Request): Promise<Response> => {
     );
   }
 };
+
+export default async function handler(req: any, res: any) {
+  try {
+    const host = req.headers.host || "localhost";
+    const protocol = req.headers["x-forwarded-proto"] || "http";
+    const webUrl = `${protocol}://${host}${req.url}`;
+    
+    const webReq = {
+      method: req.method,
+      headers: {
+        get: (name: string) => {
+          const val = req.headers[name.toLowerCase()];
+          return Array.isArray(val) ? val.join(", ") : val || null;
+        }
+      } as unknown as Headers,
+      url: webUrl,
+      json: async () => req.body,
+    } as unknown as Request;
+
+    const webRes = await webHandler(webReq);
+    
+    webRes.headers.forEach((value, key) => {
+      res.setHeader(key, value);
+    });
+    
+    const status = webRes.status;
+    const bodyText = await webRes.text();
+    
+    res.status(status).send(bodyText);
+  } catch (err: any) {
+    console.error("Vercel adapter error:", err);
+    res.status(500).json({ error: "Internal server error", details: err.message });
+  }
+}
