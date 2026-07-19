@@ -1,0 +1,45 @@
+{
+  "_comment": "Copy this file, rename it to <clientslug>.json, fill in the fields below.",
+
+  "businessName": "Business Name Here",
+  "location": "Lekki, Lagos",
+  "niche": "spa",
+
+  "accentPalette": "rose",
+  "_palettes": "rose | teal | indigo | gold | slate | emerald | plum — or leave blank to auto-pick from niche",
+
+  "tagline": "Leave blank to auto-pick from niche",
+  "faviconEmoji": "🌿",
+
+  "whatsappNumber": "08012345678",
+  "_whatsappNote": "Can be local (080...) or international (+234...) — script normalises it",
+
+  "rating": 4.7,
+  "reviewCount": 83,
+
+  "service1": {
+    "name": "Service Name",
+    "desc": "Short, benefit-focused description of what this service is and why clients love it.",
+    "price": "₦15,000"
+  },
+  "service2": {
+    "name": "Service Name",
+    "desc": "Short, benefit-focused description of what this service is and why clients love it.",
+    "price": "₦12,000"
+  },
+  "service3": {
+    "name": "Service Name",
+    "desc": "Short, benefit-focused description of what this service is and why clients love it.",
+    "price": "₦8,000"
+  },
+
+  "hours": "Mon – Sat: 9:00 AM – 7:00 PM\nSunday: 11:00 AM – 5:00 PM",
+
+  "address": "12 Example Street, Lekki Phase 1, Lagos",
+
+  "metaTitle": "Business Name — Lekki, Lagos",
+  "_metaTitleNote": "Leave blank to auto-generate",
+
+  "metaDescription": "Book your appointment at Business Name in Lekki. Premium services available. WhatsApp booking.",
+  "_metaDescNote": "Leave blank to auto-generate"
+}

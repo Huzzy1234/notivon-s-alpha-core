@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Search, Loader2, MapPin, Star, Globe, MessageCircle, Phone, Check, Plus, FolderPlus, ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
 import { toast } from "sonner";
 
@@ -950,6 +951,15 @@ export default function Scout() {
                           {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Plus className="w-3.5 h-3.5" />}
                         </button>
                       )}
+
+                      {/* Build Bridge Page button */}
+                      <Link
+                        to={`/ops/bridge-builder?name=${encodeURIComponent(lead.name)}&address=${encodeURIComponent(lead.address)}&phone=${encodeURIComponent(lead.phone || "")}&rating=${lead.rating}&reviews=${lead.reviewCount}&niche=${encodeURIComponent(niche)}&location=${encodeURIComponent(locationInput)}`}
+                        className="inline-flex items-center justify-center p-2 rounded-md bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 transition-colors"
+                        title="Build Bridge Page"
+                      >
+                        <Globe className="w-3.5 h-3.5" />
+                      </Link>
 
                       {waLink ? (
                         <a

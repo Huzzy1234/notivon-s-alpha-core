@@ -1,4 +1,4 @@
-import { LogOut, MapPin, Calculator, ClipboardList } from "lucide-react";
+import { LogOut, MapPin, Calculator, ClipboardList, Globe } from "lucide-react";
 import { Link, useLocation, Navigate, Outlet } from "react-router-dom";
 
 export default function OpsLayout() {
@@ -17,6 +17,7 @@ export default function OpsLayout() {
   const navItems = [
     { name: "Lead Scout", path: "/ops/scout", icon: MapPin },
     { name: "Pipeline", path: "/ops/pipeline", icon: ClipboardList },
+    { name: "Bridge Builder", path: "/ops/bridge-builder", icon: Globe },
     { name: "Cost Calc", path: "/ops/cost-calculator", icon: Calculator },
   ];
 

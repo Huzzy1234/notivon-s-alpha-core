@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{META_TITLE}}</title>
+<meta name="description" content="{{META_DESCRIPTION}}">
+<meta property="og:title" content="{{META_TITLE}}">
+<meta property="og:description" content="{{META_DESCRIPTION}}">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="{{ACCENT_COLOR}}">
+
+<!-- Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>{{FAVICON_EMOJI}}</text></svg>">
+
+<!-- Premium Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #2D2825;
+  background: #FCFAF7; /* Warm alabaster background */
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+
+/* ── Theme Variables ── */
+:root {
+  {{CSS_VARIABLES}}
+  --wa-green: #25D366;
+  --wa-green-hover: #20BA59;
+  --text-primary: #1A1818;
+  --text-secondary: #5C5552;
+  --text-muted: #8C8581;
+  --bg-white: #ffffff;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.01);
+  --shadow-md: 0 12px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.01);
+  --shadow-lg: 0 20px 40px -15px rgba(0, 0, 0, 0.08), 0 1px 5px rgba(0, 0, 0, 0.02);
+  --container: 640px;
+}
+
+/* ── Layout ── */
+.container { max-width: var(--container); margin: 0 auto; padding: 0 1.25rem; }
+section { padding: 4rem 0; }
+
+/* ── Typography Helpers ── */
+h1, h2, h3, .font-heading {
+  font-family: var(--font-heading), 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+/* ── Scroll Animation classes ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Sticky Navigation Header ── */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(252, 250, 247, 0.85); /* Matches warm body background */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 0.85rem 0;
+  transition: all 0.3s ease;
+}
+.navbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  min-width: 0;
+}
+.navbar-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  border: 1.5px solid rgba(var(--accent-rgb), 0.15);
+  flex-shrink: 0;
+}
+.navbar-name {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.navbar-cta {
+  background: var(--accent-dark);
+  color: #ffffff;
+  padding: 0.5rem 1.15rem;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.15);
+  flex-shrink: 0;
+}
+.navbar-cta:hover {
+  background: var(--accent-darker);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(var(--accent-rgb), 0.22);
+}
+
+/* ── Hero Section ── */
+.hero {
+  background: radial-gradient(circle at -10% -10%, rgba(var(--accent-rgb), 0.12) 0%, transparent 60%),
+              radial-gradient(circle at 110% 110%, rgba(var(--accent-rgb), 0.08) 0%, transparent 50%),
+              #FCFAF7;
+  padding: 3.5rem 1.25rem 3.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+}
+.hero-bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.service-image {
+  width: 100%;
+  height: 160px;
+  background-size: cover;
+  background-position: center;
+  border-radius: calc(var(--radius-md) - 4px);
+  margin-bottom: 0.5rem;
+}
+.hero-tagline {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.65rem;
+}
+.hero h1 {
+  font-size: 2.6rem;
+  letter-spacing: -0.02em;
+  color: var(--accent-darker);
+  margin-bottom: 0.75rem;
+}
+.hero-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  background: #FFFFFF;
+  padding: 0.4rem 1rem;
+  border-radius: 100px;
+  font-weight: 500;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-sm);
+}
+.hero-location svg {
+  width: 14px;
+  height: 14px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--wa-green);
+  color: #ffffff;
+  padding: 0.95rem 2.25rem;
+  border-radius: 100px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 20px -4px rgba(37, 211, 102, 0.35);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  z-index: 2;
+}
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -4px rgba(37, 211, 102, 0.45);
+  background: var(--wa-green-hover);
+}
+.hero-cta svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ── Trust Google Card ── */
+.trust-container {
+  max-width: var(--container);
+  margin: -1.75rem auto 0;
+  padding: 0 1.25rem;
+  position: relative;
+  z-index: 10;
+}
+.trust-card {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 1.15rem 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.trust-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.google-icon-bg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #F8F9FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+.google-icon-bg svg {
+  width: 18px;
+  height: 18px;
+}
+.rating-info {
+  display: flex;
+  flex-direction: column;
+}
+.rating-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.rating-number {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.rating-stars {
+  position: relative;
+  display: inline-block;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+}
+.stars-bg { color: #E2E8F0; }
+.stars-fg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  color: #F4B400;
+  white-space: nowrap;
+  width: {{STAR_FILL_PERCENT}}%;
+}
+.reviews-count {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+.trust-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  color: #15803D;
+  background: #DCFCE7;
+  padding: 0.25rem 0.6rem;
+  border-radius: 100px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.verified-badge svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Services Section ── */
+.services {
+  background: #FCFAF7;
+  padding: 4.5rem 0 3.5rem;
+}
+
+/* Category Cover Banner (Inspiration from Squarespace Category cards) */
+.category-banner {
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.45)),
+              radial-gradient(circle at 15% 20%, rgba(var(--accent-rgb), 0.55) 0%, transparent 55%),
+              radial-gradient(circle at 85% 80%, var(--accent-darker) 0%, transparent 60%),
+              #1A1715; /* Elegant charcoal base */
+  color: #ffffff;
+  padding: 3.5rem 1.5rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  margin-bottom: 2.25rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+.category-title {
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+}
+.category-subtitle {
+  font-size: 0.75rem;
+  opacity: 0.85;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  display: block;
+}
+
+/* Service Card redesign (outline button, start from price stack) */
+.service-card {
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ECE7E2; /* Soft grey/beige border matches inspo */
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.service-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(var(--accent-rgb), 0.2);
+}
+.service-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+.service-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.service-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed #ECE7E2;
+}
+.price-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.price-label {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.price-value {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--accent-dark);
+}
+.card-book-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: var(--accent-dark);
+  border: 1.5px solid var(--accent);
+  padding: 0.45rem 1.25rem;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-book-btn:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  box-shadow: 0 4px 10px rgba(var(--accent-rgb), 0.15);
+}
+
+/* ── Info / Location Section ── */
+.info-section {
+  background: #ffffff;
+  padding: 4.5rem 0;
+  border-bottom: 1px solid #ECE7E2;
+}
+.info-card {
+  background: #FCFAF7;
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  border: 1px solid #ECE7E2;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.info-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.info-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(var(--accent-rgb), 0.08);
+}
+.info-icon-wrapper svg {
+  width: 18px;
+  height: 18px;
+}
+.info-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.info-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.info-text {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* Map Illustration */
+.map-illustration {
+  width: 100%;
+  height: 170px;
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ECE7E2;
+}
+
+/* ── CTA Section ── */
+.cta {
+  background: radial-gradient(circle at 100% 0%, rgba(var(--accent-rgb), 0.15) 0%, transparent 60%),
+              radial-gradient(circle at 0% 100%, rgba(var(--accent-rgb), 0.08) 0%, transparent 60%),
+              var(--accent-darker);
+  color: #fff;
+  text-align: center;
+  padding: 4.5rem 1.25rem;
+  position: relative;
+  overflow: hidden;
+}
+.cta-title {
+  color: #ffffff;
+  font-size: 2.1rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+}
+.cta-desc {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  max-width: 440px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--wa-green);
+  color: #fff;
+  padding: 1.05rem 2.25rem;
+  border-radius: 100px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 24px -4px rgba(37, 211, 102, 0.45);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: pulse-glow 2.5s ease-in-out infinite;
+}
+.cta-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 30px -4px rgba(37, 211, 102, 0.55);
+  background: var(--wa-green-hover);
+}
+.cta-btn svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 6px 20px -4px rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 0 6px 28px 2px rgba(37, 211, 102, 0.6); }
+}
+
+/* ── Footer ── */
+/* ── Footer ── */
+.footer {
+  background: #ffffff;
+  border-top: 1px solid #ECE7E2;
+  padding: 4rem 1.25rem 7.5rem;
+  color: var(--text-secondary);
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+  max-width: var(--container);
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.footer-logo-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  border: 1px solid rgba(var(--accent-rgb), 0.1);
+}
+.footer-brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.footer-tagline {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.footer-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-weight: 500;
+}
+.footer-links a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+.footer-socials {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.25rem;
+}
+.footer-social-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #FCFAF7;
+  border: 1px solid #ECE7E2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+.footer-social-icon:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-color: rgba(var(--accent-rgb), 0.2);
+}
+.footer-social-icon svg {
+  width: 14px;
+  height: 14px;
+}
+.footer-bottom {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid #FCFAF7;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  max-width: var(--container);
+  margin: 0 auto;
+}
+.footer-bottom a {
+  color: var(--accent-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+.footer-bottom a:hover {
+  text-decoration: underline;
+}
+
+/* ── Floating Glassmorphic Action Bar ── */
+.float-bar {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 0.75rem 1rem;
+  transform: translateY(150px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  max-width: calc(var(--container) - 2.5rem);
+  margin: 0 auto;
+}
+.float-bar.show {
+  transform: translateY(0);
+}
+.float-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.float-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.float-rating {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-weight: 500;
+}
+.float-star {
+  color: #F4B400;
+  font-size: 0.8rem;
+}
+.float-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--wa-green);
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: 100px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 4px 12px -2px rgba(37, 211, 102, 0.3);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.float-btn:hover {
+  background: var(--wa-green-hover);
+  box-shadow: 0 6px 16px -2px rgba(37, 211, 102, 0.4);
+}
+.float-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Sticky Navigation Header ── -->
+<nav class="navbar">
+  <div class="container navbar-inner">
+    <a href="#" class="navbar-brand">
+      <div class="navbar-logo">{{FIRST_LETTER}}</div>
+      <span class="navbar-name">{{BUSINESS_NAME}}</span>
+    </a>
+    <a href="{{WHATSAPP_LINK}}" target="_blank" rel="noopener" class="navbar-cta">Book Now</a>
+  </div>
+</nav>
+
+<!-- ── Hero Section ── -->
+<header class="hero">
+  <div class="hero-bg-image" style="background-image: url('{{HERO_IMAGE_URL}}'); display: {{HERO_IMAGE_DISPLAY}};"></div>
+  <div class="container">
+    <p class="hero-tagline">{{TAGLINE}}</p>
+    <h1>{{BUSINESS_NAME}}</h1>
+    <div class="hero-location">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      {{LOCATION}}
+    </div>
+    <div>
+      <a href="{{WHATSAPP_LINK}}" target="_blank" rel="noopener" class="hero-cta">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Book on WhatsApp
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ── Trust Google Card ── -->
+<div class="trust-container reveal">
+  <div class="trust-card">
+    <div class="trust-left">
+      <div class="google-icon-bg">
+        <svg viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22c-.22-.67-.35-1.37-.35-2.09z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+        </svg>
+      </div>
+      <div class="rating-info">
+        <div class="rating-row">
+          <span class="rating-number">{{RATING}}</span>
+          <div class="rating-stars">
+            <span class="stars-bg">★★★★★</span>
+            <span class="stars-fg">★★★★★</span>
+          </div>
+        </div>
+        <span class="reviews-count">Based on {{REVIEW_COUNT}} Google reviews</span>
+      </div>
+    </div>
+    <div class="trust-right">
+      <span class="verified-badge">
+        <svg viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M6.267 3.455a.75.75 0 00-.708-.523H4.5a2.5 2.5 0 00-2.5 2.5v1.059a.75.75 0 00.523.708 3.504 3.504 0 012.477 2.477.75.75 0 00.708.523h1.059a2.5 2.5 0 002.5-2.5V6.659a.75.75 0 00-.523-.708 3.504 3.504 0 01-2.477-2.477zM8.9 9.3a.75.75 0 011.06 0l3 3a.75.75 0 01-1.06 1.06l-3-3a.75.75 0 010-1.06z" clip-rule="evenodd"/>
+          <path d="M12.427 2.059A.75.75 0 0012.25 1.5H11.5a2.5 2.5 0 00-2.5 2.5v.75a.75.75 0 00.75.75h.75a2.5 2.5 0 002.5-2.5v-.75a.75.75 0 00-.573-.741zM2.059 12.427A.75.75 0 001.5 12.25v-.75a2.5 2.5 0 012.5-2.5h.75a.75.75 0 01.75.75v.75a2.5 2.5 0 01-2.5 2.5h-.75a.75.75 0 00-.741-.573zM16.5 11.5a2.5 2.5 0 01-2.5 2.5h-.75a.75.75 0 01-.75-.75v-.75a2.5 2.5 0 012.5-2.5h.75a.75.75 0 01.75.75v.75z" />
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+        Verified
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ── Services Section ── -->
+<section id="services" class="services">
+  <div class="container">
+    
+    <!-- Squarespace Inspired Category Banner -->
+    <div class="category-banner reveal">
+      <span class="category-subtitle">Featured Treatments</span>
+      <h2 class="category-title">Our Services</h2>
+    </div>
+
+    <!-- Service Card 1 -->
+    <div class="service-card reveal">
+      <div class="service-image" style="background-image: url('{{SERVICE_1_IMAGE_URL}}'); display: {{SERVICE_1_IMAGE_DISPLAY}};"></div>
+      <div class="service-name">{{SERVICE_1_NAME}}</div>
+      <p class="service-desc">{{SERVICE_1_DESC}}</p>
+      <div class="service-footer">
+        <div class="price-stack">
+          <span class="price-label">Start From</span>
+          <span class="price-value">{{SERVICE_1_PRICE}}</span>
+        </div>
+        <a href="{{WHATSAPP_LINK}}" target="_blank" rel="noopener" class="card-book-btn">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Service Card 2 -->
+    <div class="service-card reveal">
+      <div class="service-image" style="background-image: url('{{SERVICE_2_IMAGE_URL}}'); display: {{SERVICE_2_IMAGE_DISPLAY}};"></div>
+      <div class="service-name">{{SERVICE_2_NAME}}</div>
+      <p class="service-desc">{{SERVICE_2_DESC}}</p>
+      <div class="service-footer">
+        <div class="price-stack">
+          <span class="price-label">Start From</span>
+          <span class="price-value">{{SERVICE_2_PRICE}}</span>
+        </div>
+        <a href="{{WHATSAPP_LINK}}" target="_blank" rel="noopener" class="card-book-btn">Book Now</a>
+      </div>
+    </div>
+
+    <!-- Service Card 3 -->
+    <div class="service-card reveal">
+      <div class="service-image" style="background-image: url('{{SERVICE_3_IMAGE_URL}}'); display: {{SERVICE_3_IMAGE_DISPLAY}};"></div>
+      <div class="service-name">{{SERVICE_3_NAME}}</div>
+      <p class="service-desc">{{SERVICE_3_DESC}}</p>
+      <div class="service-footer">
+        <div class="price-stack">
+          <span class="price-label">Start From</span>
+          <span class="price-value">{{SERVICE_3_PRICE}}</span>
+        </div>
+        <a href="{{WHATSAPP_LINK}}" target="_blank" rel="noopener" class="card-book-btn">Book Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Info Section ── -->
+<section id="location" class="info-section">
+  <div class="container">
+    <div class="section-header reveal" style="text-align: center; margin-bottom: 2.5rem;">
+      <span class="section-label">Come Visit Us</span>
+      <h2 class="section-title" style="font-size: 1.85rem; letter-spacing: -0.02em; color: var(--accent-darker);">Location & Hours</h2>
+    </div>
+
+    <div class="info-card reveal">
+      <div class="info-row">
+        <div class="info-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="info-details">
+          <span class="info-title">Opening Hours</span>
+          <span class="info-text">{{HOURS}}</span>
+        </div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="info-details">
+          <span class="info-title">Address</span>
+          <span class="info-text">{{ADDRESS}}</span>
+        </div>
+      </div>
+
+      <!-- Styled Interactive Map Illustration -->
+      <div class="map-illustration">
+        <svg width="100%" height="100%" viewBox="0 0 400 170" preserveAspectRatio="none" style="display:block;">
+          <rect width="100%" height="100%" fill="#F1ECE8" />
+          
+          <!-- Secondary roads -->
+          <path d="M-20,30 L420,30" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" />
+          <path d="M-20,135 L420,135" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" />
+          <path d="M90,-20 L90,190" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round" />
+          
+          <!-- Main road -->
+          <path d="M300,-20 L300,190" stroke="#FFFFFF" stroke-width="24" stroke-linecap="round" />
+          <path d="M300,-20 L300,190" stroke="#E5DEC9" stroke-width="2" stroke-dasharray="6,6" />
+          
+          <!-- Borders of roads -->
+          <path d="M-20,30 L420,30" stroke="#E3DDD9" stroke-width="1" fill="none" />
+          <path d="M-20,135 L420,135" stroke="#E3DDD9" stroke-width="1" fill="none" />
+          <path d="M90,-20 L90,190" stroke="#E3DDD9" stroke-width="1" fill="none" />
+          <path d="M300,-20 L300,190" stroke="#E3DDD9" stroke-width="1" fill="none" />
+          
+          <!-- Ambient river/sea details (Lekki water aesthetic) -->
+          <path d="M-20,-10 C 40,-5 80,-15 120,-10 C 160,-5 200,-15 240,-10 L 240,-50 L -20,-50 Z" fill="#DCE7EB" opacity="0.7"/>
+
+          <!-- Map Pin Glow -->
+          <circle cx="300" cy="85" r="16" fill="rgba(var(--accent-rgb), 0.22)" />
+          <circle cx="300" cy="85" r="32" fill="rgba(var(--accent-rgb), 0.08)" />
+
+          <!-- Map Pin -->
+          <path d="M300,70 C292.8,70 287,75.8 287,83 C287,92.5 300,103 300,103 C300,103 313,92.5 313,83 C313,75.8 307.2,70 300,70 Z" fill="var(--accent)" />
+          <circle cx="300" cy="81" r="4.5" fill="#FFFFFF" />
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA Section ── -->
+<section class="cta">
+  <div class="container">
+    <h2 class="cta-title reveal">Ready to Book?</h2>
+    <p class="cta-desc reveal">Tap below to chat directly with us on WhatsApp and secure your preferred session time.</p>
+    <a href="{{WHATSAPP_LINK}}" target="_blank" rel="noopener" class="cta-btn reveal">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Chat on WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- Col 1: Brand -->
+      <div class="footer-col">
+        <div class="footer-logo">
+          <div class="footer-logo-circle">{{FIRST_LETTER}}</div>
+          <span class="footer-brand-name">{{BUSINESS_NAME}}</span>
+        </div>
+        <p class="footer-tagline">{{TAGLINE}} — delivering premium services in {{LOCATION}}.</p>
+      </div>
+      
+      <!-- Col 2: Services -->
+      <div class="footer-col">
+        <h4 class="footer-title">Services</h4>
+        <ul class="footer-links">
+          <li><a href="#services">{{SERVICE_1_NAME}}</a></li>
+          <li><a href="#services">{{SERVICE_2_NAME}}</a></li>
+          <li><a href="#services">{{SERVICE_3_NAME}}</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Quick Links -->
+      <div class="footer-col">
+        <h4 class="footer-title">Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#services">Our Services</a></li>
+          <li><a href="#location">Location & Hours</a></li>
+          <li><a href="{{WHATSAPP_LINK}}" target="_blank" rel="noopener">Book Appointment</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Connect -->
+      <div class="footer-col">
+        <h4 class="footer-title">Connect</h4>
+        <p class="footer-tagline" style="margin-bottom: 0.25rem;">Chat with us on WhatsApp or find us on Google Maps.</p>
+        <div class="footer-socials">
+          <a href="{{WHATSAPP_LINK}}" class="footer-social-icon" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+          <a href="#" class="footer-social-icon" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="footer-social-icon" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      &copy; {{CURRENT_YEAR}} {{BUSINESS_NAME}} &middot; Designed by <a href="https://notivon.com" target="_blank" rel="noopener">Notivon</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── Floating Glassmorphic Action Bar ── -->
+<div class="float-bar" id="floatBar">
+  <div class="float-info">
+    <span class="float-title">{{BUSINESS_NAME}}</span>
+    <div class="float-rating">
+      <span class="float-star">★</span>
+      <span><strong>{{RATING}}</strong> ({{REVIEW_COUNT}} reviews)</span>
+    </div>
+  </div>
+  <a href="{{WHATSAPP_LINK}}" target="_blank" rel="noopener" class="float-btn">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Book Now
+  </a>
+</div>
+
+<script>
+/* ── Smooth Scroll Reveal Animation ── */
+(function() {
+  const revealElements = document.querySelectorAll('.reveal');
+  
+  function checkReveal() {
+    const triggerBottom = window.innerHeight * 0.88;
+    
+    revealElements.forEach(el => {
+      const elTop = el.getBoundingClientRect().top;
+      if (elTop < triggerBottom) {
+        el.classList.add('active');
+      }
+    });
+  }
+  
+  // Initial check
+  window.addEventListener('load', checkReveal);
+  window.addEventListener('scroll', checkReveal, { passive: true });
+  
+  /* ── Floating Action Bar scroll trigger ── */
+  const floatBar = document.getElementById('floatBar');
+  const hero = document.querySelector('.hero');
+  
+  if (floatBar && hero) {
+    let active = false;
+    window.addEventListener('scroll', function() {
+      const triggerPos = hero.offsetTop + hero.offsetHeight - 50;
+      const scrollPos = window.scrollY;
+      
+      if (scrollPos > triggerPos && !active) {
+        active = true;
+        floatBar.classList.add('show');
+      } else if (scrollPos <= triggerPos && active) {
+        active = false;
+        floatBar.classList.remove('show');
+      }
+    }, { passive: true });
+  }
+})();
+</script>
+
+</body>
+</html>

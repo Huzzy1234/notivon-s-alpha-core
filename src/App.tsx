@@ -20,6 +20,7 @@ import OpsLogin from "./pages/ops/OpsLogin";
 import Scout from "./pages/ops/Scout";
 import Pipeline from "./pages/ops/Pipeline";
 import CostCalculator from "./pages/ops/CostCalculator";
+import BridgeBuilder from "./pages/ops/BridgeBuilder";
 
 // Demos are code-split so they never weigh down the marketing bundle.
 const DocumentProcessor = lazy(() => import("./demos/systems/document-processor"));
@@ -57,6 +58,7 @@ const App = () => (
               <Route path="scout" element={<Scout />} />
               <Route path="pipeline" element={<Pipeline />} />
               <Route path="cost-calculator" element={<CostCalculator />} />
+              <Route path="bridge-builder" element={<BridgeBuilder />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>

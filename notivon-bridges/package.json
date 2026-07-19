@@ -1,0 +1,10 @@
+{
+  "name": "notivon-bridges",
+  "version": "1.0.0",
+  "description": "Notivon bridge page builder",
+  "type": "commonjs",
+  "private": true,
+  "scripts": {
+    "build": "node build.js"
+  }
+}

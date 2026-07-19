@@ -1,0 +1,35 @@
+{
+  "businessName": "Zaza Spa & Wellness",
+  "location": "Lekki Phase 1, Lagos",
+  "niche": "spa",
+
+  "accentPalette": "rose",
+
+  "tagline": "Premium Day Spa",
+  "faviconEmoji": "🌿",
+
+  "whatsappNumber": "08031234567",
+
+  "rating": 4.8,
+  "reviewCount": 112,
+
+  "service1": {
+    "name": "Signature Full Body Massage",
+    "desc": "A 60-minute deeply relaxing massage using warm essential oils — releases tension, improves circulation, and leaves you completely renewed.",
+    "price": "₦25,000"
+  },
+  "service2": {
+    "name": "Luxury Facial Treatment",
+    "desc": "Deep-cleansing facial with medical-grade products tailored to your skin type. Includes extraction, mask, and SPF finish. Visibly glowing skin, guaranteed.",
+    "price": "₦18,000"
+  },
+  "service3": {
+    "name": "Manicure & Pedicure Combo",
+    "desc": "Premium nail care for hands and feet with long-lasting gel polish, cuticle treatment, and a 15-minute hand massage. Walk in, walk out polished.",
+    "price": "₦12,000"
+  },
+
+  "hours": "Mon – Sat: 9:00 AM – 7:00 PM\nSunday: 11:00 AM – 5:00 PM",
+
+  "address": "14B Admiralty Way, Lekki Phase 1, Lagos"
+}

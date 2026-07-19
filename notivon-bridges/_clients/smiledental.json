@@ -1,0 +1,28 @@
+{
+  "businessName": "Smile Dental Clinic",
+  "location": "Ikoyi, Lagos",
+  "niche": "dental",
+  "accentPalette": "teal",
+  "tagline": "Modern Dental Care",
+  "faviconEmoji": "🦷",
+  "whatsappNumber": "08055554433",
+  "rating": 4.9,
+  "reviewCount": 78,
+  "service1": {
+    "name": "Teeth Cleaning & Polishing",
+    "desc": "Scale and polish session to remove plaque and tartar, prevent gum disease, and restore your natural brightness. Quick and pain-free.",
+    "price": "₦20,000"
+  },
+  "service2": {
+    "name": "Laser Teeth Whitening",
+    "desc": "Advanced laser whitening system that brightens teeth by up to 8 shades in a single 45-minute session. Includes protective mineral coating.",
+    "price": "₦65,000"
+  },
+  "service3": {
+    "name": "Comprehensive Oral Exam & X-Ray",
+    "desc": "Full dental checkup with digital low-radiation X-rays, consultation, and a custom treatment plan. Essential for healthy smiles.",
+    "price": "₦15,000"
+  },
+  "hours": "Mon – Fri: 8:00 AM – 6:00 PM\nSaturday: 9:00 AM – 3:00 PM",
+  "address": "12 Kingsway Road, Ikoyi, Lagos"
+}
