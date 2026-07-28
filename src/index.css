@@ -100,6 +100,37 @@ body {
     --sidebar-border: 220 15% 12%;
     --sidebar-ring: 215 100% 60%;
   }
+
+  /* ── Light token context ──
+     Opt-in light theme for token-driven marketing surfaces (e.g. the
+     Scorecard funnel). Wrapping a subtree in `.theme-light` re-themes
+     every semantic token to the light marketing palette without
+     touching component markup. Mirrors src/marketing/theme.ts. */
+  .theme-light {
+    --background: 220 20% 97%;   /* #F6F7F9 */
+    --foreground: 222 47% 8%;    /* #0B1220 */
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 8%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 8%;
+    --primary: 222 100% 59%;     /* #2E6BFF */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 16% 92%;
+    --secondary-foreground: 222 47% 8%;
+    --muted: 220 20% 94%;
+    --muted-foreground: 222 10% 42%;
+    --accent: 222 100% 59%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 14% 88%;
+    --input: 220 14% 86%;
+    --ring: 222 100% 59%;
+    --surface-1: 0 0% 100%;
+    --surface-2: 220 20% 98%;
+    --surface-3: 220 20% 96%;
+    color: hsl(var(--foreground));
+  }
 }
 
 @layer base {

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { EMAIL } from "@/lib/constants";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import MarketingNav from "@/marketing/MarketingNav";
+import MarketingFooter from "@/marketing/MarketingFooter";
 
 const LAST_UPDATED = "June 21, 2026";
 
@@ -21,8 +21,8 @@ const Terms = () => {
         />
       </Helmet>
 
-      <div className="min-h-screen bg-background flex flex-col">
-        <Navbar />
+      <div className="theme-light min-h-screen bg-background flex flex-col font-sans">
+        <MarketingNav />
 
         <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-12 flex-1">
           <div className="container mx-auto max-w-3xl">
@@ -130,7 +130,7 @@ const Terms = () => {
           </div>
         </section>
 
-        <Footer />
+        <MarketingFooter />
       </div>
     </>
   );

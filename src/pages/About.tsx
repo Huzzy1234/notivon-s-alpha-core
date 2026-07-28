@@ -1,205 +1,160 @@
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Mail, MapPin, Users, Zap } from "lucide-react";
-import { PHONE_PRIMARY, PHONE_SECONDARY, WHATSAPP_NUMBER, EMAIL } from "@/lib/constants";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Mail, MapPin, Users, Zap, ArrowRight } from "lucide-react";
+import { PHONE_PRIMARY, WHATSAPP_NUMBER, EMAIL } from "@/lib/constants";
 import hussainImage from "@/assets/hussain-founder.jpeg";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
+import { PAGE, INK, SERIF, MONO, fade } from "@/marketing/theme";
+import { Band, Kicker, useTone } from "@/marketing/primitives";
+import MarketingNav from "@/marketing/MarketingNav";
+import MarketingFooter from "@/marketing/MarketingFooter";
+
+const HeroSection = () => {
+  const c = useTone();
+  return (
+    <section className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center pt-28 sm:pt-32 lg:pt-36 pb-16 sm:pb-24">
+      <motion.div variants={fade} initial="hidden" animate="show" className="lg:col-span-5 order-1">
+        <div className="relative w-60 sm:w-72 mx-auto lg:mx-0">
+          <img src={hussainImage} alt="Hussain — Founder of Notivon" className="w-full aspect-[3/4] object-cover rounded-2xl" style={{ border: `1px solid ${c.line}` }} />
+          <div className="absolute -bottom-3 -right-3 w-full h-full rounded-2xl -z-10" style={{ border: `1px solid ${c.accent}` }} />
+        </div>
+      </motion.div>
+      <motion.div variants={fade} custom={1} initial="hidden" animate="show" className="lg:col-span-7 order-2">
+        <Kicker>Founder</Kicker>
+        <h1 style={{ fontFamily: SERIF, lineHeight: 1.02 }} className="font-medium tracking-[-0.02em] text-[clamp(2.4rem,7vw,4.4rem)] mt-5 mb-6">
+          I'm <span style={{ fontStyle: "italic", color: c.accent }}>Hussain</span>.
+        </h1>
+        <p className="text-[18px] sm:text-[20px] leading-[1.6] max-w-[46ch]" style={{ color: c.mut }}>
+          I built Notivon around one idea: find what's actually costing a business money or time —{" "}
+          <span style={{ color: c.fg, fontWeight: 500 }}>then build the custom system that fixes it.</span>
+        </p>
+        <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-[15px]">
+          <a href={`mailto:${EMAIL}`} className="inline-flex items-center gap-2 transition-opacity hover:opacity-70" style={{ color: c.mut }}>
+            <Mail className="w-4 h-4" style={{ color: c.accentText }} /> {EMAIL}
+          </a>
+          <span className="inline-flex items-center gap-2" style={{ color: c.mut }}>
+            <MapPin className="w-4 h-4" style={{ color: c.accentText }} /> Nigeria → Global
+          </span>
+        </div>
+      </motion.div>
+    </section>
+  );
+};
+
+const ProseSection = ({ kicker, paras }: { kicker: string; paras: React.ReactNode[] }) => {
+  const c = useTone();
+  return (
+    <section className="py-20 sm:py-28">
+      <div className="grid md:grid-cols-12 gap-6 md:gap-10">
+        <div className="md:col-span-4"><Kicker>{kicker}</Kicker></div>
+        <div className="md:col-span-8 space-y-5 text-[16px] sm:text-[17px] leading-[1.7] max-w-[68ch]" style={{ color: c.mut }}>
+          {paras.map((p, i) => <p key={i}>{p}</p>)}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const DifferenceSection = () => {
+  const c = useTone();
+  return (
+    <section className="py-20 sm:py-28">
+      <Kicker>What makes this different</Kicker>
+      <p style={{ fontFamily: SERIF, lineHeight: 1.2 }} className="font-light text-[clamp(1.5rem,4vw,2.4rem)] tracking-[-0.01em] mt-5 mb-10 max-w-[60ch]">
+        Most businesses force generic CRMs onto workflows they were never built for.{" "}
+        <span style={{ color: c.accentText }}>Notivon builds systems designed for how your business actually works.</span>
+      </p>
+      <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+        {[
+          { icon: Users, t: "Direct access", d: "You work directly with me. No junior associates, no handoffs. I'm accountable for results." },
+          { icon: Zap, t: "Fast delivery", d: "Most businesses are live within 2–4 weeks. You start seeing results immediately." },
+        ].map((card, i) => (
+          <motion.div key={card.t} variants={fade} custom={i} initial="hidden" whileInView="show" viewport={{ once: true }} className="rounded-2xl p-7" style={{ background: c.card, border: `1px solid ${c.line}`, boxShadow: c.cardShadow }}>
+            <card.icon className="w-7 h-7 mb-4" strokeWidth={1.5} style={{ color: c.accentText }} />
+            <h3 style={{ fontFamily: SERIF }} className="text-xl font-medium mb-2">{card.t}</h3>
+            <p className="text-[15px] leading-[1.6]" style={{ color: c.mut }}>{card.d}</p>
+          </motion.div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+const WhySection = () => {
+  const c = useTone();
+  return (
+    <section className="py-20 sm:py-28">
+      <Kicker>Why I do this</Kicker>
+      <blockquote style={{ fontFamily: SERIF, lineHeight: 1.2 }} className="font-light text-[clamp(1.5rem,4.4vw,2.7rem)] tracking-[-0.01em] max-w-[24ch] mt-6">
+        Find the real bottleneck in how you work, scope only what solves it, and build a system that
+        makes your team <span style={{ fontStyle: "italic", color: c.accentText }}>faster and more profitable.</span>
+      </blockquote>
+      <p className="mt-8 text-[15px] leading-[1.7] max-w-[60ch]" style={{ color: c.mut }}>
+        Most businesses are doing great work but held back by tools that weren't built for them.
+        My mission is simple — and it starts with an honest read, not a sales pitch.
+      </p>
+    </section>
+  );
+};
+
+const CtaSection = () => {
+  const c = useTone();
+  return (
+    <section className="py-24 sm:py-32 text-center">
+      <h2 style={{ fontFamily: SERIF, lineHeight: 1.05 }} className="font-medium tracking-[-0.02em] text-[clamp(1.9rem,5.5vw,3.2rem)] mb-5">
+        Ready to streamline your operations?
+      </h2>
+      <p className="text-[16px] mb-9 mx-auto max-w-[46ch]" style={{ color: c.mut }}>
+        Let's find the one system that saves your team hours every week — or start with the free map.
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <Link to="/scorecard" className="inline-flex items-center justify-center gap-2 text-[15px] font-semibold px-8 py-4 rounded-full transition-transform hover:-translate-y-0.5" style={{ background: c.accent, color: "#FFFFFF" }}>
+          Get your free Opportunity Map <ArrowRight className="w-4 h-4" />
+        </Link>
+        <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 text-[15px] font-semibold px-8 py-4 rounded-full transition-colors" style={{ border: `1px solid ${c.line}`, color: c.fg }}>
+          WhatsApp us
+        </a>
+      </div>
+      <p className="mt-6 text-[14px]" style={{ color: c.mut }}>
+        Or call <a href={`tel:${PHONE_PRIMARY}`} className="underline-offset-4 hover:underline" style={{ color: c.accentText }}>{PHONE_PRIMARY}</a>
+      </p>
+    </section>
+  );
+};
 
 const About = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
-    <>
+    <div style={{ background: PAGE, color: INK, fontFamily: "'Instrument Sans', sans-serif" }} className="min-h-screen antialiased overflow-x-hidden selection:bg-[#2E6BFF] selection:text-white">
       <Helmet>
         <title>About Hussain | Notivon — Custom Systems Builder</title>
-        <meta
-          name="description"
-          content="Meet Hussain, founder of Notivon. He finds what's actually costing a business money or time, then builds the custom system that fixes it."
-        />
+        <meta name="description" content="Meet Hussain, founder of Notivon. He finds what's actually costing a business money or time, then builds the custom system that fixes it." />
       </Helmet>
 
-      <div className="min-h-screen bg-background flex flex-col">
-        <Navbar />
+      <MarketingNav />
 
-        {/* Hero Section */}
-        <section className="pt-32 pb-16 px-4 sm:px-6 lg:px-12 flex-1">
-          <div className="container mx-auto max-w-6xl">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div className="relative order-1 lg:order-1">
-                <div className="relative aspect-[3/4] w-64 sm:w-72 mx-auto lg:mx-0">
-                  <img
-                    src={hussainImage}
-                    alt="Hussain - Founder of Notivon"
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500"
-                  />
-                  <div className="absolute inset-0 border border-primary/20" />
-                  <div className="absolute -bottom-3 -right-3 w-full h-full border border-primary/40 -z-10" />
-                </div>
-              </div>
+      <main>
+        <Band t="light"><HeroSection /></Band>
+        <Band t="dark">
+          <ProseSection kicker="The problem I saw" paras={[
+            <>A visa agency chasing clients for documents and catching an expired passport two weeks before submission. A clearing agent tracking shipments across WhatsApp groups and losing hours to paperwork. A sales team copy-pasting leads between spreadsheets. <span style={{ color: "#EDEFF3" }}>Different industries, same pattern: manual processes, costly errors, and wasted time.</span></>,
+            <>I kept seeing businesses doing incredible work but held back by tools that weren't built for them. Generic CRMs, spreadsheets, and WhatsApp groups patched together — none of it designed for how they actually operate. That's where Notivon comes in.</>,
+          ]} />
+        </Band>
+        <Band t="light">
+          <ProseSection kicker="My background" paras={[
+            <>I've spent years in the automation space — building systems, workflows, and AI-powered tools for businesses across the US, Australia, Dubai, and Nigeria. From automated outreach (Saydieko) to deal-sourcing engines (Dealflow) to operations management, I've helped companies eliminate manual bottlenecks and scale without adding headcount.</>,
+            <>In 2025, I launched Notivon with a focus on Nigerian trade and compliance businesses — visa agencies and customs clearing agents. VisaGuard and ClearVoy are the first systems built under that banner. But the mandate is broader: any business where the right custom system would change how they operate.</>,
+          ]} />
+        </Band>
+        <Band t="dark"><DifferenceSection /></Band>
+        <Band t="light"><WhySection /></Band>
+        <Band t="dark"><CtaSection /></Band>
+      </main>
 
-              <div className="order-2 lg:order-2">
-                <p className="text-primary text-sm font-semibold uppercase tracking-widest mb-4">
-                  Founder
-                </p>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground mb-6">
-                  I'm Hussain
-                </h1>
-                <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-                  I built Notivon around one idea: find what's actually costing a business money or time —
-                  <span className="text-foreground font-medium"> then build the custom system that fixes it.</span>
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <a
-                    href={`mailto:${EMAIL}`}
-                    className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    <Mail className="w-5 h-5" />
-                    <span>{EMAIL}</span>
-                  </a>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <MapPin className="w-5 h-5" />
-                    <span>Nigeria → Global</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* The Problem */}
-        <section className="py-16 px-4 sm:px-6 lg:px-12 border-t border-border">
-          <div className="container mx-auto max-w-4xl">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">
-              The Problem I Saw
-            </h2>
-            <div className="prose prose-lg prose-invert max-w-none">
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                A visa agency chasing clients for documents and catching an expired passport two weeks
-                before submission. A clearing agent tracking shipments across WhatsApp groups and losing
-                hours to paperwork. A sales team copy-pasting leads between spreadsheets.
-                <span className="text-foreground"> Different industries, same pattern: manual processes, costly errors, and wasted time.</span>
-              </p>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                I kept seeing businesses doing incredible work but held back by tools that weren't built
-                for them. Generic CRMs, spreadsheets, and WhatsApp groups patched together — none of it
-                designed for how they actually operate. That's where Notivon comes in.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Background */}
-        <section className="py-16 px-4 sm:px-6 lg:px-12 bg-muted/20">
-          <div className="container mx-auto max-w-4xl">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">
-              My Background
-            </h2>
-            <div className="prose prose-lg prose-invert max-w-none">
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                I've spent years in the automation space — building systems, workflows, and
-                AI-powered tools for businesses across the US, Australia, Dubai, and Nigeria. From
-                automated outreach (Saydieko) to deal-sourcing engines (Dealflow) to operations
-                management, I've helped companies eliminate manual bottlenecks and scale without adding headcount.
-              </p>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                In 2025, I launched Notivon with a focus on Nigerian trade and compliance businesses —
-                visa agencies and customs clearing agents. VisaGuard and ClearVoy are the first systems
-                built under that banner. But the mandate is broader: any business where the right custom
-                system would change how they operate.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* What Makes This Different */}
-        <section className="py-16 px-4 sm:px-6 lg:px-12 border-t border-border">
-          <div className="container mx-auto max-w-4xl">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">
-              What Makes This Different
-            </h2>
-            <div className="prose prose-lg prose-invert max-w-none mb-12">
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                Most businesses try to force generic CRMs or spreadsheets onto workflows they were never built for.
-                <span className="text-primary font-semibold"> Notivon builds systems designed specifically for how your business actually works.</span> From
-                document checklists to shipment tracking to lead-gen and outreach engines — everything is built
-                around your real workflow, not forced into a template.
-              </p>
-            </div>
-            
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="p-6 border border-border bg-background">
-                <Users className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">Direct Access</h3>
-                <p className="text-muted-foreground">
-                  You work directly with me. No junior associates, no handoffs. I'm accountable for results.
-                </p>
-              </div>
-              <div className="p-6 border border-border bg-background">
-                <Zap className="w-8 h-8 text-primary mb-4" />
-                <h3 className="text-lg font-semibold text-foreground mb-2">Fast Delivery</h3>
-                <p className="text-muted-foreground">
-                  Most businesses are live within 2–4 weeks. You start seeing results immediately.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Why I Do This */}
-        <section className="py-16 px-4 sm:px-6 lg:px-12 bg-muted/20">
-          <div className="container mx-auto max-w-4xl">
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-8">
-              Why I Do This
-            </h2>
-            <div className="prose prose-lg prose-invert max-w-none">
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                Most businesses are doing great work but held back by tools that weren't built for them —
-                generic CRMs, spreadsheets, WhatsApp groups patched together. None of it was designed
-                for how they actually operate.
-              </p>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                <span className="text-foreground font-medium">My mission is simple:</span> find the real
-                bottleneck in how you work, scope only what solves it, and build a system that makes
-                your team faster and your business more profitable.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-20 px-4 sm:px-6 lg:px-12 bg-primary/5 border-t border-border">
-          <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
-              Ready to Streamline Your Operations?
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Let's discuss how a custom system can save your team hours every week.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 bg-primary text-primary-foreground text-lg font-semibold uppercase tracking-wider hover:bg-primary/90 transition-all"
-              >
-                WhatsApp Us
-              </a>
-              <a
-                href={`tel:${PHONE_PRIMARY}`}
-                className="px-8 py-4 border border-primary text-primary text-lg font-semibold uppercase tracking-wider hover:bg-primary/10 transition-all"
-              >
-                {PHONE_PRIMARY}
-              </a>
-            </div>
-          </div>
-        </section>
-
-        <Footer />
-      </div>
-    </>
+      <MarketingFooter />
+    </div>
   );
 };
 
