@@ -60,7 +60,10 @@ function customFetch(targetUrl: string, options: any = {}, redirectCount = 0): P
       hostname: parsedUrl.hostname,
       path: parsedUrl.path,
       headers: options.headers || {},
-      timeout: options.timeoutMs || 15000,
+      // Apps Script writes routinely take 15s+ on a cold start. Giving up early
+      // is worse than waiting: Google still commits the row, so the caller sees
+      // a false failure and retrying duplicates the lead.
+      timeout: options.timeoutMs || 24000,
       lookup: ipv4Lookup,
       agent: keepAliveAgent,
     };
