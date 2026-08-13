@@ -2,6 +2,16 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Search, Loader2, MapPin, Star, Globe, MessageCircle, Phone, Check, Plus, FolderPlus, ChevronDown, ChevronUp, SlidersHorizontal } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Board,
+  OPS_HEADERS,
+  boardLabel,
+  createBoard,
+  fetchBoards,
+  getLastBoard,
+  setLastBoard,
+  slugifyBoard,
+} from "@/lib/boards";
 
 interface Lead {
   name: string;
@@ -27,6 +37,8 @@ interface CampaignPreset {
   name: string;
   defaultScript: string;
   defaultLocation: string;
+  // CRM board (sheet tab) this campaign's leads belong in.
+  defaultBoard: string;
   categories: {
     label: string;
     options: string[];
@@ -40,6 +52,7 @@ const CAMPAIGNS: Record<string, CampaignPreset> = {
     name: "🎯 Google Maps Bridge",
     defaultScript: `Hi {{businessName}} 👋\n\nCame across your profile on Google Maps — great reviews. Noticed you don't have a website linked though, which usually means people searching and ready to book end up going to a competitor who has one.\n\nI can put together a quick one-page site for you — logo, services, one tap to WhatsApp for bookings — linked straight to your Maps profile. Takes about 15-20 minutes once you say go.\n\nWant me to send a quick draft using your photos so you can see it first?`,
     defaultLocation: "Lekki, Lagos",
+    defaultBoard: "spa-bridge",
     categories: [
       {
         label: "💅 Spas & Aesthetics",
@@ -65,10 +78,43 @@ const CAMPAIGNS: Record<string, CampaignPreset> = {
       "Maitama, Abuja"
     ]
   },
+  solar: {
+    name: "☀️ Solar Installers",
+    defaultScript: `Hi {{businessName}} 👋\n\nSaw your reviews for solar work around {{location}} — you're clearly getting steady enquiries.\n\nQuick question: when someone messages "how much for solar?", how long does it take to get them to an actual quote? Most buyers don't know their own kVA, Ah, or lithium vs tubular, so you end up walking each one through it manually — and while that's happening they're sitting with 2-3 of your competitors.\n\nI built a calculator that does that homework for them in about 30 seconds and hands you the enquiry already sized, with a real requirement attached. Warm lead instead of a cold "how much".\n\nWant me to send you the link so you can run your own numbers through it?`,
+    defaultLocation: "Lekki, Lagos",
+    defaultBoard: "solar",
+    categories: [
+      {
+        label: "☀️ Solar & Power",
+        options: [
+          "Solar Installation Companies",
+          "Solar Panel Suppliers",
+          "Inverter & Battery Dealers",
+          "Renewable Energy Consultants"
+        ]
+      }
+    ],
+    queryMapping: {
+      "Solar Installation Companies": "solar installation OR solar installer OR solar energy company",
+      "Solar Panel Suppliers": "solar panel supplier OR solar equipment store",
+      "Inverter & Battery Dealers": "inverter dealer OR battery dealer OR power backup",
+      "Renewable Energy Consultants": "renewable energy consultant OR solar consultant"
+    },
+    suggestions: [
+      "Lekki, Lagos",
+      "Ikeja, Lagos",
+      "Victoria Island, Lagos",
+      "Wuse II, Abuja",
+      "Gwarinpa, Abuja",
+      "Port Harcourt, Rivers",
+      "Ibadan, Oyo"
+    ]
+  },
   cargo_automation: {
     name: "🚢 Cargo Automation",
     defaultScript: `Hi! I was looking at {{businessName}} and I like the scale of your operations. Quick question — are your agents still updating clients on cargo status manually via WhatsApp or calls? I build systems for clearing/freight businesses that automate status updates and document tracking, saving hours of manual follow-up every week. Happy to show you how it works for other agencies. Would that be useful to see?`,
     defaultLocation: "Apapa, Lagos",
+    defaultBoard: "cargo",
     categories: [
       {
         label: "🚢 Logistics & Trade",
@@ -160,8 +206,14 @@ const NIGERIAN_STATES_DISTRICTS: Record<string, string[]> = {
   "Zamfara": ["Gusau", "Kaura Namoda"]
 };
 
+type CampaignKey = keyof typeof CAMPAIGNS;
+
 export default function Scout() {
-  const [campaign, setCampaign] = useState<"gmaps_bridge" | "cargo_automation">("gmaps_bridge");
+  const [campaign, setCampaign] = useState<CampaignKey>("gmaps_bridge");
+
+  // Which CRM board saves land in, and what duplicates are checked against.
+  const [board, setBoard] = useState<string>(getLastBoard);
+  const [boards, setBoards] = useState<Board[]>([]);
 
   const [niche, setNiche] = useState(CAMPAIGNS.gmaps_bridge.categories[0].options[0]);
   const [customNiche, setCustomNiche] = useState("");
@@ -185,6 +237,7 @@ export default function Scout() {
   // Dynamic filter states
   const [filterWebsite, setFilterWebsite] = useState<"no_website" | "with_website" | "any">("no_website");
   const [filterMinRating, setFilterMinRating] = useState<number>(4.0);
+  const [filterMinReviews, setFilterMinReviews] = useState<number>(0);
   const [filterOperational, setFilterOperational] = useState<boolean>(true);
   const [filterPhotos, setFilterPhotos] = useState<boolean>(false);
   const [scanMode, setScanMode] = useState<"standard" | "grid">("grid");
@@ -208,6 +261,33 @@ export default function Scout() {
       setMonthlyQueries(count);
     }
   }, []);
+
+  // Load the board list once; a failure here is non-fatal, the selector just
+  // falls back to whatever board is currently active.
+  useEffect(() => {
+    fetchBoards()
+      .then(setBoards)
+      .catch((err) => console.warn("Could not load boards:", err));
+  }, []);
+
+  const handleBoardChange = (next: string) => {
+    const slug = slugifyBoard(next);
+    setBoard(slug);
+    setLastBoard(slug);
+  };
+
+  const handleCreateBoard = async () => {
+    const raw = prompt("New board name (e.g. solar, dental, cargo):");
+    if (!raw || !raw.trim()) return;
+    const slug = slugifyBoard(raw);
+    try {
+      setBoards(await createBoard(slug));
+      handleBoardChange(slug);
+      toast.success(`Board "${boardLabel(slug)}" created`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not create board");
+    }
+  };
 
   const incrementUsage = (queryCount: number) => {
     setSessionQueries(prev => prev + queryCount);
@@ -239,23 +319,36 @@ export default function Scout() {
     localStorage.setItem(`scout_script_${campaign}`, val);
   };
 
-  const handleCampaignChange = (newCamp: "gmaps_bridge" | "cargo_automation") => {
+  const handleCampaignChange = (newCamp: CampaignKey) => {
     setCampaign(newCamp);
+    // Pipeline reads this to pick the right script when messaging a saved lead.
+    localStorage.setItem("scout_active_campaign", newCamp);
     const config = CAMPAIGNS[newCamp];
 
     // Default location and niche for campaign
     setLocationInput(config.defaultLocation);
     setNiche(config.categories[0].options[0]);
     setCustomNiche("");
+    handleBoardChange(config.defaultBoard);
 
     // Set campaign-specific filter defaults
     if (newCamp === "gmaps_bridge") {
+      // Bridge pages are for businesses with nowhere to send Maps traffic.
       setFilterWebsite("no_website");
       setFilterMinRating(4.0);
+      setFilterMinReviews(0);
+      setFilterPhotos(false);
+    } else if (newCamp === "solar") {
+      // The calculator only helps installers already fielding enquiries, so
+      // qualify on review volume rather than on having a website.
+      setFilterWebsite("any");
+      setFilterMinRating(0);
+      setFilterMinReviews(25);
       setFilterPhotos(false);
     } else {
       setFilterWebsite("any");
       setFilterMinRating(0);
+      setFilterMinReviews(0);
       setFilterPhotos(false);
     }
   };
@@ -286,16 +379,18 @@ export default function Scout() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Ops-Auth": "notivon-internal-2026",
+          ...OPS_HEADERS,
         },
         body: JSON.stringify({
           niche: queryNiche,
           location: locationInput,
           scanMode: scanMode,
           provider: searchProvider,
+          board,
           filters: {
             website: filterWebsite,
             minRating: filterMinRating,
+            minReviews: filterMinReviews,
             operationalOnly: filterOperational,
             mustHavePhotos: filterPhotos
           }
@@ -342,8 +437,13 @@ export default function Scout() {
     }
   };
 
-  const handleSaveToCRM = async (lead: Lead, idx: number) => {
-    setSavingId(lead.name);
+  // Leads are matched by name+address, never by array index: the rendered list is
+  // filtered (Hide saved) so its indices do not line up with the `leads` state array.
+  const isSameLead = (a: Lead, b: Lead) =>
+    a.name === b.name && a.address === b.address;
+
+  const handleSaveToCRM = async (lead: Lead) => {
+    setSavingId(`${lead.name}|${lead.address}`);
     try {
       const finalNiche = niche === "Custom" ? customNiche : niche;
       const payload = {
@@ -364,16 +464,16 @@ export default function Scout() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Ops-Auth": "notivon-internal-2026",
+          ...OPS_HEADERS,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ board, lead: payload }),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to save lead");
 
       // Update leads list status mapping
-      setLeads(prev => prev.map((l, i) => i === idx ? { ...l, savedId: data.lead.id, savedStatus: "New" } : l));
+      setLeads(prev => prev.map(l => isSameLead(l, lead) ? { ...l, savedId: data.lead.id, savedStatus: "New" } : l));
       toast.success(`${lead.name} saved to Pipeline!`);
     } catch (err: any) {
       toast.error(err.message || "Could not save to CRM");
@@ -416,14 +516,14 @@ export default function Scout() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-Ops-Auth": "notivon-internal-2026",
+            ...OPS_HEADERS,
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({ board, lead: payload }),
         });
 
         if (res.ok) {
           const data = await res.json();
-          setLeads(prev => prev.map(l => l.name === lead.name && l.address === lead.address ? { ...l, savedId: data.lead.id, savedStatus: "New" } : l));
+          setLeads(prev => prev.map(l => isSameLead(l, lead) ? { ...l, savedId: data.lead.id, savedStatus: "New" } : l));
           savedCount++;
         }
       } catch (err) {
@@ -496,6 +596,41 @@ export default function Scout() {
                   </button>
                 );
               })}
+            </div>
+
+            {/* Board = which sheet tab saves land in, and what dupes are checked against */}
+            <div className="mt-3.5 pt-3.5 border-t border-border/60">
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-semibold text-foreground uppercase tracking-wider">
+                  Saving to Board
+                </label>
+                <button
+                  type="button"
+                  onClick={handleCreateBoard}
+                  className="inline-flex items-center gap-1 text-[10px] text-primary hover:underline font-medium"
+                >
+                  <Plus className="w-3 h-3" />
+                  New
+                </button>
+              </div>
+              <select
+                className="w-full bg-background border border-input rounded-md px-3 py-2 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                value={board}
+                onChange={(e) => handleBoardChange(e.target.value)}
+              >
+                {/* Keep the active board selectable even before the list loads */}
+                {!boards.some((b) => b.name === board) && (
+                  <option value={board}>{boardLabel(board)}</option>
+                )}
+                {boards.map((b) => (
+                  <option key={b.name} value={b.name}>
+                    {boardLabel(b.name)} ({b.count})
+                  </option>
+                ))}
+              </select>
+              <p className="text-[11px] text-muted-foreground mt-1.5">
+                Duplicates are checked against this board only.
+              </p>
             </div>
           </div>
 
@@ -749,6 +884,23 @@ export default function Scout() {
                     </select>
                   </div>
 
+                  <div>
+                    <label className="block text-[10px] font-medium text-foreground/80 mb-1">
+                      Min Reviews <span className="text-muted-foreground">(enquiry volume)</span>
+                    </label>
+                    <select
+                      value={filterMinReviews}
+                      onChange={(e) => setFilterMinReviews(parseInt(e.target.value, 10))}
+                      className="w-full bg-background border border-input rounded-md px-2.5 py-1.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                    >
+                      <option value="0">Any</option>
+                      <option value="10">10+ reviews</option>
+                      <option value="25">25+ reviews</option>
+                      <option value="50">50+ reviews</option>
+                      <option value="100">100+ reviews</option>
+                    </select>
+                  </div>
+
                   <div className="flex flex-col gap-2 pt-1">
                     <label className="flex items-center gap-2 cursor-pointer text-xs text-foreground/80 select-none">
                       <input
@@ -880,13 +1032,14 @@ export default function Scout() {
 
             {/* Leads list */}
             <div className="space-y-2.5">
-              {leads.filter(lead => !hideSaved || !lead.savedId).map((lead, idx) => {
+              {leads.filter(lead => !hideSaved || !lead.savedId).map((lead) => {
                 const waLink = generateWhatsAppLink(lead);
-                const isSaving = savingId === lead.name;
+                const leadKey = `${lead.name}|${lead.address}`;
+                const isSaving = savingId === leadKey;
 
                 return (
                   <div
-                    key={idx}
+                    key={leadKey}
                     className={`flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-lg border transition-all gap-4 ${lead.savedId
                         ? "bg-muted/5 border-border/40 opacity-75"
                         : "bg-muted/15 border-border/70 hover:border-primary/30"
@@ -943,7 +1096,7 @@ export default function Scout() {
                       {/* Save to CRM button */}
                       {!lead.savedId && (
                         <button
-                          onClick={() => handleSaveToCRM(lead, idx)}
+                          onClick={() => handleSaveToCRM(lead)}
                           disabled={isSaving}
                           className="inline-flex items-center justify-center p-2 rounded-md bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 transition-colors"
                           title="Save to CRM"
@@ -969,7 +1122,7 @@ export default function Scout() {
                           onClick={() => {
                             // If not saved, automatically save it first
                             if (!lead.savedId) {
-                              handleSaveToCRM(lead, idx);
+                              handleSaveToCRM(lead);
                             }
                           }}
                           className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 font-semibold text-[11px] rounded-md transition-colors whitespace-nowrap"

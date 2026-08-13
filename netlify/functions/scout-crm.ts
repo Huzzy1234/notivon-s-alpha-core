@@ -8,8 +8,12 @@ import https from "https";
 import url from "url";
 
 
+// Falls back to this when a caller sends no board, matching the Apps Script.
+const DEFAULT_BOARD = "spa-bridge";
+
 interface CRMLead {
   id?: string;
+  board?: string;
   name: string;
   phone: string;
   address: string;
@@ -56,7 +60,7 @@ function customFetch(targetUrl: string, options: any = {}, redirectCount = 0): P
       hostname: parsedUrl.hostname,
       path: parsedUrl.path,
       headers: options.headers || {},
-      timeout: 15000, // 15 seconds
+      timeout: options.timeoutMs || 15000,
       lookup: ipv4Lookup,
       agent: keepAliveAgent,
     };
@@ -115,23 +119,96 @@ function customFetch(targetUrl: string, options: any = {}, redirectCount = 0): P
   });
 }
 
+/**
+ * Apps Script answers a burst of requests with an HTML interstitial instead of
+ * JSON — a throttle, not a real error, and it clears on a retry.
+ *
+ * Only reads are retried. A POST that returned an interstitial may well have
+ * already written the row, so retrying it duplicates leads and makes deletes
+ * report "not found" on the second pass. Writes get exactly one attempt.
+ */
+async function fetchJson(targetUrl: string, options: any = {}): Promise<any> {
+  const isRead = (options.method || "GET").toUpperCase() === "GET";
+  const attempts = isRead ? 3 : 1;
+  let lastErr: Error | null = null;
+
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    try {
+      const response = await customFetch(targetUrl, options);
+      const text = await response.text();
+
+      if (!text.trim().startsWith("{")) {
+        lastErr = new Error(`Non-JSON response (status ${response.status})`);
+      } else {
+        const data = JSON.parse(text);
+        if (data.error) throw new Error(data.error);
+        return data;
+      }
+    } catch (err: any) {
+      // A rejection from the script itself is real; stop retrying.
+      if (err && err.message && !err.message.includes("Non-JSON")) {
+        if (attempt === attempts) throw err;
+        lastErr = err;
+      } else {
+        lastErr = err;
+      }
+    }
+
+    if (attempt < attempts) {
+      await new Promise((r) => setTimeout(r, 400 * attempt));
+    }
+  }
+
+  throw lastErr || new Error("Google Sheets request failed");
+}
+
+/* ── Board (sheet tab) helpers ── */
+
+// Boards become sheet tab names; mirror the Apps Script's sanitising so the
+// frontend, this function, and the sheet always agree on the same key.
+const normalizeBoard = (raw: unknown): string => {
+  const name = String(raw ?? "").trim().toLowerCase();
+  if (!name) return DEFAULT_BOARD;
+  const clean = name.replace(/[^a-z0-9\-_ ]/g, "").replace(/\s+/g, "-").slice(0, 40);
+  return clean || DEFAULT_BOARD;
+};
+
+const withBoard = (webAppUrl: string, params: Record<string, string>): string => {
+  const sep = webAppUrl.includes("?") ? "&" : "?";
+  return `${webAppUrl}${sep}${new URLSearchParams(params).toString()}`;
+};
+
+/* ── List Available Boards ── */
+async function getBoards(webAppUrl: string): Promise<{ name: string; count: number }[]> {
+  const data = await fetchJson(withBoard(webAppUrl, { action: "boards" }), { method: "GET" });
+
+  return (data.boards || []).map((b: any) => ({
+    name: String(b.name || ""),
+    count: Number(b.count) || 0,
+  }));
+}
+
+/* ── Create an Empty Board ── */
+async function createBoard(webAppUrl: string, board: string): Promise<{ name: string; count: number }[]> {
+  const data = await fetchJson(webAppUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "createBoard", board }),
+  });
+
+  return (data.boards || []).map((b: any) => ({
+    name: String(b.name || ""),
+    count: Number(b.count) || 0,
+  }));
+}
+
 /* ── Fetch Saved Leads from Google Sheet ── */
-async function getLeads(webAppUrl: string): Promise<CRMLead[]> {
-  const response = await customFetch(webAppUrl, { method: "GET" });
-
-  if (!response.ok) {
-    const text = await response.text();
-    console.error("Google Sheets GET Error:", response.status, text);
-    throw new Error(`Google Sheets GET returned ${response.status}`);
-  }
-
-  const data = await response.json();
-  if (data.error) {
-    throw new Error(data.error);
-  }
+async function getLeads(webAppUrl: string, board: string): Promise<CRMLead[]> {
+  const data = await fetchJson(withBoard(webAppUrl, { board }), { method: "GET" });
 
   return (data.leads || []).map((lead: any) => ({
     id: String(lead.id || ""),
+    board,
     name: String(lead.name || ""),
     phone: String(lead.phone || ""),
     address: String(lead.address || ""),
@@ -150,9 +227,10 @@ async function getLeads(webAppUrl: string): Promise<CRMLead[]> {
 }
 
 /* ── Save or Update Lead in Google Sheet ── */
-async function saveLead(webAppUrl: string, lead: CRMLead): Promise<CRMLead> {
+async function saveLead(webAppUrl: string, board: string, lead: CRMLead): Promise<CRMLead> {
   const payload = {
     action: "save",
+    board,
     lead: {
       id: lead.id,
       name: lead.name,
@@ -172,7 +250,7 @@ async function saveLead(webAppUrl: string, lead: CRMLead): Promise<CRMLead> {
     }
   };
 
-  const response = await customFetch(webAppUrl, {
+  const data = await fetchJson(webAppUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -180,20 +258,10 @@ async function saveLead(webAppUrl: string, lead: CRMLead): Promise<CRMLead> {
     body: JSON.stringify(payload),
   });
 
-  if (!response.ok) {
-    const text = await response.text();
-    console.error("Google Sheets Write Error:", response.status, text);
-    throw new Error(`Google Sheets Write returned ${response.status}`);
-  }
-
-  const data = await response.json();
-  if (data.error) {
-    throw new Error(data.error);
-  }
-
   const saved = data.lead;
   return {
     id: String(saved.id),
+    board,
     name: String(saved.name || ""),
     phone: String(saved.phone || ""),
     address: String(saved.address || ""),
@@ -212,29 +280,26 @@ async function saveLead(webAppUrl: string, lead: CRMLead): Promise<CRMLead> {
 }
 
 /* ── Delete Lead from Google Sheet ── */
-async function deleteLead(webAppUrl: string, id: string): Promise<void> {
-  const response = await customFetch(webAppUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ action: "delete", id }),
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    console.error("Google Sheets Delete Error:", response.status, text);
-    throw new Error(`Google Sheets Delete returned ${response.status}`);
-  }
-
-  const data = await response.json();
-  if (data.error) {
-    throw new Error(data.error);
+async function deleteLead(webAppUrl: string, board: string, id: string): Promise<void> {
+  // A lead that is already gone is the outcome the caller wanted; treat the
+  // script's "not found" as success so deleting twice is not an error.
+  try {
+    await fetchJson(webAppUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ action: "delete", board, id }),
+    });
+  } catch (err: any) {
+    const message = String(err?.message || "");
+    if (message.toLowerCase().includes("not found")) return;
+    throw err;
   }
 }
 
 /* ── Main Handler ── */
-const webHandler = async (req: Request): Promise<Response> => {
+export default async (req: Request): Promise<Response> => {
   if (!checkAuth(req.headers)) {
     return new Response(JSON.stringify({ error: "Unauthorized" }), {
       status: 401,
@@ -254,9 +319,21 @@ const webHandler = async (req: Request): Promise<Response> => {
   const method = req.method;
 
   try {
+    const requestUrl = new URL(req.url);
+
     if (method === "GET") {
-      const leads = await getLeads(webAppUrl);
-      return new Response(JSON.stringify({ leads }), {
+      // ?action=boards powers the board switcher in Scout and Pipeline.
+      if (requestUrl.searchParams.get("action") === "boards") {
+        const boards = await getBoards(webAppUrl);
+        return new Response(JSON.stringify({ boards }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+
+      const board = normalizeBoard(requestUrl.searchParams.get("board"));
+      const leads = await getLeads(webAppUrl, board);
+      return new Response(JSON.stringify({ board, leads }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
@@ -273,23 +350,34 @@ const webHandler = async (req: Request): Promise<Response> => {
         });
       }
 
-      const saved = await saveLead(webAppUrl, body);
-      return new Response(JSON.stringify({ lead: saved }), {
+      // Board may ride on the body or the query string; body wins.
+      const board = normalizeBoard(body.board ?? requestUrl.searchParams.get("board"));
+
+      if (body.action === "createBoard") {
+        const boards = await createBoard(webAppUrl, board);
+        return new Response(JSON.stringify({ board, boards }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+
+      const saved = await saveLead(webAppUrl, board, body.lead ?? body);
+      return new Response(JSON.stringify({ lead: saved, board }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
       });
     }
 
     if (method === "DELETE") {
-      const url = new URL(req.url);
-      const id = url.searchParams.get("id");
+      const id = requestUrl.searchParams.get("id");
       if (!id) {
         return new Response(JSON.stringify({ error: "Missing lead id" }), {
           status: 400,
           headers: { "Content-Type": "application/json" },
         });
       }
-      await deleteLead(webAppUrl, id);
+      const board = normalizeBoard(requestUrl.searchParams.get("board"));
+      await deleteLead(webAppUrl, board, id);
       return new Response(JSON.stringify({ success: true }), {
         status: 200,
         headers: { "Content-Type": "application/json" },
@@ -311,37 +399,3 @@ const webHandler = async (req: Request): Promise<Response> => {
     );
   }
 };
-
-export default async function handler(req: any, res: any) {
-  try {
-    const host = req.headers.host || "localhost";
-    const protocol = req.headers["x-forwarded-proto"] || "http";
-    const webUrl = `${protocol}://${host}${req.url}`;
-    
-    const webReq = {
-      method: req.method,
-      headers: {
-        get: (name: string) => {
-          const val = req.headers[name.toLowerCase()];
-          return Array.isArray(val) ? val.join(", ") : val || null;
-        }
-      } as unknown as Headers,
-      url: webUrl,
-      json: async () => req.body,
-    } as unknown as Request;
-
-    const webRes = await webHandler(webReq);
-    
-    webRes.headers.forEach((value, key) => {
-      res.setHeader(key, value);
-    });
-    
-    const status = webRes.status;
-    const bodyText = await webRes.text();
-    
-    res.status(status).send(bodyText);
-  } catch (err: any) {
-    console.error("Vercel adapter error:", err);
-    res.status(500).json({ error: "Internal server error", details: err.message });
-  }
-}

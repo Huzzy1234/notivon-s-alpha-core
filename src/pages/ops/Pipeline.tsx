@@ -1,6 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Loader2, MessageCircle, Phone, Trash2, Calendar, PlusCircle, CheckCircle, XCircle, AlertCircle, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import {
+  Board,
+  OPS_HEADERS,
+  boardLabel,
+  fetchBoards,
+  getLastBoard,
+  setLastBoard,
+} from "@/lib/boards";
 
 interface CRMLead {
   id: string;
@@ -30,40 +38,60 @@ const COLUMNS: { id: CRMLead['status']; label: string; color: string; bg: string
 
 export default function Pipeline() {
   const [leads, setLeads] = useState<CRMLead[]>([]);
+  const [board, setBoard] = useState<string>(getLastBoard);
+  const [boards, setBoards] = useState<Board[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [editingNotesId, setEditingNotesId] = useState<string | null>(null);
   const [tempNotes, setTempNotes] = useState("");
   const [isUpdating, setIsUpdating] = useState<string | null>(null);
 
-  // Load custom script from localStorage
-  const getWhatsAppMessage = (name: string) => {
-    const script = localStorage.getItem("scout_script") || "";
+  // Scout saves its script per campaign (scout_script_<campaign>), so read the
+  // campaign Scout was last set to before falling back to the pre-campaign key.
+  const getWhatsAppMessage = (lead: CRMLead) => {
+    const activeCampaign = localStorage.getItem("scout_active_campaign");
+    const script =
+      (activeCampaign && localStorage.getItem(`scout_script_${activeCampaign}`)) ||
+      localStorage.getItem("scout_script_gmaps_bridge") ||
+      localStorage.getItem("scout_script") ||
+      "";
     if (!script) return "";
-    return script.replace(/\{\{businessName\}\}/g, name);
+    return script
+      .replace(/\{\{businessName\}\}/g, lead.name)
+      .replace(/\{\{location\}\}/g, lead.location || "")
+      .replace(/\{\{niche\}\}/g, lead.niche || "");
   };
 
-  const fetchLeads = async () => {
+  const fetchLeads = useCallback(async (targetBoard: string) => {
     setIsLoading(true);
     try {
-      const res = await fetch("/.netlify/functions/scout-crm", {
-        method: "GET",
-        headers: {
-          "X-Ops-Auth": "notivon-internal-2026",
-        },
-      });
+      const res = await fetch(
+        `/.netlify/functions/scout-crm?board=${encodeURIComponent(targetBoard)}`,
+        { method: "GET", headers: OPS_HEADERS }
+      );
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to load pipeline leads");
       setLeads(data.leads || []);
-    } catch (err: any) {
-      toast.error(err.message || "Could not retrieve leads from Airtable");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not retrieve leads from the CRM sheet");
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchLeads();
+    fetchLeads(board);
+  }, [board, fetchLeads]);
+
+  useEffect(() => {
+    fetchBoards()
+      .then(setBoards)
+      .catch((err) => console.warn("Could not load boards:", err));
   }, []);
+
+  const handleBoardChange = (next: string) => {
+    setBoard(next);
+    setLastBoard(next);
+  };
 
   const handleUpdateStatus = async (lead: CRMLead, newStatus: CRMLead['status']) => {
     setIsUpdating(lead.id);
@@ -79,9 +107,9 @@ export default function Pipeline() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "X-Ops-Auth": "notivon-internal-2026",
+          ...OPS_HEADERS,
         },
-        body: JSON.stringify(updatedLead),
+        body: JSON.stringify({ board, lead: updatedLead }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to update lead status");
@@ -104,9 +132,9 @@ export default function Pipeline() {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "X-Ops-Auth": "notivon-internal-2026",
+          ...OPS_HEADERS,
         },
-        body: JSON.stringify(updatedLead),
+        body: JSON.stringify({ board, lead: updatedLead }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to save notes");
@@ -126,12 +154,10 @@ export default function Pipeline() {
     
     setIsUpdating(id);
     try {
-      const res = await fetch(`/.netlify/functions/scout-crm?id=${id}`, {
-        method: "DELETE",
-        headers: {
-          "X-Ops-Auth": "notivon-internal-2026",
-        },
-      });
+      const res = await fetch(
+        `/.netlify/functions/scout-crm?id=${encodeURIComponent(id)}&board=${encodeURIComponent(board)}`,
+        { method: "DELETE", headers: OPS_HEADERS }
+      );
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Failed to delete lead");
@@ -154,8 +180,11 @@ export default function Pipeline() {
       cleanPhone = "234" + cleanPhone.substring(1);
     }
 
-    const message = getWhatsAppMessage(lead.name);
-    const waUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+    // The link built at save time is the most faithful to what Scout pitched;
+    // only fall back to rebuilding from the current script if it is missing.
+    const message = getWhatsAppMessage(lead);
+    const waUrl = lead.whatsappLink
+      || `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 
     // Open WhatsApp
     window.open(waUrl, "_blank");
@@ -179,14 +208,32 @@ export default function Pipeline() {
           <h1 className="text-3xl font-display font-semibold text-foreground tracking-tight">Outreach Pipeline</h1>
           <p className="text-muted-foreground mt-1">Track contacts, schedule meetings, and win deals.</p>
         </div>
-        <button
-          onClick={fetchLeads}
-          disabled={isLoading}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 text-foreground border border-border text-sm rounded-md transition-colors disabled:opacity-50"
-        >
-          <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
-          Refresh Board
-        </button>
+        <div className="flex items-center gap-2.5">
+          <select
+            value={board}
+            onChange={(e) => handleBoardChange(e.target.value)}
+            className="bg-card border border-border rounded-md px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+            title="Which board to show"
+          >
+            {/* Keep the active board selectable even before the list loads */}
+            {!boards.some((b) => b.name === board) && (
+              <option value={board}>{boardLabel(board)}</option>
+            )}
+            {boards.map((b) => (
+              <option key={b.name} value={b.name}>
+                {boardLabel(b.name)} ({b.count})
+              </option>
+            ))}
+          </select>
+          <button
+            onClick={() => fetchLeads(board)}
+            disabled={isLoading}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-muted hover:bg-muted/80 text-foreground border border-border text-sm rounded-md transition-colors disabled:opacity-50"
+          >
+            <RefreshCw className={`w-4 h-4 ${isLoading ? "animate-spin" : ""}`} />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {isLoading ? (

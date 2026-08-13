@@ -18,6 +18,9 @@ import dns from "dns";
 interface SearchFilters {
   website: "no_website" | "with_website" | "any";
   minRating: number;
+  // Proxy for enquiry volume: a business with real review counts is one that
+  // actually fields enough leads to feel a lead-handling problem.
+  minReviews: number;
   operationalOnly: boolean;
   mustHavePhotos: boolean;
 }
@@ -26,7 +29,20 @@ interface ScoutRequest {
   niche: string;
   location: string;
   filters?: SearchFilters;
+  provider?: "google" | "tomtom";
+  scanMode?: "standard" | "grid";
+  // Which CRM board (sheet tab) to check for duplicates against.
+  board?: string;
 }
+
+const DEFAULT_BOARD = "spa-bridge";
+
+const normalizeBoard = (raw: unknown): string => {
+  const name = String(raw ?? "").trim().toLowerCase();
+  if (!name) return DEFAULT_BOARD;
+  const clean = name.replace(/[^a-z0-9\-_ ]/g, "").replace(/\s+/g, "-").slice(0, 40);
+  return clean || DEFAULT_BOARD;
+};
 
 interface Lead {
   name: string;
@@ -227,11 +243,13 @@ function customFetch(targetUrl: string, options: any = {}, redirectCount = 0): P
   return new Promise((resolve, reject) => {
     const parsedUrl = url.parse(targetUrl);
     const requestOptions: https.RequestOptions = {
+      // Netlify kills a synchronous function at 10s, so a longer socket
+      // timeout than the caller's budget never fires — callers pass their own.
       method: options.method || "GET",
       hostname: parsedUrl.hostname,
       path: parsedUrl.path,
       headers: options.headers || {},
-      timeout: 15000, // 15 seconds
+      timeout: options.timeoutMs || 15000,
       lookup: ipv4Lookup,
       agent: keepAliveAgent,
     };
@@ -635,7 +653,7 @@ async function searchTomTom(niche: string, location: string, apiKey: string): Pr
 }
 
 /* ── Main Handler ────────────────────────────────────────────────────── */
-const webHandler = async (req: Request): Promise<Response> => {
+export default async (req: Request): Promise<Response> => {
   if (req.method !== "POST") {
     return new Response(JSON.stringify({ error: "Method not allowed" }), {
       status: 405,
@@ -757,6 +775,11 @@ const webHandler = async (req: Request): Promise<Response> => {
           if (lead.rating && lead.rating < reqFilters.minRating) return false;
         }
 
+        // 2b. Review Count Filter
+        if (reqFilters.minReviews > 0) {
+          if ((lead.reviewCount || 0) < reqFilters.minReviews) return false;
+        }
+
         // 3. Operational Filter
         if (reqFilters.operationalOnly) {
           if (lead.businessStatus && lead.businessStatus !== "OPERATIONAL") return false;
@@ -774,13 +797,21 @@ const webHandler = async (req: Request): Promise<Response> => {
     // Filter: ONLY keep leads that have phone/contact information (as requested by user)
     leads = leads.filter(lead => lead.phone && lead.phone.trim().length > 0);
 
-    // Fetch saved leads from Google Sheet Web App to flag duplicates
+    // Flag duplicates against the board we are scanning into. Scoping to one
+    // board is deliberate: a spa client already in the pipeline should not grey
+    // itself out of a solar scan.
+    const board = normalizeBoard(body.board);
     const webAppUrl = process.env.GOOGLE_SHEET_WEBAPP_URL;
     const savedLeadsMap = new Map<string, { id: string; status: string }>();
 
     if (webAppUrl) {
       try {
-        const sheetRes = await customFetch(webAppUrl, { method: "GET" });
+        const sep = webAppUrl.includes("?") ? "&" : "?";
+        const boardUrl = `${webAppUrl}${sep}${new URLSearchParams({ board }).toString()}`;
+        // Apps Script latency swings from 2s to 30s+. Duplicate flagging is a
+        // nicety, the search results are the point — cap it tightly and let the
+        // catch below drop it rather than sink the whole scan.
+        const sheetRes = await customFetch(boardUrl, { method: "GET", timeoutMs: 5000 });
         if (sheetRes.ok) {
           const sheetData = await sheetRes.json();
           if (sheetData && sheetData.leads) {
@@ -848,6 +879,7 @@ const webHandler = async (req: Request): Promise<Response> => {
         leads: mappedLeads,
         meta: {
           provider,
+          board,
           total: mappedLeads.length,
           withPhone,
           phoneCoverage: mappedLeads.length > 0 ? Math.round((withPhone / mappedLeads.length) * 100) : 0,
@@ -864,37 +896,3 @@ const webHandler = async (req: Request): Promise<Response> => {
     );
   }
 };
-
-export default async function handler(req: any, res: any) {
-  try {
-    const host = req.headers.host || "localhost";
-    const protocol = req.headers["x-forwarded-proto"] || "http";
-    const webUrl = `${protocol}://${host}${req.url}`;
-    
-    const webReq = {
-      method: req.method,
-      headers: {
-        get: (name: string) => {
-          const val = req.headers[name.toLowerCase()];
-          return Array.isArray(val) ? val.join(", ") : val || null;
-        }
-      } as unknown as Headers,
-      url: webUrl,
-      json: async () => req.body,
-    } as unknown as Request;
-
-    const webRes = await webHandler(webReq);
-    
-    webRes.headers.forEach((value, key) => {
-      res.setHeader(key, value);
-    });
-    
-    const status = webRes.status;
-    const bodyText = await webRes.text();
-    
-    res.status(status).send(bodyText);
-  } catch (err: any) {
-    console.error("Vercel adapter error:", err);
-    res.status(500).json({ error: "Internal server error", details: err.message });
-  }
-}

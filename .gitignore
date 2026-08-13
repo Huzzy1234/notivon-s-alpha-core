@@ -33,3 +33,7 @@ visaguard-hub/
 
 # Local Netlify folder
 .netlify
+
+# clasp — holds the Apps Script project id and OAuth creds
+.clasp.json
+.clasprc.json
