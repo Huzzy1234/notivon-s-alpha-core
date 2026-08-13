@@ -18,7 +18,7 @@
 
 // Bumped on every change. Returned by ?action=boards so the caller can prove
 // which build is actually deployed instead of guessing after a redeploy.
-var VERSION = 4;
+var VERSION = 5;
 
 var HEADERS = [
   'id', 'name', 'phone', 'address', 'category', 'website', 'rating', 'reviews',
@@ -201,6 +201,98 @@ function newId() {
   return Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
 }
 
+/**
+ * Identity for de-duplication.
+ *
+ * The same business reached by "+234 802 ..." and "0802 ..." is one lead, so
+ * compare the last 10 digits and ignore formatting entirely. Falls back to
+ * name+address for the rare lead with no phone.
+ */
+function phoneKey(phone) {
+  var digits = String(phone == null ? '' : phone).replace(/\D/g, '');
+  if (digits.length < 7) return '';
+  return digits.slice(-10);
+}
+
+function identityKeys(lead) {
+  var keys = [];
+  var pk = phoneKey(lead.phone);
+  if (pk) keys.push('p:' + pk);
+  var name = String(lead.name || '').toLowerCase().trim();
+  var addr = String(lead.address || '').toLowerCase().trim();
+  if (name) keys.push('n:' + name + '|' + addr);
+  return keys;
+}
+
+/** Map every existing row's identities to its row number, in one read. */
+function buildIndex(sheet, layout) {
+  var index = {};
+  var lastRow = sheet.getLastRow();
+  if (lastRow < layout.dataStart) return index;
+
+  var values = sheet
+    .getRange(layout.dataStart, 1, lastRow - layout.dataStart + 1, sheet.getLastColumn())
+    .getValues();
+
+  for (var i = 0; i < values.length; i++) {
+    var existing = rowToLead(values[i], layout.idx);
+    var rowNumber = i + layout.dataStart;
+    if (existing.id) index['i:' + existing.id] = rowNumber;
+    var keys = identityKeys(existing);
+    for (var k = 0; k < keys.length; k++) {
+      if (index[keys[k]] === undefined) index[keys[k]] = rowNumber;
+    }
+  }
+  return index;
+}
+
+function findRow(index, lead) {
+  if (lead.id && index['i:' + lead.id] !== undefined) return index['i:' + lead.id];
+  var keys = identityKeys(lead);
+  for (var k = 0; k < keys.length; k++) {
+    if (index[keys[k]] !== undefined) return index[keys[k]];
+  }
+  return -1;
+}
+
+/** Normalise an incoming lead into our canonical field set. */
+function toRecord(lead) {
+  var now = new Date().toISOString();
+  return {
+    id: String(lead.id || '').trim(),
+    name: String(lead.name || ''),
+    phone: String(lead.phone || ''),
+    address: String(lead.address || ''),
+    category: String(lead.category || ''),
+    website: String(lead.website || ''),
+    rating: Number(lead.rating) || 0,
+    reviews: Number(lead.reviews != null ? lead.reviews : lead.reviewCount) || 0,
+    niche: String(lead.niche || ''),
+    location: String(lead.location || ''),
+    status: String(lead.status || 'New'),
+    notes: String(lead.notes || ''),
+    scoutedAt: String(lead.scoutedAt || now),
+    contactedAt: String(lead.contactedAt || ''),
+    whatsappLink: String(lead.whatsappLink || '')
+  };
+}
+
+function recordToRow(record, idx, width) {
+  var row = [];
+  for (var c = 0; c < width; c++) row.push('');
+  for (var key in record) {
+    if (idx[key] === undefined) continue;
+    row[idx[key]] = NUMERIC_FIELDS[key] ? record[key] : forceText(record[key]);
+  }
+  return row;
+}
+
+function writeRow(sheet, rowNumber, record, idx, width) {
+  var range = sheet.getRange(rowNumber, 1, 1, width);
+  applyTextFormats(range, idx, width);
+  range.setValues([recordToRow(record, idx, width)]);
+}
+
 // Numeric fields stay General so the sheet can still sort and chart them.
 var NUMERIC_FIELDS = { rating: true, reviews: true };
 
@@ -213,12 +305,15 @@ var NUMERIC_FIELDS = { rating: true, reviews: true };
  * sheet reinterpret it.
  */
 function applyTextFormats(range, idx, width) {
-  var formats = [];
-  for (var c = 0; c < width; c++) formats.push('@');
+  var rowFormat = [];
+  for (var c = 0; c < width; c++) rowFormat.push('@');
   for (var field in NUMERIC_FIELDS) {
-    if (idx[field] !== undefined && idx[field] < width) formats[idx[field]] = 'General';
+    if (idx[field] !== undefined && idx[field] < width) rowFormat[idx[field]] = 'General';
   }
-  range.setNumberFormats([formats]);
+  // setNumberFormats needs one entry per row in the range, not just one row.
+  var formats = [];
+  for (var r = 0; r < range.getNumRows(); r++) formats.push(rowFormat);
+  range.setNumberFormats(formats);
 }
 
 /**
@@ -321,6 +416,10 @@ function doPost(e) {
       return jsonOut(saveLead(board, body.lead || body));
     }
 
+    if (action === 'saveMany') {
+      return jsonOut(saveMany(board, body.leads || []));
+    }
+
     return jsonOut({ error: 'Unknown action: ' + action });
   } catch (err) {
     return jsonOut({ error: String(err && err.message ? err.message : err) });
@@ -330,73 +429,83 @@ function doPost(e) {
 }
 
 function saveLead(board, lead) {
-  if (!lead || !String(lead.name || '').trim()) {
-    return { error: 'Lead is missing a name' };
-  }
+  var result = saveMany(board, [lead]);
+  if (result.error) return result;
+  if (!result.leads || !result.leads.length) return { error: 'Lead was not saved' };
+  return { lead: result.leads[0], board: board };
+}
+
+/**
+ * Save any number of leads in one pass.
+ *
+ * The frontend used to fire one HTTP request per lead, so saving a scan of 17
+ * took minutes and stalled halfway when a single request timed out. Everything
+ * now happens under one lock, with one read to index existing rows and one
+ * append for all the new ones.
+ *
+ * Matching on phone before writing means saving the same lead twice updates it
+ * instead of adding a second row.
+ */
+function saveMany(board, leads) {
+  if (!leads || !leads.length) return { error: 'No leads supplied' };
 
   var sheet = getSheet(board, true);
   var layout = resolveLayout(sheet);
   var idx = layout.idx;
-  var now = new Date().toISOString();
+  var width = Math.max(sheet.getLastColumn(), HEADERS.length);
 
-  var record = {
-    id: String(lead.id || '').trim(),
-    name: String(lead.name || ''),
-    phone: String(lead.phone || ''),
-    address: String(lead.address || ''),
-    category: String(lead.category || ''),
-    website: String(lead.website || ''),
-    rating: Number(lead.rating) || 0,
-    reviews: Number(lead.reviews != null ? lead.reviews : lead.reviewCount) || 0,
-    niche: String(lead.niche || ''),
-    location: String(lead.location || ''),
-    status: String(lead.status || 'New'),
-    notes: String(lead.notes || ''),
-    scoutedAt: String(lead.scoutedAt || now),
-    contactedAt: String(lead.contactedAt || ''),
-    whatsappLink: String(lead.whatsappLink || '')
-  };
+  var index = buildIndex(sheet, layout);
+  var pending = [];
+  var saved = [];
+  var skipped = 0;
+  var updated = 0;
 
-  var targetRow = -1;
-  if (record.id && sheet.getLastRow() >= layout.dataStart) {
-    var idCol = idx['id'] === undefined ? 0 : idx['id'];
-    var rowCount = sheet.getLastRow() - layout.dataStart + 1;
-    var ids = sheet.getRange(layout.dataStart, idCol + 1, rowCount, 1).getValues();
-    for (var i = 0; i < ids.length; i++) {
-      if (String(ids[i][0]) === record.id) {
-        targetRow = i + layout.dataStart;
-        break;
+  for (var i = 0; i < leads.length; i++) {
+    var lead = leads[i];
+    if (!lead || !String(lead.name || '').trim()) {
+      skipped++;
+      continue;
+    }
+
+    var record = toRecord(lead);
+    var targetRow = findRow(index, record);
+
+    if (targetRow === -1) {
+      if (!record.id) record.id = newId();
+      pending.push(record);
+      // Claim the identity now so duplicates inside this same batch collapse.
+      var keys = identityKeys(record);
+      var claimedRow = sheet.getLastRow() + pending.length;
+      index['i:' + record.id] = claimedRow;
+      for (var k = 0; k < keys.length; k++) {
+        if (index[keys[k]] === undefined) index[keys[k]] = claimedRow;
       }
+    } else {
+      // Keep the row's existing id rather than minting a second one.
+      var existingId = sheet.getRange(targetRow, (idx['id'] === undefined ? 0 : idx['id']) + 1).getValue();
+      record.id = String(existingId || record.id || newId());
+      writeRow(sheet, targetRow, record, idx, width);
+      updated++;
     }
+    saved.push(record);
   }
 
-  if (targetRow === -1) {
-    if (!record.id) record.id = newId();
-    // Build the row against the sheet's own column positions, so an existing
-    // tab keeps its layout instead of being appended to in our order.
-    var width = Math.max(sheet.getLastColumn(), HEADERS.length);
-    var row = [];
-    for (var c = 0; c < width; c++) row.push('');
-    for (var key2 in record) {
-      if (idx[key2] === undefined) continue;
-      row[idx[key2]] = NUMERIC_FIELDS[key2] ? record[key2] : forceText(record[key2]);
-    }
-
-    var newRow = sheet.getLastRow() + 1;
-    var range = sheet.getRange(newRow, 1, 1, width);
+  if (pending.length) {
+    var rows = [];
+    for (var r = 0; r < pending.length; r++) rows.push(recordToRow(pending[r], idx, width));
+    var firstRow = sheet.getLastRow() + 1;
+    var range = sheet.getRange(firstRow, 1, rows.length, width);
     applyTextFormats(range, idx, width);
-    range.setValues([row]);
-  } else {
-    // Write only the columns we know, leaving any hand-added columns intact.
-    for (var key in record) {
-      if (idx[key] === undefined) continue;
-      var cell = sheet.getRange(targetRow, idx[key] + 1);
-      cell.setNumberFormat(NUMERIC_FIELDS[key] ? 'General' : '@');
-      cell.setValue(NUMERIC_FIELDS[key] ? record[key] : forceText(record[key]));
-    }
+    range.setValues(rows);
   }
 
-  return { lead: record, board: board };
+  return {
+    board: board,
+    leads: saved,
+    inserted: pending.length,
+    updated: updated,
+    skipped: skipped
+  };
 }
 
 function deleteLead(board, id) {

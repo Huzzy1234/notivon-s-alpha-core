@@ -493,47 +493,57 @@ export default function Scout() {
 
     setIsLoading(true);
     setScanProgress(`Saving ${unsavedLeads.length} leads...`);
-    let savedCount = 0;
 
-    for (const lead of unsavedLeads) {
-      try {
-        const finalNiche = niche === "Custom" ? customNiche : niche;
-        const payload = {
-          name: lead.name,
-          phone: lead.phone,
-          address: lead.address,
-          category: lead.category,
-          website: lead.website,
-          rating: lead.rating,
-          reviewCount: lead.reviewCount,
-          niche: finalNiche,
-          location: locationInput,
-          status: "New",
-          whatsappLink: generateWhatsAppLink(lead) || ""
-        };
+    const finalNiche = niche === "Custom" ? customNiche : niche;
+    // One request for the whole batch. Sending them one at a time meant a scan
+    // of 17 took minutes and stalled partway whenever a single call timed out.
+    const payload = unsavedLeads.map(lead => ({
+      name: lead.name,
+      phone: lead.phone,
+      address: lead.address,
+      category: lead.category,
+      website: lead.website,
+      rating: lead.rating,
+      reviewCount: lead.reviewCount,
+      niche: finalNiche,
+      location: locationInput,
+      status: "New",
+      whatsappLink: generateWhatsAppLink(lead) || ""
+    }));
 
-        const res = await fetch("/.netlify/functions/scout-crm", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...OPS_HEADERS,
-          },
-          body: JSON.stringify({ board, lead: payload }),
-        });
+    try {
+      const res = await fetch("/.netlify/functions/scout-crm", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...OPS_HEADERS,
+        },
+        body: JSON.stringify({ board, leads: payload }),
+      });
 
-        if (res.ok) {
-          const data = await res.json();
-          setLeads(prev => prev.map(l => isSameLead(l, lead) ? { ...l, savedId: data.lead.id, savedStatus: "New" } : l));
-          savedCount++;
-        }
-      } catch (err) {
-        console.error("Failed to batch save lead:", lead.name, err);
-      }
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to save leads");
+
+      // Match results back by name+address; the sheet may have merged some of
+      // them into existing rows rather than inserting.
+      const byKey = new Map<string, any>(
+        (data.leads || []).map((l: any) => [`${l.name}|${l.address}`, l])
+      );
+      setLeads(prev => prev.map(l => {
+        const saved = byKey.get(`${l.name}|${l.address}`);
+        return saved ? { ...l, savedId: saved.id, savedStatus: saved.status || "New" } : l;
+      }));
+
+      const merged = data.updated
+        ? `, ${data.updated} already existed and were updated`
+        : "";
+      toast.success(`Saved ${data.inserted ?? payload.length} leads to ${boardLabel(board)}${merged}`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not save leads");
+    } finally {
+      setIsLoading(false);
+      setScanProgress("");
     }
-
-    setIsLoading(false);
-    setScanProgress("");
-    toast.success(`Successfully saved ${savedCount} leads to Pipeline!`);
   };
 
   const generateWhatsAppLink = (lead: Lead) => {

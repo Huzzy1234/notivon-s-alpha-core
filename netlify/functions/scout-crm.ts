@@ -191,6 +191,33 @@ async function getBoards(webAppUrl: string): Promise<{ name: string; count: numb
   }));
 }
 
+/* ── Save Many Leads in One Request ── */
+async function saveLeads(webAppUrl: string, board: string, leads: CRMLead[]): Promise<any> {
+  const data = await fetchJson(webAppUrl, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    // A batch of 20+ rows is a single append in Apps Script, but still a cold
+    // start plus a lock wait, so allow the full function budget.
+    timeoutMs: 26000,
+    body: JSON.stringify({
+      action: "saveMany",
+      board,
+      leads: leads.map((lead) => ({
+        ...lead,
+        reviews: Number((lead as any).reviewCount ?? (lead as any).reviews) || 0,
+      })),
+    }),
+  });
+
+  return {
+    board,
+    leads: (data.leads || []).map((l: any) => ({ ...l, reviewCount: Number(l.reviews) || 0 })),
+    inserted: Number(data.inserted) || 0,
+    updated: Number(data.updated) || 0,
+    skipped: Number(data.skipped) || 0,
+  };
+}
+
 /* ── Create an Empty Board ── */
 async function createBoard(webAppUrl: string, board: string): Promise<{ name: string; count: number }[]> {
   const data = await fetchJson(webAppUrl, {
@@ -355,6 +382,14 @@ export default async (req: Request): Promise<Response> => {
 
       // Board may ride on the body or the query string; body wins.
       const board = normalizeBoard(body.board ?? requestUrl.searchParams.get("board"));
+
+      if (body.action === "saveMany" || Array.isArray(body.leads)) {
+        const result = await saveLeads(webAppUrl, board, body.leads || []);
+        return new Response(JSON.stringify(result), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
 
       if (body.action === "createBoard") {
         const boards = await createBoard(webAppUrl, board);
