@@ -1,0 +1,2365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Solar System Sizing &amp; Instant Quote Estimator | H&amp;H Solar</title>
+  <meta name="description" content="Calculate your exact solar panel, inverter, and battery backup requirements in 60 seconds. Get an instant realistic Naira quote for your Nigerian home or business." />
+  <meta name="theme-color" content="#0B0F19" />
+
+  <!-- ======================================================================
+       LINK PREVIEW (Open Graph / Twitter)
+
+       This page's whole job is to sit behind three links: an Instagram bio, a
+       WhatsApp Business auto-reply, and paid ad traffic. In all three the first
+       thing a customer sees is the unfurled preview card, not the page — a link
+       with no OG tags unfurls as a bare grey URL and gets far fewer taps.
+
+       NOTE WHEN RE-SKINNING: these tags must be edited HERE as well as in
+       CONFIG below. Link scrapers (WhatsApp, Instagram, Facebook) do not run
+       JavaScript, so anything set at runtime is invisible to them. Point
+       og:url and og:image at the live domain before sharing the link.
+       ====================================================================== -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="H&amp;H Solar" />
+  <meta property="og:title" content="What size solar system do you actually need?" />
+  <meta property="og:description" content="Answer 6 quick questions about your appliances and get your inverter size, battery capacity, panel count and an honest price range — in 60 seconds." />
+  <meta property="og:url" content="https://hh-solar-huzzy1234s-projects.vercel.app/" />
+  <meta property="og:image" content="https://hh-solar-huzzy1234s-projects.vercel.app/preview.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="What size solar system do you actually need?" />
+  <meta name="twitter:description" content="Get your inverter size, battery capacity, panel count and an honest price range in 60 seconds." />
+  <meta name="twitter:image" content="https://hh-solar-huzzy1234s-projects.vercel.app/preview.png" />
+
+  <!-- Fonts load NON-BLOCKING: on a slow Nigerian mobile connection the app must
+       paint immediately using the system font stack, then upgrade when the webfont
+       arrives. If the device is offline and the font isn't in HTTP cache yet, the
+       app still renders perfectly on the fallback stack. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  </noscript>
+
+  <style>
+    /* ==========================================================================
+       1. DESIGN SYSTEM & CSS VARIABLES
+       ========================================================================== */
+    :root {
+      --bg-midnight: #0B0F19;
+      --bg-card: rgba(18, 24, 38, 0.85);
+      --bg-card-border: rgba(255, 255, 255, 0.08);
+      --bg-card-hover: rgba(255, 255, 255, 0.12);
+      
+      --brand-primary: #0F172A;
+      --brand-accent: #F59E0B;
+      --brand-accent-glow: rgba(245, 158, 11, 0.25);
+      --brand-accent-light: #FBBF24;
+      --brand-success: #10B981;
+      --brand-success-glow: rgba(16, 185, 129, 0.2);
+      
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-subtle: #64748B;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      
+      --shadow-glow: 0 0 25px rgba(245, 158, 11, 0.15);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-midnight);
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 90px;
+    }
+
+    /* ==========================================================================
+       2. HEADER & NAVIGATION
+       ========================================================================== */
+    .app-header {
+      width: 100%;
+      max-width: 600px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--bg-card-border);
+      background: rgba(11, 15, 25, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* min-width:0 lets the text column shrink so a long company name or tagline
+       truncates cleanly instead of forcing the header to grow to three lines. */
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-logo-wrap > div:last-child {
+      min-width: 0;
+    }
+
+    .brand-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--brand-accent), #D97706);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .brand-logo-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: #0B0F19;
+    }
+
+    .brand-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--text-main);
+      line-height: 1.2;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-tagline {
+      font-size: 0.72rem;
+      color: var(--brand-accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .header-whatsapp-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 30px;
+      color: var(--brand-success);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      white-space: nowrap;   /* never let the CTA wrap to two lines on narrow phones */
+      flex-shrink: 0;
+    }
+
+    .header-whatsapp-btn:hover {
+      background: rgba(16, 185, 129, 0.2);
+    }
+
+    /* ==========================================================================
+       3. PROGRESS BAR & STEPPER INDICATOR
+       ========================================================================== */
+    .progress-container {
+      width: 100%;
+      max-width: 600px;
+      padding: 16px 20px 8px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+    }
+
+    .step-number {
+      color: var(--brand-accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .step-title-hint {
+      color: var(--text-muted);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-card-border);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 16.66%;
+      background: linear-gradient(90deg, #F59E0B, #FBBF24);
+      border-radius: 10px;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+    }
+
+    /* ==========================================================================
+       4. CONTAINER & SCREEN SLIDES
+       ========================================================================== */
+    .app-container {
+      width: 100%;
+      max-width: 600px;
+      padding: 16px 20px;
+      flex: 1;
+    }
+
+    .screen {
+      display: none;
+      animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    @keyframes fadeInSlide {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .screen-heading {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+      color: var(--text-main);
+    }
+
+    .screen-subheading {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       5. STEP 1: APPLIANCE CARDS & QUICK PRESETS
+       ========================================================================== */
+    .preset-pills-wrap {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+    .preset-pills-wrap::-webkit-scrollbar { display: none; }
+
+    .preset-pill {
+      white-space: nowrap;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 30px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .preset-pill:hover, .preset-pill.active {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--brand-accent);
+      color: var(--brand-accent-light);
+    }
+
+    .appliances-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 90px; /* Leave space for floating live load bar */
+    }
+
+    .appliance-card {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+
+    .appliance-card.selected {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .appliance-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .appliance-icon {
+      font-size: 1.5rem;
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .appliance-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .appliance-watts {
+      font-size: 0.78rem;
+      color: var(--text-subtle);
+    }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--bg-card-border);
+    }
+
+    .stepper-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .stepper-btn:active {
+      transform: scale(0.9);
+      background: var(--brand-accent);
+      color: #000;
+    }
+
+    .stepper-count {
+      font-weight: 700;
+      font-size: 0.95rem;
+      min-width: 20px;
+      text-align: center;
+      color: var(--text-main);
+    }
+
+    .stepper-count.active {
+      color: var(--brand-accent);
+    }
+
+    /* Floating Live Load Summary Bar */
+    .live-load-bar {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      max-width: 560px;
+      background: rgba(15, 23, 42, 0.92);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      backdrop-filter: blur(12px);
+      border-radius: var(--radius-md);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      z-index: 90;
+    }
+
+    .live-load-stat {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .live-load-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .live-load-value {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--brand-accent-light);
+    }
+
+    /* ==========================================================================
+       6. OPTION CARDS (STEPS 2, 3, 5)
+       ========================================================================== */
+    .options-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option-card {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .option-card:hover {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .option-card.selected {
+      background: rgba(245, 158, 11, 0.08);
+      border-color: var(--brand-accent);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .option-content {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .option-icon {
+      font-size: 1.6rem;
+    }
+
+    .option-title {
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .option-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .radio-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--text-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .option-card.selected .radio-circle {
+      border-color: var(--brand-accent);
+      background: var(--brand-accent);
+    }
+
+    .radio-circle::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0B0F19;
+      display: none;
+    }
+
+    .option-card.selected .radio-circle::after {
+      display: block;
+    }
+
+    /* ==========================================================================
+       7. FORMS & INPUTS (STEPS 4, 6)
+       ========================================================================== */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--brand-accent);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-subtle);
+    }
+
+    .phone-validation-hint {
+      font-size: 0.75rem;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+    }
+
+    .phone-validation-hint.valid {
+      color: var(--brand-success);
+    }
+
+    .phone-validation-hint.invalid {
+      color: #EF4444;
+    }
+
+    /* ==========================================================================
+       8. RESULTS DASHBOARD SCREEN
+       ========================================================================== */
+    .results-hero-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(15, 23, 42, 0.95));
+      border: 1px solid var(--brand-accent);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .results-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid var(--brand-accent);
+      border-radius: 20px;
+      color: var(--brand-accent-light);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .results-system-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .results-price-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .results-price-range {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #34D399;
+      margin-top: 4px;
+    }
+
+    .specs-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .spec-card {
+      background: var(--bg-card);
+      border: 1px solid var(--bg-card-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+    }
+
+    .spec-card-icon {
+      font-size: 1.4rem;
+      margin-bottom: 6px;
+    }
+
+    .spec-card-title {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .spec-card-value {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
+
+    .disclaimer-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 3px solid var(--brand-accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-bottom: 24px;
+    }
+
+    /* ==========================================================================
+       9. FIXED BOTTOM NAVIGATION BAR
+       ========================================================================== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(11, 15, 25, 0.95);
+      backdrop-filter: blur(16px);
+      border-top: 1px solid var(--bg-card-border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: center;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 14px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-main);
+      border: 1px solid var(--bg-card-border);
+      flex: 1;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand-accent), #D97706);
+      color: #0B0F19;
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      flex: 2;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+    }
+
+    .btn-whatsapp {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #FFFFFF;
+      box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+      flex: 1;
+      width: 100%;
+      font-size: 1.08rem;
+      font-weight: 800;
+      padding: 16px 20px;
+      animation: pulseGlow 2.5s infinite;
+    }
+
+    .btn-whatsapp:hover {
+      box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .btn-whatsapp svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+      70% { box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .spec-card-sub {
+      font-size: 0.72rem;
+      color: var(--brand-accent-light);
+      margin-top: 4px;
+      line-height: 1.3;
+      font-weight: 500;
+    }
+
+    .cta-helper-text {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    /* ==========================================================================
+       10. FOOTER & NOTIVON BRANDING
+       ========================================================================== */
+    .app-footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-subtle);
+    }
+
+    .app-footer a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .app-footer a:hover {
+      color: var(--brand-accent);
+    }
+
+    .app-footer .footer-address,
+    .app-footer .footer-social {
+      margin-bottom: 4px;
+      color: var(--text-subtle);
+    }
+
+    .app-footer .footer-social {
+      color: var(--brand-accent);
+      font-weight: 600;
+    }
+
+    .brand-logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+    }
+
+    /* ==========================================================================
+       PAYBACK / COST-OF-DOING-NOTHING PANEL
+       Deliberately NOT another glass card like the spec tiles — it carries the
+       argument, so it gets its own surface, its own accent and the largest
+       number on the screen.
+       ========================================================================== */
+    .savings-panel {
+      margin-bottom: 16px;
+      padding: 22px 20px 20px;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(160deg, rgba(16, 185, 129, 0.12) 0%, rgba(18, 24, 38, 0.9) 55%);
+      border: 1px solid rgba(16, 185, 129, 0.22);
+    }
+
+    /* When there is no payback story to tell, the panel must not keep wearing the
+       green "you win" dressing — the surface has to agree with the sentence. */
+    .savings-panel.is-neutral {
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.05) 0%, rgba(18, 24, 38, 0.9) 55%);
+      border-color: var(--bg-card-border);
+    }
+
+    .savings-panel.is-neutral .savings-eyebrow { color: var(--text-subtle); }
+    .savings-panel.is-neutral .compare-fill.sys { background: linear-gradient(90deg, #475569, #64748B); }
+
+    .savings-eyebrow {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--brand-success);
+      margin-bottom: 10px;
+    }
+
+    .savings-figure {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .savings-number {
+      font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .savings-unit {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .savings-caption {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--text-muted);
+    }
+
+    .savings-caption strong { color: var(--text-main); }
+
+    .compare-block {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .compare-row + .compare-row { margin-top: 14px; }
+
+    .compare-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 7px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .compare-amount {
+      font-weight: 700;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .compare-track {
+      height: 9px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.05);
+      overflow: hidden;
+    }
+
+    /* scaleX rather than width — width animation forces layout on every frame
+       and stutters badly on the low-end Androids this app targets. */
+    .compare-fill {
+      height: 100%;
+      border-radius: 99px;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .compare-fill.is-drawn { transform: scaleX(1); }
+
+    .compare-fill.gen { background: linear-gradient(90deg, #F59E0B, #EF4444); }
+    .compare-fill.sys { background: linear-gradient(90deg, #059669, #34D399); }
+
+    .savings-verdict {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid var(--brand-success);
+      font-size: 0.84rem;
+      line-height: 1.5;
+      color: var(--text-main);
+    }
+
+    .savings-verdict.neutral {
+      background: rgba(255, 255, 255, 0.04);
+      border-left-color: var(--text-subtle);
+      color: var(--text-muted);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .compare-fill { transition: none; }
+    }
+
+    /* ==========================================================================
+       INLINE SUB-QUESTION (roof type on the system-type screen)
+       Reads as a follow-up to the choice above it, not as a peer question —
+       hence the smaller type and the chip row instead of full option cards.
+       ========================================================================== */
+    .subquestion {
+      margin-top: 22px;
+      padding-top: 18px;
+      border-top: 1px solid var(--bg-card-border);
+    }
+
+    .subquestion[hidden] { display: none; }
+
+    .subquestion-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--bg-card-border);
+      border-radius: 30px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .chip:hover { border-color: var(--bg-card-hover); color: var(--text-main); }
+
+    .chip.is-selected {
+      background: var(--brand-accent-glow);
+      border-color: var(--brand-accent);
+      color: var(--brand-accent-light);
+    }
+
+    .btn-text-link {
+      display: block;
+      width: 100%;
+      margin-top: 16px;
+      padding: 12px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-text-link:hover {
+      color: var(--brand-accent);
+    }
+
+    .alert-banner {
+      display: none;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius-sm);
+      color: #FCA5A5;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      margin-bottom: 14px;
+      animation: fadeInSlide 0.2s ease;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+      .screen-heading { font-size: 1.35rem; }
+      .specs-grid { grid-template-columns: 1fr; }
+      .app-header { padding: 12px 16px; }
+      .progress-container { padding: 12px 16px 4px; }
+      .app-container { padding: 12px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP HEADER -->
+  <header class="app-header">
+    <div class="brand-logo-wrap">
+      <div class="brand-logo-icon" id="cfg-logo-mark">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2L14.85 7.78L21.23 8.71L16.61 13.21L17.7 19.56L12 16.56L6.3 19.56L7.39 13.21L2.77 8.71L9.15 7.78L12 2Z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title" id="cfg-company-name">H&amp;H Solar</div>
+        <div class="brand-tagline" id="cfg-tagline">Engineered Solar Solutions</div>
+      </div>
+    </div>
+    <a href="#" id="cfg-header-wa" target="_blank" class="header-whatsapp-btn">
+      💬 Express Quote
+    </a>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-container" id="progress-wrapper">
+    <div class="progress-info">
+      <span class="step-number" id="step-indicator">Step 1 of 6</span>
+      <span class="step-title-hint" id="step-name-hint">Appliance Selection</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <main class="app-container">
+
+    <!-- ALERT BANNER -->
+    <div class="alert-banner" id="validation-alert">
+      ⚠️ Please select at least one appliance to calculate your solar load.
+    </div>
+
+    <!-- ===================================================================
+         STEP 1: APPLIANCES SELECTION
+         =================================================================== -->
+    <section class="screen active" id="screen-1">
+      <h1 class="screen-heading">What do you want to power?</h1>
+      <p class="screen-subheading">Select your appliances or pick a quick starter package below.</p>
+
+      <!-- Quick Preset Pills -->
+      <div class="preset-pills-wrap">
+        <button class="preset-pill" onclick="applyPreset('flat')">⚡ 1-2 Bed Flat</button>
+        <button class="preset-pill" onclick="applyPreset('house')">🏠 3-4 Bed House</button>
+        <button class="preset-pill" onclick="applyPreset('executive')">❄️ Executive + AC</button>
+        <button class="preset-pill" onclick="applyPreset('office')">🏢 Small Office</button>
+        <button class="preset-pill" onclick="applyPreset('clear')">🧹 Reset All</button>
+      </div>
+
+      <!-- Appliance List Container -->
+      <div class="appliances-grid" id="appliances-container">
+        <!-- Rendered dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 2: BACKUP HOURS REQUIREMENT
+         =================================================================== -->
+    <section class="screen" id="screen-2">
+      <h1 class="screen-heading">Night Backup Duration</h1>
+      <p class="screen-subheading">How many hours of backup do you need when grid power is out at night?</p>
+
+      <div class="options-stack">
+        <div class="option-card" onclick="selectBackupHours(4, this)">
+          <div class="option-content">
+            <span class="option-icon">🌙</span>
+            <div>
+              <div class="option-title">4 Hours Backup</div>
+              <div class="option-desc">Essential evening power (6 PM – 10 PM) until bedtime.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card selected" onclick="selectBackupHours(8, this)">
+          <div class="option-content">
+            <span class="option-icon">🌌</span>
+            <div>
+              <div class="option-title">8 Hours Backup (Recommended)</div>
+              <div class="option-desc">Overnight peace of mind. Powers appliances until morning.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card" onclick="selectBackupHours(12, this)">
+          <div class="option-content">
+            <span class="option-icon">⚡</span>
+            <div>
+              <div class="option-title">12 Hours Backup</div>
+              <div class="option-desc">Full night & early morning coverage for extended outages.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card" onclick="selectBackupHours(24, this)">
+          <div class="option-content">
+            <span class="option-icon">🛡️</span>
+            <div>
+              <div class="option-title">24 Hours Continuous</div>
+              <div class="option-desc">Complete off-grid independence with heavy battery reserves.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 3: SYSTEM TYPE SELECTION
+         =================================================================== -->
+    <section class="screen" id="screen-3">
+      <h1 class="screen-heading">System Setup Preference</h1>
+      <p class="screen-subheading">Do you want solar panels included, or inverter & batteries only?</p>
+
+      <div class="options-stack">
+        <div class="option-card selected" onclick="selectSystemType(true, this)">
+          <div class="option-content">
+            <span class="option-icon">☀️</span>
+            <div>
+              <div class="option-title">Full Solar System</div>
+              <div class="option-desc">Panels + Inverter + Lithium Battery. Daytime sun power + free battery charging.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card" onclick="selectSystemType(false, this)">
+          <div class="option-content">
+            <span class="option-icon">🔋</span>
+            <div>
+              <div class="option-title">Inverter & Battery Only</div>
+              <div class="option-desc">No solar panels. Charges via Grid/Generator power during public power supply.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+      </div>
+
+      <!-- ROOF TYPE — revealed only when panels are actually being quoted.
+           Roof material is one of the questions installers currently burn
+           messages on, because it changes the mounting kit and the labour. It
+           rides along on this screen rather than becoming a seventh step, so it
+           costs the customer no extra friction and costs someone on
+           inverter-only nothing at all. -->
+      <div class="subquestion" id="roof-subquestion">
+        <div class="subquestion-label">What is your roof made of?</div>
+        <div class="chip-row">
+          <button class="chip is-selected" onclick="selectRoofType('Aluminium / long-span', this)">Aluminium / long-span</button>
+          <button class="chip" onclick="selectRoofType('Stone-coated tiles', this)">Stone-coated tiles</button>
+          <button class="chip" onclick="selectRoofType('Flat concrete slab', this)">Flat concrete slab</button>
+          <button class="chip" onclick="selectRoofType('Not sure', this)">Not sure</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 4: LOCATION SELECTION
+         =================================================================== -->
+    <section class="screen" id="screen-4">
+      <h1 class="screen-heading">Installation Location</h1>
+      <p class="screen-subheading">Select your state for accurate solar irradiance & installation routing.</p>
+
+      <div class="form-group">
+        <label class="form-label" for="user-location">State / Region in Nigeria</label>
+        <select class="form-select" id="user-location" onchange="stateData.location = this.value">
+          <option value="Lagos (Island / Lekki / VI)">Lagos (Island / Lekki / VI / Ikoyi)</option>
+          <option value="Lagos (Mainland)">Lagos (Mainland / Ikeja / Surulere)</option>
+          <option value="Abuja (FCT)">Abuja (FCT & Environs)</option>
+          <option value="Port Harcourt (Rivers)">Port Harcourt (Rivers State)</option>
+          <option value="Ibadan (Oyo)">Ibadan (Oyo State)</option>
+          <option value="Asaba / Onitsha (Delta/Anambra)">Asaba / Onitsha (Delta / Anambra)</option>
+          <option value="Enugu (Enugu)">Enugu (Enugu State)</option>
+          <option value="Kano / Kaduna (North)">Kano / Kaduna (Northern Region)</option>
+          <option value="Other Nigerian City">Other Nigerian City</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 5: CURRENT COST OF POWER (drives the payback maths)
+         =================================================================== -->
+    <section class="screen" id="screen-5">
+      <h1 class="screen-heading">What is power costing you now?</h1>
+      <p class="screen-subheading">Roughly what do you spend monthly on petrol, diesel and generator servicing? We use this to calculate how fast this system pays for itself.</p>
+
+      <div class="options-stack">
+        <div class="option-card" onclick="selectGenSpend(0, 'No generator in use', this)">
+          <div class="option-content">
+            <span class="option-icon">🚫</span>
+            <div>
+              <div class="option-title">I don't run a generator</div>
+              <div class="option-desc">Grid only — this is about reliability, not fuel savings.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card" onclick="selectGenSpend(12000, 'Under ₦20,000/month', this)">
+          <div class="option-content">
+            <span class="option-icon">🪫</span>
+            <div>
+              <div class="option-title">Under ₦20,000 / month</div>
+              <div class="option-desc">Small generator, used sparingly during outages.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card" onclick="selectGenSpend(35000, '₦20,000 – ₦50,000/month', this)">
+          <div class="option-content">
+            <span class="option-icon">⛽</span>
+            <div>
+              <div class="option-title">₦20,000 – ₦50,000 / month</div>
+              <div class="option-desc">Daily evening running on a small petrol generator.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card selected" onclick="selectGenSpend(85000, '₦50,000 – ₦120,000/month', this)">
+          <div class="option-content">
+            <span class="option-icon">🔥</span>
+            <div>
+              <div class="option-title">₦50,000 – ₦120,000 / month</div>
+              <div class="option-desc">Heavy daily running, plus routine servicing and oil changes.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card" onclick="selectGenSpend(185000, '₦120,000 – ₦250,000/month', this)">
+          <div class="option-content">
+            <span class="option-icon">🛢️</span>
+            <div>
+              <div class="option-title">₦120,000 – ₦250,000 / month</div>
+              <div class="option-desc">Large petrol or diesel plant running most of the day.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+
+        <div class="option-card" onclick="selectGenSpend(320000, 'Above ₦250,000/month', this)">
+          <div class="option-content">
+            <span class="option-icon">🏭</span>
+            <div>
+              <div class="option-title">Above ₦250,000 / month</div>
+              <div class="option-desc">Commercial diesel consumption or multiple buildings.</div>
+            </div>
+          </div>
+          <div class="radio-circle"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 6: CONTACT INFORMATION
+         =================================================================== -->
+    <section class="screen" id="screen-6">
+      <h1 class="screen-heading">Where should we send your quote?</h1>
+      <p class="screen-subheading">Enter your name and WhatsApp number to calculate your technical brief.</p>
+
+      <div class="form-group">
+        <label class="form-label" for="user-name">Your Full Name</label>
+        <input type="text" class="form-input" id="user-name" placeholder="e.g. Chief Emeka Adeleke" oninput="validateContactForm()">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="user-phone">WhatsApp Phone Number</label>
+        <input type="tel" class="form-input" id="user-phone" placeholder="08031234567" maxlength="11" inputmode="numeric" autocomplete="tel" oninput="validateContactForm()">
+        <div class="phone-validation-hint" id="phone-hint">
+          <span>ℹ️ Must be a valid 11-digit Nigerian WhatsApp number (e.g. 08031234567)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         STEP 7: RESULTS & WHATSAPP ACTION DASHBOARD
+         =================================================================== -->
+    <section class="screen" id="screen-7">
+      
+      <div class="results-hero-card">
+        <span class="results-badge">Recommended System Configuration</span>
+        <div class="results-system-name" id="res-system-title">5.0 kVA Smart Hybrid System</div>
+        <div class="results-price-label">Estimated Turnkey Package Price</div>
+        <div class="results-price-range" id="res-price-range">₦4,800,000 – ₦6,900,000</div>
+      </div>
+
+      <!-- COST-OF-DOING-NOTHING / PAYBACK PANEL
+           Sits directly under the price because that is the exact moment the
+           "this is expensive" objection forms. Rendered by renderSavingsPanel(). -->
+      <div id="savings-panel"></div>
+
+      <!-- Technical Specifications Grid -->
+      <div class="specs-grid">
+        <div class="spec-card">
+          <div class="spec-card-icon">⚡</div>
+          <div class="spec-card-title">Inverter Capacity</div>
+          <div class="spec-card-value" id="res-inverter-spec">5.0 kVA Hybrid</div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-card-icon">🔋</div>
+          <div class="spec-card-title">Lithium Storage</div>
+          <div class="spec-card-value" id="res-battery-spec">10.0 kWh LFP</div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-card-icon">☀️</div>
+          <div class="spec-card-title">Solar Array</div>
+          <div class="spec-card-value" id="res-solar-spec">6 × 550W Panels</div>
+          <div class="spec-card-sub" id="res-solar-sub">Generates ~14.8 kWh daily power</div>
+        </div>
+
+        <div class="spec-card">
+          <div class="spec-card-icon">📊</div>
+          <div class="spec-card-title">Connected Load</div>
+          <div class="spec-card-value" id="res-load-spec">3.45 kW Load</div>
+        </div>
+      </div>
+
+      <!-- Disclaimer Banner -->
+      <div class="disclaimer-box">
+        📌 <strong>Important Note:</strong> This is a preliminarily engineered estimate based on your appliance load profile. Final system specification and exact cost are confirmed after a free physical or virtual site survey.
+      </div>
+
+      <!-- Primary Action CTA Helper -->
+      <div class="cta-helper-text">
+        <span>💬 Tap below to send your pre-filled setup brief directly to our engineer on WhatsApp</span>
+      </div>
+
+      <!-- Primary Action CTA -->
+      <a href="#" id="whatsapp-cta-link" target="_blank" class="btn btn-whatsapp" style="display: flex; text-align: center; margin-bottom: 14px;">
+        <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.04 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.22 14.96 3.78 13.45 3.78 11.91C3.78 7.37 7.48 3.67 12.04 3.67M9.1 7.35C8.93 7.35 8.65 7.41 8.42 7.66C8.19 7.91 7.55 8.51 7.55 9.73C7.55 10.95 8.44 12.13 8.56 12.3C8.68 12.47 10.3 14.97 12.78 16.04C13.37 16.3 13.82 16.45 14.18 16.56C14.77 16.75 15.31 16.72 15.74 16.66C16.22 16.59 17.22 16.06 17.43 15.47C17.64 14.88 17.64 14.38 17.58 14.27C17.52 14.16 17.35 14.1 17.07 13.96C16.79 13.82 15.42 13.15 15.17 13.06C14.92 12.97 14.74 12.93 14.56 13.2C14.38 13.47 13.87 14.07 13.72 14.24C13.57 14.41 13.42 14.43 13.14 14.29C12.86 14.15 11.96 13.85 10.9 12.91C10.07 12.17 9.51 11.26 9.35 10.98C9.19 10.7 9.33 10.55 9.47 10.41C9.6 10.28 9.76 10.07 9.9 9.9C10.04 9.73 10.09 9.61 10.18 9.43C10.27 9.25 10.22 9.1 10.15 8.96C10.08 8.82 9.57 7.57 9.36 7.07C9.15 6.58 8.94 6.64 8.79 6.64C8.65 6.64 8.47 6.64 8.29 6.64"/></svg>
+        Send My Specs to Installer on WhatsApp
+      </a>
+
+      <button class="btn btn-secondary" style="width: 100%;" onclick="copyQuoteToClipboard()">
+        📋 Copy Detailed Technical Brief
+      </button>
+
+      <!-- The bottom nav is hidden on the results screen, so this is the only
+           visible route back into the wizard to adjust an answer. -->
+      <button class="btn-text-link" onclick="navigateStep(-1)">
+        ← Edit my answers
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- FLOATING LIVE LOAD SUMMARY BAR (Step 1 only) -->
+  <div class="live-load-bar" id="live-load-bar">
+    <div class="live-load-stat">
+      <span class="live-load-label">Total Connected Load</span>
+      <span class="live-load-value" id="bar-total-watts">0 Watts</span>
+    </div>
+    <div class="live-load-stat" style="text-align: right;">
+      <span class="live-load-label">Est. Inverter Size</span>
+      <span class="live-load-value" id="bar-est-kva">1.5 kVA</span>
+    </div>
+  </div>
+
+  <!-- FIXED BOTTOM NAVIGATION BAR -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <div class="nav-inner">
+      <button class="btn btn-secondary" id="btn-back" onclick="navigateStep(-1)">
+        ← Back
+      </button>
+      <button class="btn btn-primary" id="btn-next" onclick="navigateStep(1)">
+        Continue →
+      </button>
+    </div>
+  </nav>
+
+  <!-- FOOTER BRANDING -->
+  <footer class="app-footer">
+    <p class="footer-address" id="cfg-footer-address"></p>
+    <p class="footer-social" id="cfg-footer-social"></p>
+    <p><span id="cfg-footer-name">H&amp;H Solar</span> • Powered by <a href="https://notivon.com" target="_blank" rel="noopener">Notivon</a></p>
+  </footer>
+
+  <!-- =======================================================================
+       JAVASCRIPT LOGIC & CONFIGURATION
+       ======================================================================= -->
+  <script>
+    /**
+     * =====================================================================
+     * CONFIGURATION OBJECT
+     * Reskin the app instantly by modifying these values.
+     * =====================================================================
+     */
+    const CONFIG = {
+      // Re-skinning checklist: everything below, PLUS the Open Graph tags in
+      // <head> (link scrapers can't see anything set from JavaScript).
+      companyName: "H&H Solar",
+      tagline: "Uninterrupted Clean Power for Nigeria",
+      whatsappNumber: "2349065543761", // Format: International without '+' e.g. 234803...
+
+      // Company logo. Leave as empty string "" to use the built-in sun mark instead.
+      // Any square-ish PNG/SVG/JPG URL works — it is rendered at 40x40 in the header.
+      logoUrl: "",
+
+      brandPrimary: "#0B0F19",
+      brandAccent: "#F59E0B",
+      brandSuccess: "#10B981",
+      address: "Lekki Phase 1 & Victoria Island, Lagos, Nigeria",
+      instagramHandle: "",
+      
+      /*
+       * SAVINGS MODEL ASSUMPTIONS
+       * How much of the customer's current generator spend the system actually
+       * removes. A full solar system displaces nearly all of it. An inverter-only
+       * system does NOT — with no panels it still has to be recharged from the
+       * grid or the generator, so it cuts the bill roughly in half rather than
+       * killing it. Quoting both at the same rate is the fastest way to lose
+       * credibility with a customer who has done the sums.
+       */
+      savingsModel: {
+        solarOffset: 0.85,        // full solar system removes ~85% of fuel spend
+        inverterOnlyOffset: 0.55, // inverter + battery only removes ~55%
+        horizonYears: 10          // comparison window used on the results screen
+      },
+
+      // Real-world Nigerian Solar & Inverter Turnkey Pricing Matrix (in Naira ₦)
+      pricingTable: {
+        "1.5kVA": {
+          inverterOnly: { low: 850000, high: 1400000 },
+          withSolar: { low: 1600000, high: 2300000 }
+        },
+        "2.5kVA": {
+          inverterOnly: { low: 1400000, high: 2100000 },
+          withSolar: { low: 2400000, high: 3400000 }
+        },
+        "3.5kVA": {
+          inverterOnly: { low: 1900000, high: 2800000 },
+          withSolar: { low: 3200000, high: 4500000 }
+        },
+        "5.0kVA": {
+          inverterOnly: { low: 2800000, high: 4200000 },
+          withSolar: { low: 4800000, high: 6900000 }
+        },
+        "7.5kVA": {
+          inverterOnly: { low: 4200000, high: 5800000 },
+          withSolar: { low: 7200000, high: 9800000 }
+        },
+        "10.0kVA": {
+          inverterOnly: { low: 5900000, high: 8200000 },
+          withSolar: { low: 9800000, high: 13500000 }
+        },
+        "15.0kVA": {
+          inverterOnly: { low: 8800000, high: 12500000 },
+          withSolar: { low: 14500000, high: 19800000 }
+        }
+      }
+    };
+
+    /**
+     * =====================================================================
+     * APPLIANCE DATABASE (WATTAGE & TYPICAL DAILY RUN HOURS)
+     * =====================================================================
+     */
+    const APPLIANCES = [
+      { id: 'light', name: 'LED Lights', watts: 10, hours: 10, icon: '💡', category: 'Lighting' },
+      { id: 'cfan', name: 'Ceiling Fan', watts: 75, hours: 8, icon: '🌀', category: 'Comfort' },
+      { id: 'sfan', name: 'Standing Fan', watts: 50, hours: 8, icon: '🌬️', category: 'Comfort' },
+      { id: 'tv', name: 'Smart TV', watts: 120, hours: 6, icon: '📺', category: 'Electronics' },
+      { id: 'decoder', name: 'Decoder / Soundbar', watts: 30, hours: 6, icon: '📻', category: 'Electronics' },
+      { id: 'fridge', name: 'Single Door Fridge', watts: 200, hours: 14, icon: '🧊', category: 'Refrigeration' },
+      { id: 'freezer', name: 'Chest Deep Freezer', watts: 350, hours: 12, icon: '❄️', category: 'Refrigeration' },
+      { id: 'ac1hp', name: '1.0 HP Inverter AC', watts: 900, hours: 6, icon: '❄️', category: 'Cooling' },
+      { id: 'ac15hp', name: '1.5 HP Inverter AC', watts: 1350, hours: 6, icon: '❄️', category: 'Cooling' },
+      { id: 'ac2hp', name: '2.0 HP Inverter AC', watts: 1800, hours: 6, icon: '❄️', category: 'Cooling' },
+      { id: 'pump', name: 'Water Pump (1 HP)', watts: 750, hours: 1, icon: '🚰', category: 'Utilities' },
+      { id: 'microwave', name: 'Microwave Oven', watts: 1200, hours: 0.5, icon: '🍿', category: 'Kitchen' },
+      { id: 'iron', name: 'Electric Iron', watts: 1500, hours: 0.5, icon: '👔', category: 'Utilities' },
+      { id: 'laptop', name: 'Laptop / Phone Charging', watts: 65, hours: 8, icon: '💻', category: 'Electronics' },
+      { id: 'washing', name: 'Washing Machine', watts: 500, hours: 1, icon: '🧺', category: 'Utilities' }
+    ];
+
+    /**
+     * =====================================================================
+     * GLOBAL STATE MANAGEMENT
+     * =====================================================================
+     */
+    let currentStep = 1;
+    const totalSteps = 6;
+
+    const stateData = {
+      quantities: {}, // { light: 5, tv: 1, ... }
+      backupHours: 8,
+      hasSolar: true,
+      location: 'Lagos (Island / Lekki / VI)',
+      roofType: 'Aluminium / long-span',                 // Only asked when solar is selected
+      monthlyGenSpend: 85000,                            // Naira/month, drives the payback maths
+      genSpendLabel: '₦50,000 – ₦120,000/month',
+      source: '',                                        // Which channel sent them (see readSource)
+      name: '',
+      phone: ''
+    };
+
+    // Initialize state quantities to 0
+    APPLIANCES.forEach(app => stateData.quantities[app.id] = 0);
+
+    /**
+     * =====================================================================
+     * APPLICATION INITIALIZATION
+     * =====================================================================
+     */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Reskin text elements from CONFIG
+      document.getElementById('cfg-company-name').textContent = CONFIG.companyName;
+      document.getElementById('cfg-tagline').textContent = CONFIG.tagline;
+      document.getElementById('cfg-footer-name').textContent = CONFIG.companyName;
+      document.getElementById('cfg-header-wa').href = `https://wa.me/${CONFIG.whatsappNumber}?text=Hello%20${encodeURIComponent(CONFIG.companyName)},%20I%20would%20like%20a%20quick%20solar%20quote.`;
+      document.title = `Solar System Sizing & Instant Quote | ${CONFIG.companyName}`;
+
+      // Swap the built-in sun mark for the client logo when CONFIG.logoUrl is set.
+      // If the image 404s we silently fall back to the sun mark, so a bad URL can
+      // never leave the header empty.
+      if (CONFIG.logoUrl) {
+        const markEl = document.getElementById('cfg-logo-mark');
+        const fallbackMark = markEl.innerHTML;
+        const logoImg = new Image();
+        logoImg.alt = `${CONFIG.companyName} logo`;
+        logoImg.onload = () => { markEl.innerHTML = ''; markEl.appendChild(logoImg); };
+        logoImg.onerror = () => { markEl.innerHTML = fallbackMark; };
+        logoImg.src = CONFIG.logoUrl;
+      }
+
+      // Optional CONFIG fields — rendered only when provided.
+      if (CONFIG.address) {
+        document.getElementById('cfg-footer-address').textContent = `📍 ${CONFIG.address}`;
+      }
+      if (CONFIG.instagramHandle) {
+        const handle = CONFIG.instagramHandle.replace(/^@/, '');
+        document.getElementById('cfg-footer-social').innerHTML =
+          `<a href="https://instagram.com/${encodeURIComponent(handle)}" target="_blank" rel="noopener">${CONFIG.instagramHandle}</a>`;
+      }
+
+      // Apply CONFIG brand colours over the design-system defaults.
+      document.documentElement.style.setProperty('--brand-accent', CONFIG.brandAccent);
+      document.documentElement.style.setProperty('--brand-success', CONFIG.brandSuccess);
+      document.documentElement.style.setProperty('--bg-midnight', CONFIG.brandPrimary);
+
+      stateData.source = readSource();
+
+      // Render appliance list cards
+      renderAppliances();
+      updateLiveLoadBar();
+      updateStepUI();
+
+      // Handle browser back button navigation smoothly
+      window.history.replaceState({ step: 1 }, '');
+      window.onpopstate = (e) => {
+        if (e.state && e.state.step) {
+          currentStep = e.state.step;
+          updateStepUI();
+        }
+      };
+    });
+
+    /**
+     * =====================================================================
+     * RENDER APPLIANCES GRID (STEP 1)
+     * =====================================================================
+     */
+    function renderAppliances() {
+      const container = document.getElementById('appliances-container');
+      container.innerHTML = '';
+
+      APPLIANCES.forEach(app => {
+        const qty = stateData.quantities[app.id] || 0;
+        const card = document.createElement('div');
+        card.className = `appliance-card ${qty > 0 ? 'selected' : ''}`;
+        card.id = `app-card-${app.id}`;
+
+        card.innerHTML = `
+          <div class="appliance-info">
+            <div class="appliance-icon">${app.icon}</div>
+            <div>
+              <div class="appliance-name">${app.name}</div>
+              <div class="appliance-watts">${app.watts} Watts each</div>
+            </div>
+          </div>
+          <div class="stepper">
+            <button class="stepper-btn" onclick="updateQty('${app.id}', -1)" aria-label="Decrease quantity">-</button>
+            <span class="stepper-count ${qty > 0 ? 'active' : ''}" id="qty-${app.id}">${qty}</span>
+            <button class="stepper-btn" onclick="updateQty('${app.id}', 1)" aria-label="Increase quantity">+</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /**
+     * Update appliance quantity
+     */
+    function updateQty(id, change) {
+      const current = stateData.quantities[id] || 0;
+      const next = Math.max(0, current + change);
+      stateData.quantities[id] = next;
+
+      // Update UI element
+      const countEl = document.getElementById(`qty-${id}`);
+      if (countEl) {
+        countEl.textContent = next;
+        countEl.className = `stepper-count ${next > 0 ? 'active' : ''}`;
+      }
+
+      const cardEl = document.getElementById(`app-card-${id}`);
+      if (cardEl) {
+        if (next > 0) cardEl.classList.add('selected');
+        else cardEl.classList.remove('selected');
+      }
+
+      // Hide validation alert if any item selected
+      document.getElementById('validation-alert').style.display = 'none';
+
+      updateLiveLoadBar();
+    }
+
+    /**
+     * Apply Preset Load Bundles
+     */
+    function applyPreset(presetType) {
+      // Clear all first
+      APPLIANCES.forEach(app => stateData.quantities[app.id] = 0);
+
+      if (presetType === 'flat') {
+        stateData.quantities['light'] = 6;
+        stateData.quantities['cfan'] = 2;
+        stateData.quantities['tv'] = 1;
+        stateData.quantities['fridge'] = 1;
+        stateData.quantities['laptop'] = 2;
+      } else if (presetType === 'house') {
+        stateData.quantities['light'] = 10;
+        stateData.quantities['cfan'] = 4;
+        stateData.quantities['tv'] = 2;
+        stateData.quantities['decoder'] = 2;
+        stateData.quantities['fridge'] = 1;
+        stateData.quantities['freezer'] = 1;
+        stateData.quantities['ac1hp'] = 1;
+        stateData.quantities['laptop'] = 3;
+      } else if (presetType === 'executive') {
+        stateData.quantities['light'] = 15;
+        stateData.quantities['cfan'] = 5;
+        stateData.quantities['tv'] = 3;
+        stateData.quantities['fridge'] = 1;
+        stateData.quantities['freezer'] = 1;
+        stateData.quantities['ac15hp'] = 2;
+        stateData.quantities['pump'] = 1;
+        stateData.quantities['microwave'] = 1;
+        stateData.quantities['laptop'] = 4;
+      } else if (presetType === 'office') {
+        stateData.quantities['light'] = 8;
+        stateData.quantities['ac15hp'] = 1;
+        stateData.quantities['laptop'] = 6;
+        stateData.quantities['fridge'] = 1;
+        stateData.quantities['decoder'] = 1;
+      }
+
+      // A preset always satisfies the "at least one appliance" rule, so clear any
+      // validation warning still on screen from a previous empty Continue.
+      document.getElementById('validation-alert').style.display = 'none';
+
+      renderAppliances();
+      updateLiveLoadBar();
+    }
+
+    /**
+     * Update Floating Live Load Bar
+     */
+    function updateLiveLoadBar() {
+      let totalWatts = 0;
+      APPLIANCES.forEach(app => {
+        totalWatts += app.watts * (stateData.quantities[app.id] || 0);
+      });
+
+      const estKva = calculateInverterKva(totalWatts);
+
+      document.getElementById('bar-total-watts').textContent = `${totalWatts.toLocaleString()} W`;
+      document.getElementById('bar-est-kva').textContent = `${estKva.toFixed(1)} kVA`;
+    }
+
+    /**
+     * =====================================================================
+     * OPTION SELECTION HANDLERS
+     * =====================================================================
+     */
+    function selectBackupHours(hours, element) {
+      stateData.backupHours = hours;
+      highlightSelectedOption(element);
+    }
+
+    function selectSystemType(hasSolar, element) {
+      stateData.hasSolar = hasSolar;
+      highlightSelectedOption(element);
+      // Roof material only matters if we're actually mounting panels.
+      document.getElementById('roof-subquestion').hidden = !hasSolar;
+    }
+
+    function selectRoofType(roof, element) {
+      stateData.roofType = roof;
+      element.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('is-selected'));
+      element.classList.add('is-selected');
+    }
+
+    /**
+     * Which of the three drop-in points sent this person?
+     *
+     * The same page gets pasted into an Instagram bio, a WhatsApp Business
+     * auto-reply and paid ad landing pages. Tagging the link (?src=ig,
+     * ?src=whatsapp, ?src=ad) makes every brief say where the lead came from, so
+     * the installer can see which channel is actually paying for itself instead
+     * of guessing. Falls back to the referrer, then to "Direct link".
+     */
+    function readSource() {
+      const params = new URLSearchParams(window.location.search);
+      const raw = params.get('src') || params.get('utm_source') || '';
+
+      const known = {
+        ig: 'Instagram bio',
+        instagram: 'Instagram bio',
+        wa: 'WhatsApp auto-reply',
+        whatsapp: 'WhatsApp auto-reply',
+        ad: 'Paid ad',
+        ads: 'Paid ad',
+        fb: 'Facebook',
+        facebook: 'Facebook',
+        tiktok: 'TikTok',
+        x: 'X / Twitter'
+      };
+
+      if (raw) {
+        const key = raw.toLowerCase().trim();
+        // Unknown tags still pass through, just trimmed and length-capped so a
+        // junk query string can never bloat or break the WhatsApp message.
+        return known[key] || raw.trim().slice(0, 40);
+      }
+
+      const ref = document.referrer || '';
+      if (/instagram\./i.test(ref)) return 'Instagram';
+      if (/facebook\.|fb\./i.test(ref)) return 'Facebook';
+      if (/tiktok\./i.test(ref)) return 'TikTok';
+      if (/google\./i.test(ref)) return 'Google';
+      return 'Direct link';
+    }
+
+    function selectGenSpend(monthlyNaira, label, element) {
+      stateData.monthlyGenSpend = monthlyNaira;
+      stateData.genSpendLabel = label;
+      highlightSelectedOption(element);
+    }
+
+    function highlightSelectedOption(selectedEl) {
+      const parent = selectedEl.parentElement;
+      const siblings = parent.querySelectorAll('.option-card');
+      siblings.forEach(el => el.classList.remove('selected'));
+      selectedEl.classList.add('selected');
+    }
+
+    /**
+     * Phone Number & Contact Form Validation
+     */
+    function validateContactForm() {
+      const name = document.getElementById('user-name').value.trim();
+      const phoneEl = document.getElementById('user-phone');
+      const hint = document.getElementById('phone-hint');
+
+      // Strip anything that isn't a digit as the user types. People paste numbers
+      // as "0803 123 4567" or "+234 803..." — with maxlength=11 those spaces would
+      // otherwise eat characters and block a valid number from ever being entered.
+      const phone = phoneEl.value.replace(/\D/g, '');
+      if (phoneEl.value !== phone) phoneEl.value = phone;
+
+      stateData.name = name;
+      stateData.phone = phone;
+
+      // Nigerian phone format validation: 11 digits starting with 070, 080, 081, 090, 091 etc.
+      const isPhoneValid = /^0[789][01]\d{8}$/.test(phone);
+
+      if (phone.length === 0) {
+        hint.className = 'phone-validation-hint';
+        hint.innerHTML = '<span>ℹ️ Must be a valid 11-digit Nigerian WhatsApp number (e.g. 08031234567)</span>';
+        return false;
+      } else if (isPhoneValid) {
+        hint.className = 'phone-validation-hint valid';
+        hint.innerHTML = '<span>✅ Valid 11-digit Nigerian phone number!</span>';
+        return true;
+      } else {
+        hint.className = 'phone-validation-hint invalid';
+        hint.innerHTML = '<span>❌ Enter a valid 11-digit phone number (e.g. 08031234567)</span>';
+        return false;
+      }
+    }
+
+    /**
+     * =====================================================================
+     * STEP NAVIGATION LOGIC
+     * =====================================================================
+     */
+    function navigateStep(direction) {
+      // Validate Step 1 before proceeding
+      if (currentStep === 1 && direction === 1) {
+        let totalWatts = 0;
+        APPLIANCES.forEach(app => totalWatts += app.watts * (stateData.quantities[app.id] || 0));
+        if (totalWatts === 0) {
+          document.getElementById('validation-alert').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+      }
+
+      // Validate Step 6 (Contact Form) before showing results
+      if (currentStep === 6 && direction === 1) {
+        const name = document.getElementById('user-name').value.trim();
+        const phone = document.getElementById('user-phone').value.trim().replace(/\s+/g, '');
+
+        if (!name) {
+          alert("Please enter your name so the engineer knows who to address.");
+          document.getElementById('user-name').focus();
+          return;
+        }
+
+        if (!/^0[789][01]\d{8}$/.test(phone)) {
+          alert("Please enter a valid 11-digit Nigerian WhatsApp phone number (e.g. 08031234567).");
+          document.getElementById('user-phone').focus();
+          return;
+        }
+      }
+
+      // Going BACK delegates to the browser so the in-app Back button and the
+      // hardware/gesture back button share one history stack instead of fighting
+      // each other. The popstate handler repaints the UI.
+      if (direction === -1) {
+        if (currentStep > 1) window.history.back();
+        return;
+      }
+
+      const nextStep = currentStep + direction;
+      if (nextStep >= 1 && nextStep <= 7) {
+        currentStep = nextStep;
+        window.history.pushState({ step: currentStep }, '');
+        updateStepUI();
+      }
+    }
+
+    function updateStepUI() {
+      // Hide all screens
+      for (let i = 1; i <= 7; i++) {
+        const scr = document.getElementById(`screen-${i}`);
+        if (scr) scr.classList.remove('active');
+      }
+
+      // Show active screen
+      const activeScr = document.getElementById(`screen-${currentStep}`);
+      if (activeScr) activeScr.classList.add('active');
+
+      // Update Navigation Buttons & Header
+      const backBtn = document.getElementById('btn-back');
+      const nextBtn = document.getElementById('btn-next');
+      const liveBar = document.getElementById('live-load-bar');
+      const progressWrap = document.getElementById('progress-wrapper');
+
+      if (currentStep === 1) {
+        backBtn.style.visibility = 'hidden';
+        liveBar.style.display = 'flex';
+      } else {
+        backBtn.style.visibility = 'visible';
+        liveBar.style.display = 'none';
+      }
+
+      if (currentStep === 7) {
+        // Results Dashboard Screen
+        document.getElementById('bottom-nav').style.display = 'none';
+        progressWrap.style.display = 'none';
+        calculateAndRenderResults();
+      } else {
+        document.getElementById('bottom-nav').style.display = 'flex';
+        progressWrap.style.display = 'block';
+
+        // Progress Bar Calculation
+        const stepTitles = [
+          'Appliance Selection',
+          'Backup Duration',
+          'System Type',
+          'Location',
+          'Current Power Costs',
+          'Contact Info'
+        ];
+        const percent = (currentStep / totalSteps) * 100;
+        document.getElementById('progress-fill').style.width = `${percent}%`;
+        document.getElementById('step-indicator').textContent = `Step ${currentStep} of ${totalSteps}`;
+        document.getElementById('step-name-hint').textContent = stepTitles[currentStep - 1] || '';
+
+        nextBtn.textContent = currentStep === 6 ? 'View My Solar Quote ✨' : 'Continue →';
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /**
+     * =====================================================================
+     * ENGINEERING CALCULATIONS LOGIC
+     * =====================================================================
+     */
+    function calculateInverterKva(totalLoadWatts) {
+      /*
+       * SIZING FORMULA FOR NIGERIAN INVERTERS:
+       * - Power Factor (PF) assumed at 0.8
+       * - Required kVA = (Connected Load Watts / 0.8) / 1000
+       * - Standard Nigerian Inverter Sizes: 1.5, 2.5, 3.5, 5.0, 7.5, 10.0, 15.0 kVA
+       */
+      const rawKva = (totalLoadWatts / 0.8) / 1000;
+      const standardSizes = [1.5, 2.5, 3.5, 5.0, 7.5, 10.0, 15.0];
+      
+      for (let size of standardSizes) {
+        if (size >= rawKva) return size;
+      }
+      return 15.0; // cap at 15.0 kVA standard
+    }
+
+    /**
+     * SINGLE SOURCE OF TRUTH for every number this app quotes.
+     * The results dashboard, the WhatsApp lead brief and the clipboard brief all
+     * call this one function, so they can never disagree with each other.
+     */
+    function computeSystem() {
+      // 1. Total connected load + daily energy consumption
+      let totalWatts = 0;
+      let dailyWh = 0;
+      const selectedAppliancesList = [];
+
+      APPLIANCES.forEach(app => {
+        const qty = stateData.quantities[app.id] || 0;
+        if (qty > 0) {
+          const load = app.watts * qty;
+          totalWatts += load;
+          dailyWh += load * app.hours;
+          selectedAppliancesList.push(`• ${qty}x ${app.name} (${app.watts}W)`);
+        }
+      });
+
+      // 2. Inverter Sizing
+      const inverterKva = calculateInverterKva(totalWatts);
+
+      // 3. Battery Capacity Sizing (kWh)
+      /*
+       * BATTERY FORMULA:
+       * Energy needed = (Backup-window energy consumption)
+       * Lithium Depth of Discharge (DoD) = 80% (0.8)
+       * Inverter Efficiency = 85% (0.85)
+       * Battery kWh = Energy Needed / (0.8 * 0.85 * 1000)
+       *
+       * On the energy term: sizing off (connected load x backup hours) assumes
+       * every appliance runs flat out for the whole window, which quotes an
+       * unbuyable bank — a 6.3 kW house on 24h backup lands at 225 kWh, roughly
+       * five times what such a home actually installs. Real draw is governed by
+       * each appliance's duty cycle, so we cap every appliance at its typical
+       * daily run hours within the window:
+       *
+       *   window energy = SUM( watts x qty x MIN(typical daily hours, backup hours) )
+       *
+       * An iron contributes its 0.5h, not 24h; a fridge contributes 14h. At 24h
+       * backup this converges exactly on daily consumption, which is the correct
+       * figure for full off-grid independence. Small systems are unaffected —
+       * an 8h flat still sizes to the same 10 kWh as the simple formula.
+       */
+      let windowWh = 0;
+      APPLIANCES.forEach(app => {
+        const qty = stateData.quantities[app.id] || 0;
+        if (qty > 0) {
+          windowWh += app.watts * qty * Math.min(app.hours, stateData.backupHours);
+        }
+      });
+
+      const rawBatteryKwh = windowWh / (0.8 * 0.85 * 1000);
+      const batterySizes = [2.5, 5.0, 10.0, 15.0, 20.0, 30.0];
+      // Above the standard rack sizes, banks are built by stacking 5 kWh modules —
+      // so round UP to the next 5 kWh rather than emitting an unbuyable figure.
+      const batteryKwh = batterySizes.find(b => b >= rawBatteryKwh)
+        || Math.ceil(rawBatteryKwh / 5) * 5;
+
+      // 4. Solar Array Sizing (kWp & Panel Count)
+      /*
+       * SOLAR PANEL FORMULA:
+       * Average Peak Sun Hours in Nigeria = 4.5 hours/day
+       * System efficiency derating = 80% (0.8)
+       * Daily Solar Energy Needed = dailyWh / 1000
+       * Solar kWp = Daily Energy / (4.5 * 0.8)
+       * Standard Panel = 550W Tier-1 Monocrystalline
+       */
+      let panelCount = 0;
+      let solarKwp = 0;
+      if (stateData.hasSolar) {
+        const rawSolarKwp = (dailyWh / 1000) / (4.5 * 0.8);
+        panelCount = Math.max(2, Math.ceil((rawSolarKwp * 1000) / 550));
+        // Force even panel count for standard 2-string inverter array symmetry
+        if (panelCount % 2 !== 0) panelCount += 1;
+        solarKwp = (panelCount * 550) / 1000;
+      }
+
+      // 5. Pricing Range Lookup
+      const kvaKey = `${inverterKva.toFixed(1)}kVA`;
+      const priceConfig = CONFIG.pricingTable[kvaKey]
+        ? CONFIG.pricingTable[kvaKey][stateData.hasSolar ? 'withSolar' : 'inverterOnly']
+        : { low: 3500000, high: 6000000 };
+
+      const priceText = `₦${(priceConfig.low / 1000000).toFixed(2)}M – ₦${(priceConfig.high / 1000000).toFixed(2)}M`;
+
+      /*
+       * 6. PAYBACK & COST-OF-DOING-NOTHING
+       *
+       * This is the argument that actually sells solar in Nigeria: the customer is
+       * ALREADY paying for power, monthly and forever, into a generator. We compare
+       * that running cost against a one-off system cost.
+       *
+       *   monthly saving   = current generator spend x offset for the system type
+       *   payback (months) = mid-point system cost / monthly saving
+       *   horizon saving   = (monthly saving x 12 x years) - system cost
+       *
+       * We deliberately use the MID-POINT of the quoted range, not the low end.
+       * Quoting payback off the cheapest possible build would flatter the number
+       * and fall apart at the site survey.
+       */
+      const systemCostMid = (priceConfig.low + priceConfig.high) / 2;
+      const offset = stateData.hasSolar
+        ? CONFIG.savingsModel.solarOffset
+        : CONFIG.savingsModel.inverterOnlyOffset;
+
+      const monthlySaving = stateData.monthlyGenSpend * offset;
+      const horizonMonths = CONFIG.savingsModel.horizonYears * 12;
+      const paybackMonths = monthlySaving > 0 ? systemCostMid / monthlySaving : null;
+      const horizonGenSpend = stateData.monthlyGenSpend * horizonMonths;
+      const horizonSaving = (monthlySaving * horizonMonths) - systemCostMid;
+
+      // Only claim a payback story when the system genuinely pays back inside the
+      // comparison window. Below that we tell the truth instead of inventing a
+      // number — see renderSavingsPanel().
+      const paysBack = paybackMonths !== null && paybackMonths <= horizonMonths;
+
+      return {
+        totalWatts,
+        dailyWh,
+        inverterKva,
+        batteryKwh,
+        panelCount,
+        solarKwp,
+        priceText,
+        selectedAppliancesList,
+        systemCostMid,
+        monthlySaving,
+        paybackMonths,
+        paysBack,
+        horizonGenSpend,
+        horizonSaving
+      };
+    }
+
+    /**
+     * Format naira for display: millions get compact notation, everything else
+     * gets thousand separators. ₦11.65M reads faster than ₦11,650,000.
+     */
+    function formatNaira(amount) {
+      const n = Math.round(amount);
+      if (Math.abs(n) >= 1000000) return `₦${(n / 1000000).toFixed(2)}M`;
+      return `₦${n.toLocaleString('en-NG')}`;
+    }
+
+    /**
+     * Render payback as the way a customer would say it out loud.
+     */
+    function formatPayback(months) {
+      const m = Math.round(months);
+      if (m < 24) return { value: `${m}`, unit: m === 1 ? 'month' : 'months' };
+      const years = Math.floor(m / 12);
+      const rem = m % 12;
+      return {
+        value: rem === 0 ? `${years}` : `${years}.${Math.round((rem / 12) * 10)}`,
+        unit: 'years'
+      };
+    }
+
+    function calculateAndRenderResults() {
+      const specs = computeSystem();
+
+      // Update UI Dashboard Elements
+      document.getElementById('res-system-title').textContent = `${specs.inverterKva.toFixed(1)} kVA ${stateData.hasSolar ? 'Solar Hybrid' : 'Inverter'} Setup`;
+      document.getElementById('res-price-range').textContent = specs.priceText;
+
+      document.getElementById('res-inverter-spec').textContent = `${specs.inverterKva.toFixed(1)} kVA Hybrid Pure Sine`;
+      document.getElementById('res-battery-spec').textContent = `${specs.batteryKwh.toFixed(1)} kWh Lithium LFP`;
+      
+      if (stateData.hasSolar) {
+        document.getElementById('res-solar-spec').textContent = `${specs.panelCount} × 550W Panels (${specs.solarKwp.toFixed(1)} kWp)`;
+        const estKwh = (specs.solarKwp * 4.5).toFixed(1);
+        document.getElementById('res-solar-sub').textContent = `Generates ~${estKwh} kWh daily for daytime appliances + battery charge.`;
+      } else {
+        document.getElementById('res-solar-spec').textContent = 'No Panels Selected';
+        document.getElementById('res-solar-sub').textContent = 'System charges via Grid/Gen power during public power hours.';
+      }
+
+      document.getElementById('res-load-spec').textContent = `${(specs.totalWatts / 1000).toFixed(2)} kW Connected`;
+
+      renderSavingsPanel(specs);
+
+      // Generate WhatsApp Pre-filled Link & Text
+      const waUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(specs))}`;
+      document.getElementById('whatsapp-cta-link').href = waUrl;
+    }
+
+    /**
+     * =====================================================================
+     * PAYBACK PANEL
+     *
+     * Three honest outcomes, never one flattering one:
+     *  1. No generator      -> no fuel saving to claim, so we don't claim any.
+     *  2. Pays back in time -> lead with the payback figure.
+     *  3. Doesn't pay back  -> say so plainly. A customer spending ₦12k/month on
+     *                          fuel will not recover ₦11M, and pretending
+     *                          otherwise is what gets the installer caught out at
+     *                          the site survey.
+     * =====================================================================
+     */
+    function renderSavingsPanel(specs) {
+      const panel = document.getElementById('savings-panel');
+      const years = CONFIG.savingsModel.horizonYears;
+
+      // --- Case 1: no generator ---
+      if (stateData.monthlyGenSpend === 0) {
+        panel.innerHTML = `
+          <div class="savings-panel is-neutral">
+            <div class="savings-eyebrow">What this changes</div>
+            <div class="savings-caption">
+              You told us you don't run a generator, so there's no fuel bill to win back.
+              This system is about <strong>uninterrupted power, silence and no fumes</strong> —
+              and it locks in your cost of electricity for the next ${years}+ years while
+              grid tariffs keep climbing.
+            </div>
+          </div>`;
+        return;
+      }
+
+      const pay = specs.paysBack ? formatPayback(specs.paybackMonths) : null;
+
+      // Bars are scaled against whichever figure is larger, so the longer bar is
+      // always the more expensive option — the comparison has to be visually honest.
+      const scale = Math.max(specs.horizonGenSpend, specs.systemCostMid) || 1;
+      const genPct = (specs.horizonGenSpend / scale) * 100;
+      const sysPct = (specs.systemCostMid / scale) * 100;
+
+      // --- Case 2 & 3 share the comparison, differ in the headline + verdict ---
+      const headline = specs.paysBack
+        ? `<div class="savings-eyebrow">Pays for itself in</div>
+           <div class="savings-figure">
+             <span class="savings-number">${pay.value}</span>
+             <span class="savings-unit">${pay.unit}</span>
+           </div>
+           <div class="savings-caption">
+             You currently spend <strong>${formatNaira(stateData.monthlyGenSpend)}</strong> a month
+             on fuel and servicing. This system removes about
+             <strong>${formatNaira(specs.monthlySaving)}</strong> of that, every month,
+             ${stateData.hasSolar ? 'for the life of the panels' : 'once the grid is charging it instead of your generator'}.
+           </div>`
+        : `<div class="savings-eyebrow">The honest numbers</div>
+           <div class="savings-figure">
+             <span class="savings-number">${formatNaira(specs.monthlySaving)}</span>
+             <span class="savings-unit">/ month saved</span>
+           </div>
+           <div class="savings-caption">
+             At your current fuel spend this system won't fully pay for itself within
+             ${years} years — it's an investment in <strong>reliability and comfort</strong>
+             more than a pure cost saving.
+           </div>`;
+
+      const verdict = specs.paysBack
+        ? `<div class="savings-verdict">
+             Over ${years} years you'd hand roughly <strong>${formatNaira(specs.horizonGenSpend)}</strong>
+             to a generator and still own nothing. This system costs about
+             <strong>${formatNaira(specs.systemCostMid)}</strong> once — leaving you around
+             <strong>${formatNaira(specs.horizonSaving)}</strong> ahead.
+           </div>`
+        : `<div class="savings-verdict neutral">
+             Worth knowing: a smaller system sized to your essentials only would pay back
+             faster. Ask the installer about phasing the installation.
+           </div>`;
+
+      panel.innerHTML = `
+        <div class="savings-panel${specs.paysBack ? '' : ' is-neutral'}">
+          ${headline}
+          <div class="compare-block">
+            <div class="compare-row">
+              <div class="compare-label">
+                <span>Generator over ${years} years</span>
+                <span class="compare-amount">${formatNaira(specs.horizonGenSpend)}</span>
+              </div>
+              <div class="compare-track"><div class="compare-fill gen" style="width:${genPct}%"></div></div>
+            </div>
+            <div class="compare-row">
+              <div class="compare-label">
+                <span>This system — paid once</span>
+                <span class="compare-amount">${formatNaira(specs.systemCostMid)}</span>
+              </div>
+              <div class="compare-track"><div class="compare-fill sys" style="width:${sysPct}%"></div></div>
+            </div>
+          </div>
+          ${verdict}
+        </div>`;
+
+      // Draw the bars on the next frame so the transition actually runs.
+      requestAnimationFrame(() => {
+        panel.querySelectorAll('.compare-fill').forEach(el => el.classList.add('is-drawn'));
+      });
+    }
+
+    /**
+     * =====================================================================
+     * THE LEAD BRIEF — this is the actual product.
+     *
+     * It replaces the thirty-message interrogation an installer currently runs
+     * over two days (location, appliances, backup hours, roof, running costs)
+     * with one message that lands pre-answered. So it is ordered for a five
+     * second scan: WHO and WHERE first, then WHAT to quote, then the numbers
+     * that justify it, with the long appliance list last.
+     *
+     * Two deliberate constraints:
+     *  - The customer's own phone composes and sends this, so every line has to
+     *    read naturally in THEIR voice. No lead scoring, no "tyre-kicker"
+     *    flags, nothing the sender would be insulted to read about themselves.
+     *  - Price stays a RANGE. It filters out anyone never going to spend ₦4M
+     *    without ever undercutting the installer's own negotiation.
+     * =====================================================================
+     */
+    function buildWhatsAppMessage(specs) {
+      const noGen = stateData.monthlyGenSpend === 0;
+
+      const paybackLine = noGen
+        ? 'N/A — no generator running today'
+        : (specs.paysBack
+            ? `About ${Math.round(specs.paybackMonths)} months${specs.paybackMonths >= 24 ? ` (${(specs.paybackMonths / 12).toFixed(1)} years)` : ''}`
+            : `Longer than ${CONFIG.savingsModel.horizonYears} years at my current fuel spend`);
+
+      return `*SOLAR QUOTE REQUEST*
+
+👤 ${stateData.name}
+📞 ${stateData.phone}
+📍 ${stateData.location}
+
+*WHAT I NEED*
+• ${specs.inverterKva.toFixed(1)} kVA ${stateData.hasSolar ? 'Solar Hybrid System' : 'Inverter & Battery System'}
+• ${(specs.totalWatts / 1000).toFixed(2)} kW connected load (${specs.totalWatts} Watts)
+• ${stateData.backupHours} hours of night backup
+${stateData.hasSolar ? `• Roof type: ${stateData.roofType}` : '• No panels — inverter & batteries only'}
+
+*RECOMMENDED BUILD*
+• Inverter: ${specs.inverterKva.toFixed(1)} kVA smart hybrid pure sine
+• Battery: ${specs.batteryKwh.toFixed(1)} kWh LiFePO4 lithium
+${stateData.hasSolar ? `• Solar array: ${specs.panelCount} × 550W monocrystalline (${specs.solarKwp.toFixed(1)} kWp)` : '• Solar array: none selected'}
+• Estimated range: ${specs.priceText}
+
+*MY CURRENT POWER COSTS*
+• Generator spend now: ${stateData.genSpendLabel}
+• This system would save: ${noGen ? 'N/A' : `about ${formatNaira(specs.monthlySaving)}/month`}
+• Estimated payback: ${paybackLine}
+
+*APPLIANCES TO POWER*
+${specs.selectedAppliancesList.join('\n')}
+
+—
+Source: ${stateData.source || 'Direct link'}
+_Generated via the ${CONFIG.companyName} estimator (Powered by Notivon)_`;
+    }
+
+    /**
+     * Copy Technical Brief to Clipboard
+     */
+    function copyQuoteToClipboard() {
+      const briefText = buildWhatsAppMessage(computeSystem());
+
+      // navigator.clipboard requires a secure context (https / localhost). On an
+      // http:// preview or an older Android WebView it is undefined, so fall back
+      // to the legacy execCommand path before giving up.
+      const confirmCopied = () => alert("📋 Detailed technical quote copied to clipboard!");
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(briefText).then(confirmCopied).catch(() => legacyCopy(briefText, confirmCopied));
+      } else {
+        legacyCopy(briefText, confirmCopied);
+      }
+    }
+
+    function legacyCopy(text, onSuccess) {
+      const scratch = document.createElement('textarea');
+      scratch.value = text;
+      scratch.setAttribute('readonly', '');
+      scratch.style.position = 'fixed';
+      scratch.style.top = '-1000px';
+      document.body.appendChild(scratch);
+      scratch.select();
+
+      let copied = false;
+      try { copied = document.execCommand('copy'); } catch (e) { copied = false; }
+      document.body.removeChild(scratch);
+
+      if (copied) onSuccess();
+      else alert("Quote brief ready! Tap 'Send My Specs to Installer on WhatsApp' to submit directly.");
+    }
+  </script>
+</body>
+</html>
