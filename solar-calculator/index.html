@@ -2159,8 +2159,20 @@
 
       renderSavingsPanel(specs);
 
-      // Generate WhatsApp Pre-filled Link & Text
-      const waUrl = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(specs))}`;
+      // Generate WhatsApp Pre-filled Link & Text:
+      // Target the user's own entered WhatsApp phone number (converted to 234 format)
+      // so when a lead or tester clicks the button, WhatsApp opens to send the brief to their own number!
+      let targetPhone = (stateData.phone || '').replace(/\D/g, '');
+      if (targetPhone.startsWith('0')) {
+        targetPhone = '234' + targetPhone.slice(1);
+      } else if (!targetPhone.startsWith('234') && targetPhone.length === 10) {
+        targetPhone = '234' + targetPhone;
+      }
+      if (!/^234\d{10}$/.test(targetPhone)) {
+        targetPhone = CONFIG.whatsappNumber;
+      }
+
+      const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(buildWhatsAppMessage(specs))}`;
       document.getElementById('whatsapp-cta-link').href = waUrl;
     }
 
