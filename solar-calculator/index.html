@@ -2293,21 +2293,30 @@
 
       renderSavingsPanel(specs);
 
-      // Generate WhatsApp Pre-filled Link & Text:
-      // Target the user's own entered WhatsApp phone number (converted to 234 format)
-      // so when a lead or tester clicks the button, WhatsApp opens to send the brief to their own number!
-      let targetPhone = (stateData.phone || '').replace(/\D/g, '');
-      if (targetPhone.startsWith('0')) {
-        targetPhone = '234' + targetPhone.slice(1);
-      } else if (!targetPhone.startsWith('234') && targetPhone.length === 10) {
-        targetPhone = '234' + targetPhone;
-      }
-      if (!/^234\d{10}$/.test(targetPhone)) {
-        targetPhone = CONFIG.whatsappNumber;
-      }
+      // Function to get the target phone number entered by the user
+      const getTargetPhone = () => {
+        const phoneEl = document.getElementById('user-phone');
+        const rawInput = phoneEl ? phoneEl.value : '';
+        let target = (rawInput || stateData.phone || '').replace(/\D/g, '');
+        if (target.length > 0) {
+          if (target.startsWith('0')) {
+            target = '234' + target.slice(1);
+          } else if (!target.startsWith('234')) {
+            target = '234' + target;
+          }
+          return target;
+        }
+        return CONFIG.whatsappNumber;
+      };
 
-      const waUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(buildWhatsAppMessage(specs))}`;
-      document.getElementById('whatsapp-cta-link').href = waUrl;
+      const ctaBtn = document.getElementById('whatsapp-cta-link');
+      const updateCtaUrl = () => {
+        const targetPhone = getTargetPhone();
+        ctaBtn.href = `https://wa.me/${targetPhone}?text=${encodeURIComponent(buildWhatsAppMessage(specs))}`;
+      };
+
+      updateCtaUrl();
+      ctaBtn.onclick = updateCtaUrl;
     }
 
     /**
