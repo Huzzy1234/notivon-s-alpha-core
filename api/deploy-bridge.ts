@@ -153,39 +153,29 @@ const handler = async (req: Request): Promise<Response> => {
   }
 };
 
-/* ── Vercel Node.js Adapter ── */
-import type { IncomingMessage, ServerResponse } from "http";
+/* ── Vercel Serverless Adapter ── */
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-module.exports = async (req: IncomingMessage, res: ServerResponse) => {
+export default async function vercelHandler(req: VercelRequest, res: VercelResponse) {
   try {
     const proto = req.headers["x-forwarded-proto"] || "https";
     const host = req.headers["x-forwarded-host"] || req.headers.host || "localhost";
     const fullUrl = `${proto}://${host}${req.url || "/"}`;
 
-    let body: string | undefined;
-    if (req.method !== "GET" && req.method !== "HEAD") {
-      body = await new Promise<string>((resolve, reject) => {
-        let data = "";
-        req.on("data", (chunk) => (data += chunk));
-        req.on("end", () => resolve(data));
-        req.on("error", reject);
-      });
-    }
-
     const webReq = new Request(fullUrl, {
       method: req.method || "GET",
       headers: req.headers as Record<string, string>,
-      body: body || undefined,
+      body: req.method !== "GET" && req.method !== "HEAD" ? JSON.stringify(req.body) : undefined,
     });
 
     const webRes = await handler(webReq);
     const resBody = await webRes.text();
 
-    res.writeHead(webRes.status, Object.fromEntries(webRes.headers.entries()));
-    res.end(resBody);
+    res.status(webRes.status);
+    webRes.headers.forEach((v, k) => res.setHeader(k, v));
+    res.send(resBody);
   } catch (err: any) {
     console.error("Vercel adapter error:", err);
-    res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Internal server error", detail: err.message }));
+    res.status(500).json({ error: "Internal server error", detail: err.message });
   }
-};
+}

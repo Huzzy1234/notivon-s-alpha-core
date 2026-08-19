@@ -311,58 +311,40 @@ const handler = async (req: Request): Promise<Response> => {
   });
 };
 
-/* ── Vercel Node.js Adapter (with streaming support) ── */
-import type { IncomingMessage, ServerResponse } from "http";
+/* ── Vercel Serverless Adapter (with streaming support) ── */
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-module.exports = async (req: IncomingMessage, res: ServerResponse) => {
+export default async function vercelHandler(req: VercelRequest, res: VercelResponse) {
   try {
     const proto = req.headers["x-forwarded-proto"] || "https";
     const host = req.headers["x-forwarded-host"] || req.headers.host || "localhost";
     const fullUrl = `${proto}://${host}${req.url || "/"}`;
 
-    let body: string | undefined;
-    if (req.method !== "GET" && req.method !== "HEAD") {
-      body = await new Promise<string>((resolve, reject) => {
-        let data = "";
-        req.on("data", (chunk) => (data += chunk));
-        req.on("end", () => resolve(data));
-        req.on("error", reject);
-      });
-    }
-
     const webReq = new Request(fullUrl, {
       method: req.method || "GET",
       headers: req.headers as Record<string, string>,
-      body: body || undefined,
+      body: req.method !== "GET" && req.method !== "HEAD" ? JSON.stringify(req.body) : undefined,
     });
 
     const webRes = await handler(webReq);
 
-    // Build plain headers object
-    const headers: Record<string, string> = {};
-    webRes.headers.forEach((v, k) => { headers[k] = v; });
+    res.status(webRes.status);
+    webRes.headers.forEach((v, k) => res.setHeader(k, v));
 
-    // If the response body is a stream, pipe it
     if (webRes.body) {
-      res.writeHead(webRes.status, headers);
       const reader = webRes.body.getReader();
-      const pump = async () => {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          res.write(value);
-        }
-        res.end();
-      };
-      await pump();
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        res.write(value);
+      }
+      res.end();
     } else {
       const resBody = await webRes.text();
-      res.writeHead(webRes.status, headers);
-      res.end(resBody);
+      res.send(resBody);
     }
   } catch (err: any) {
     console.error("Vercel adapter error:", err);
-    res.writeHead(500, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ error: "Internal server error", detail: err.message }));
+    res.status(500).json({ error: "Internal server error", detail: err.message });
   }
-};
+}
