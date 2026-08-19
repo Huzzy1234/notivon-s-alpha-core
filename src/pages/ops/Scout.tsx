@@ -375,7 +375,7 @@ export default function Scout() {
     setScanProgress(`Scanning all available leads in "${locationInput}"...`);
 
     try {
-      const res = await fetch("/.netlify/functions/scout-search", {
+      const res = await fetch("/api/scout-search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -460,7 +460,7 @@ export default function Scout() {
         whatsappLink: generateWhatsAppLink(lead) || ""
       };
 
-      const res = await fetch("/.netlify/functions/scout-crm", {
+      const res = await fetch("/api/scout-crm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -512,7 +512,7 @@ export default function Scout() {
     }));
 
     try {
-      const res = await fetch("/.netlify/functions/scout-crm", {
+      const res = await fetch("/api/scout-crm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

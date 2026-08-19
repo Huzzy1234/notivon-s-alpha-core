@@ -72,17 +72,54 @@ export interface ScorecardLead {
   band: string;
   submittedAt: string;
   source: string;
+  website?: string; // honeypot — always empty for real submits
+}
+
+async function postLead(lead: ScorecardLead): Promise<boolean> {
+  try {
+    const res = await fetch("/api/scorecard-lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(lead),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+/** Guards against the same browser firing duplicate lead notifications for one
+    phone in a short window (double-click, back-and-resubmit). Bots are handled
+    by the honeypot, not this; server-side dedupe needs a persistent store. */
+const DEDUPE_KEY = "notivon:lastLeadPhone";
+const DEDUPE_WINDOW_MS = 10 * 60 * 1000;
+function isDuplicateSubmit(phone: string): boolean {
+  try {
+    const raw = localStorage.getItem(DEDUPE_KEY);
+    if (raw) {
+      const { phone: last, at } = JSON.parse(raw) as { phone: string; at: number };
+      if (last === phone && Date.now() - at < DEDUPE_WINDOW_MS) return true;
+    }
+    localStorage.setItem(DEDUPE_KEY, JSON.stringify({ phone, at: Date.now() }));
+  } catch {
+    /* private mode / storage disabled — just let it through */
+  }
+  return false;
 }
 
 /** Posts a scorecard lead to the Netlify function. Non-fatal on failure —
-    the visitor still gets their result; we just log the miss. */
+    the visitor still gets their result; the caller queues a retry so the lead
+    is never silently dropped. */
 export async function submitScorecardLead(
   name: string,
   phone: string,
   email: string | undefined,
   answers: Answers,
-  result: ScorecardResult
+  result: ScorecardResult,
+  website?: string
 ): Promise<boolean> {
+  if (isDuplicateSubmit(phone)) return true; // already delivered moments ago
+
   const lead: ScorecardLead = {
     name,
     phone,
@@ -93,16 +130,64 @@ export async function submitScorecardLead(
     band: result.band,
     submittedAt: new Date().toISOString(),
     source: "scorecard",
+    website: website || undefined,
   };
 
+  return postLead(lead);
+}
+
+/* ── Failed-lead retry queue ──
+   A dropped lead is lost revenue, so failures are parked in localStorage and
+   flushed on the next page load or successful submit, rather than vanishing. */
+
+const QUEUE_KEY = "notivon:leadQueue";
+
+function readQueue(): ScorecardLead[] {
   try {
-    const res = await fetch("/.netlify/functions/scorecard-lead", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(lead),
-    });
-    return res.ok;
+    return JSON.parse(localStorage.getItem(QUEUE_KEY) ?? "[]") as ScorecardLead[];
   } catch {
-    return false;
+    return [];
   }
+}
+
+function writeQueue(queue: ScorecardLead[]): void {
+  try {
+    localStorage.setItem(QUEUE_KEY, JSON.stringify(queue.slice(-20)));
+  } catch {
+    /* storage unavailable — nothing we can do */
+  }
+}
+
+export function queueFailedLead(
+  name: string,
+  phone: string,
+  email: string | undefined,
+  answers: Answers,
+  result: ScorecardResult
+): void {
+  const queue = readQueue();
+  queue.push({
+    name,
+    phone,
+    email,
+    answers,
+    answersReadable: formatAnswersReadable(answers),
+    total: result.total,
+    band: result.band,
+    submittedAt: new Date().toISOString(),
+    source: "scorecard-retry",
+  });
+  writeQueue(queue);
+}
+
+/** Re-posts any parked leads. Call on page load and after a successful submit. */
+export async function flushQueuedLeads(): Promise<void> {
+  const queue = readQueue();
+  if (queue.length === 0) return;
+  const stillFailing: ScorecardLead[] = [];
+  for (const lead of queue) {
+    const ok = await postLead(lead);
+    if (!ok) stillFailing.push(lead);
+  }
+  writeQueue(stillFailing);
 }

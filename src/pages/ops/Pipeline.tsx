@@ -65,7 +65,7 @@ export default function Pipeline() {
     setIsLoading(true);
     try {
       const res = await fetch(
-        `/.netlify/functions/scout-crm?board=${encodeURIComponent(targetBoard)}`,
+        `/api/scout-crm?board=${encodeURIComponent(targetBoard)}`,
         { method: "GET", headers: OPS_HEADERS }
       );
       const data = await res.json();
@@ -103,7 +103,7 @@ export default function Pipeline() {
     }
 
     try {
-      const res = await fetch("/.netlify/functions/scout-crm", {
+      const res = await fetch("/api/scout-crm", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export default function Pipeline() {
     const updatedLead = { ...lead, notes: tempNotes };
 
     try {
-      const res = await fetch("/.netlify/functions/scout-crm", {
+      const res = await fetch("/api/scout-crm", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -155,7 +155,7 @@ export default function Pipeline() {
     setIsUpdating(id);
     try {
       const res = await fetch(
-        `/.netlify/functions/scout-crm?id=${encodeURIComponent(id)}&board=${encodeURIComponent(board)}`,
+        `/api/scout-crm?id=${encodeURIComponent(id)}&board=${encodeURIComponent(board)}`,
         { method: "DELETE", headers: OPS_HEADERS }
       );
       if (!res.ok) {

@@ -87,12 +87,20 @@ export async function streamOpportunityMap(
   answers: Answers,
   freeText: string,
   onChunk: (fullText: string) => void,
+  calibration: { band: string; caution?: string },
   signal?: AbortSignal
 ): Promise<string> {
-  const res = await fetch("/.netlify/functions/opportunity-map", {
+  const res = await fetch("/api/opportunity-map", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, phone, answers, freeText }),
+    body: JSON.stringify({
+      name,
+      phone,
+      answers,
+      freeText,
+      band: calibration.band,
+      caution: calibration.caution,
+    }),
     signal,
   });
   if (!res.ok || !res.body) throw new Error(`map generation unavailable (${res.status})`);
