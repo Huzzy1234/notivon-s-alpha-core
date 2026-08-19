@@ -804,32 +804,35 @@ const handler = async (req: Request): Promise<Response> => {
     const webAppUrl = process.env.GOOGLE_SHEET_WEBAPP_URL;
     const savedLeadsMap = new Map<string, { id: string; status: string }>();
 
+    const normPhoneKey = (p: any): string => {
+      const digits = String(p || "").replace(/\D/g, "");
+      return digits.length >= 7 ? digits.slice(-10) : digits;
+    };
+
+    const normNameKey = (n: any): string => {
+      return String(n || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    };
+
     if (webAppUrl) {
       try {
         const sep = webAppUrl.includes("?") ? "&" : "?";
         const boardUrl = `${webAppUrl}${sep}${new URLSearchParams({ board }).toString()}`;
-        // Apps Script latency swings from 2s to 30s+. Duplicate flagging is a
-        // nicety, the search results are the point — cap it tightly and let the
-        // catch below drop it rather than sink the whole scan.
-        const sheetRes = await customFetch(boardUrl, { method: "GET", timeoutMs: 5000 });
+        const sheetRes = await customFetch(boardUrl, { method: "GET", timeoutMs: 8000 });
         if (sheetRes.ok) {
           const sheetData = await sheetRes.json();
           if (sheetData && sheetData.leads) {
             for (const record of sheetData.leads) {
               const phone = record.phone;
               const name = record.name;
-              const address = record.address;
               const status = record.status || "New";
 
               if (phone) {
-                const cleanPhone = String(phone).replace(/[\s\-\(\)\+]/g, "");
-                if (cleanPhone) {
-                  savedLeadsMap.set(cleanPhone, { id: String(record.id), status });
-                }
+                const pKey = normPhoneKey(phone);
+                if (pKey) savedLeadsMap.set(`p:${pKey}`, { id: String(record.id), status });
               }
-              if (name && address) {
-                const nameAddrKey = `${name.toLowerCase().trim()}|${address.toLowerCase().trim()}`;
-                savedLeadsMap.set(nameAddrKey, { id: String(record.id), status });
+              if (name) {
+                const nKey = normNameKey(name);
+                if (nKey) savedLeadsMap.set(`n:${nKey}`, { id: String(record.id), status });
               }
             }
           }
@@ -844,13 +847,13 @@ const handler = async (req: Request): Promise<Response> => {
       let savedInfo = undefined;
 
       if (l.phone) {
-        const cleanPhone = String(l.phone).replace(/[\s\-\(\)\+]/g, "");
-        savedInfo = savedLeadsMap.get(cleanPhone);
+        const pKey = normPhoneKey(l.phone);
+        if (pKey) savedInfo = savedLeadsMap.get(`p:${pKey}`);
       }
 
-      if (!savedInfo) {
-        const nameAddrKey = `${l.name.toLowerCase().trim()}|${l.address.toLowerCase().trim()}`;
-        savedInfo = savedLeadsMap.get(nameAddrKey);
+      if (!savedInfo && l.name) {
+        const nKey = normNameKey(l.name);
+        if (nKey) savedInfo = savedLeadsMap.get(`n:${nKey}`);
       }
 
       if (savedInfo) {
