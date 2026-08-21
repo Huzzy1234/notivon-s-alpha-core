@@ -1984,6 +1984,7 @@
       // 1. Total connected load + daily energy consumption
       let totalWatts = 0;
       let dailyWh = 0;
+      let daytimeWh = 0;
       const selectedAppliancesList = [];
 
       APPLIANCES.forEach(app => {
@@ -1992,34 +1993,18 @@
           const load = app.watts * qty;
           totalWatts += load;
           dailyWh += load * app.hours;
+          // Daytime usage during peak solar hours (approx 40% of typical daily run hours)
+          daytimeWh += load * Math.min(4.5, app.hours * 0.4);
           selectedAppliancesList.push(`• ${qty}x ${app.name} (${app.watts}W)`);
         }
       });
 
-      // 2. Inverter Sizing
-      const inverterKva = calculateInverterKva(totalWatts);
-
-      // 3. Battery Capacity Sizing (kWh)
+      // 2. Battery Capacity Sizing (kWh)
       /*
-       * BATTERY FORMULA:
+       * BATTERY SIZING & DEFICIT FORMULA:
        * Energy needed = (Backup-window energy consumption)
-       * Lithium Depth of Discharge (DoD) = 80% (0.8)
+       * Lithium Depth of Discharge (DoD) = 85% (0.85)
        * Inverter Efficiency = 85% (0.85)
-       * Battery kWh = Energy Needed / (0.8 * 0.85 * 1000)
-       *
-       * On the energy term: sizing off (connected load x backup hours) assumes
-       * every appliance runs flat out for the whole window, which quotes an
-       * unbuyable bank — a 6.3 kW house on 24h backup lands at 225 kWh, roughly
-       * five times what such a home actually installs. Real draw is governed by
-       * each appliance's duty cycle, so we cap every appliance at its typical
-       * daily run hours within the window:
-       *
-       *   window energy = SUM( watts x qty x MIN(typical daily hours, backup hours) )
-       *
-       * An iron contributes its 0.5h, not 24h; a fridge contributes 14h. At 24h
-       * backup this converges exactly on daily consumption, which is the correct
-       * figure for full off-grid independence. Small systems are unaffected —
-       * an 8h flat still sizes to the same 10 kWh as the simple formula.
        */
       let windowWh = 0;
       APPLIANCES.forEach(app => {
@@ -2029,29 +2014,48 @@
         }
       });
 
-      const rawBatteryKwh = windowWh / (0.8 * 0.85 * 1000);
+      const rawBatteryKwh = windowWh / (0.85 * 0.85 * 1000);
       const batterySizes = [2.5, 5.0, 10.0, 15.0, 20.0, 30.0];
-      // Above the standard rack sizes, banks are built by stacking 5 kWh modules —
-      // so round UP to the next 5 kWh rather than emitting an unbuyable figure.
       const batteryKwh = batterySizes.find(b => b >= rawBatteryKwh)
         || Math.ceil(rawBatteryKwh / 5) * 5;
 
+      // 3. Inverter Sizing (with Voltage/Battery Tier Coupling)
+      /*
+       * INVERTER & BATTERY MATCHING MATRIX:
+       * - 1.5 kVA Inverter (12V DC): max 3.5 kWh battery
+       * - 2.5 / 3.5 kVA Inverter (24V DC): max 5.0 kWh battery
+       * - 5.0 kVA Inverter (48V DC): 5.0 kWh – 10.0 kWh battery
+       * - 7.5 - 10.0+ kVA Inverter (48V DC): 10.0 kWh – 20.0+ kWh battery
+       */
+      let inverterKva = calculateInverterKva(totalWatts);
+
+      if (batteryKwh > 5.0 && inverterKva < 5.0) {
+        inverterKva = 5.0; // Upgrade inverter to 5.0 kVA to support 10.0+ kWh battery bank
+      } else if (batteryKwh > 3.5 && inverterKva < 2.5) {
+        inverterKva = 2.5; // Upgrade inverter to 2.5 kVA to support 5.0 kWh battery bank
+      }
+
       // 4. Solar Array Sizing (kWp & Panel Count)
       /*
-       * SOLAR PANEL FORMULA:
-       * Average Peak Sun Hours in Nigeria = 4.5 hours/day
-       * System efficiency derating = 80% (0.8)
-       * Daily Solar Energy Needed = dailyWh / 1000
-       * Solar kWp = Daily Energy / (4.5 * 0.8)
-       * Standard Panel = 550W Tier-1 Monocrystalline
+       * SOLAR PANEL CHARGE RATE FORMULA:
+       * Solar panels must supply daytime running loads AND fully recharge the battery bank
+       * within 4.5 peak sun hours in Nigeria.
        */
       let panelCount = 0;
       let solarKwp = 0;
       if (stateData.hasSolar) {
-        const rawSolarKwp = (dailyWh / 1000) / (4.5 * 0.8);
+        const batteryRechargeWh = (batteryKwh * 1000) / 0.85; // Energy needed to recharge battery bank
+        const totalSolarWhNeeded = daytimeWh + batteryRechargeWh;
+        const rawSolarKwp = totalSolarWhNeeded / (4.5 * 0.8);
+        
         panelCount = Math.max(2, Math.ceil((rawSolarKwp * 1000) / 550));
-        // Force even panel count for standard 2-string inverter array symmetry
+
+        // Ensure 5.0 kVA+ MPPT inverter string minimum (6 panels minimum for 48V High-Voc array)
+        if (inverterKva >= 5.0 && panelCount < 6) panelCount = 6;
+
+        // Force even panel count for standard 2-string array balance
         if (panelCount % 2 !== 0) panelCount += 1;
+        
         solarKwp = (panelCount * 550) / 1000;
       }
 
