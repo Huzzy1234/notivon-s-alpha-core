@@ -47,7 +47,7 @@ export function setLastBoard(board: string): void {
 }
 
 export async function fetchBoards(): Promise<Board[]> {
-  const res = await fetch("/.netlify/functions/scout-crm?action=boards", {
+  const res = await fetch("/api/scout-crm?action=boards", {
     method: "GET",
     headers: OPS_HEADERS,
   });
@@ -58,7 +58,7 @@ export async function fetchBoards(): Promise<Board[]> {
 
 export async function createBoard(name: string): Promise<Board[]> {
   const board = slugifyBoard(name);
-  const res = await fetch("/.netlify/functions/scout-crm", {
+  const res = await fetch("/api/scout-crm", {
     method: "POST",
     headers: { "Content-Type": "application/json", ...OPS_HEADERS },
     body: JSON.stringify({ action: "createBoard", board }),

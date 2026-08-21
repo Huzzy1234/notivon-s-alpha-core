@@ -375,7 +375,7 @@ export default function Scout() {
     setScanProgress(`Scanning all available leads in "${locationInput}"...`);
 
     try {
-      const res = await fetch("/.netlify/functions/scout-search", {
+      const res = await fetch("/api/scout-search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -437,10 +437,17 @@ export default function Scout() {
     }
   };
 
-  // Leads are matched by name+address, never by array index: the rendered list is
-  // filtered (Hide saved) so its indices do not line up with the `leads` state array.
-  const isSameLead = (a: Lead, b: Lead) =>
-    a.name === b.name && a.address === b.address;
+  // Leads are matched by phone (last 10 digits) or normalized name
+  const isSameLead = (a: Lead, b: Lead) => {
+    if (a.phone && b.phone) {
+      const pA = String(a.phone).replace(/\D/g, "").slice(-10);
+      const pB = String(b.phone).replace(/\D/g, "").slice(-10);
+      if (pA && pB && pA === pB) return true;
+    }
+    const nA = String(a.name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    const nB = String(b.name || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+    return Boolean(nA && nB && nA === nB);
+  };
 
   const handleSaveToCRM = async (lead: Lead) => {
     setSavingId(`${lead.name}|${lead.address}`);
@@ -460,7 +467,7 @@ export default function Scout() {
         whatsappLink: generateWhatsAppLink(lead) || ""
       };
 
-      const res = await fetch("/.netlify/functions/scout-crm", {
+      const res = await fetch("/api/scout-crm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -512,7 +519,7 @@ export default function Scout() {
     }));
 
     try {
-      const res = await fetch("/.netlify/functions/scout-crm", {
+      const res = await fetch("/api/scout-crm", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

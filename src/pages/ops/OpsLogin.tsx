@@ -14,9 +14,8 @@ export default function OpsLogin() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simple hardcoded password for internal use.
-    // We can change this later, but it keeps randoms out.
-    if (password === "notivon2026") {
+    // Simple hardcoded password for internal use (trimmed & lowercase for mobile friendly login).
+    if (password.trim().toLowerCase() === "notivon2026") {
       localStorage.setItem("ops_auth", "true");
       navigate("/ops/scout");
     } else {
