@@ -2095,16 +2095,18 @@
      */
     function calculateInverterKva(totalLoadWatts) {
       /*
-       * SIZING FORMULA FOR NIGERIAN INVERTERS:
-       * - Power Factor (PF) assumed at 0.8
-       * - Required kVA = (Connected Load Watts / 0.8) / 1000
-       * - Standard Nigerian Inverter Sizes: 1.5, 2.5, 3.5, 5.0, 7.5, 10.0, 15.0 kVA
+       * RS POWER DYNAMICS & NIGERIAN ENGINEERING STANDARD FORMULA:
+       * 1. Power Factor (PF) = 0.8 -> Apparent Load (VA) = Total Watts / 0.8
+       * 2. Safety Buffer = 1.25 (25% headroom for starting surge & ambient temp derating)
+       * 3. Required Inverter kVA = (Apparent VA * 1.25) / 1000
+       * 4. Standard Ratings: 1.5, 2.5, 3.5, 5.0, 7.5, 10.0, 15.0 kVA
        */
-      const rawKva = (totalLoadWatts / 0.8) / 1000;
+      const apparentVa = totalLoadWatts / 0.8;
+      const requiredKva = (apparentVa * 1.25) / 1000;
       const standardSizes = [1.5, 2.5, 3.5, 5.0, 7.5, 10.0, 15.0];
       
       for (let size of standardSizes) {
-        if (size >= rawKva) return size;
+        if (size >= requiredKva) return size;
       }
       return 15.0; // cap at 15.0 kVA standard
     }
