@@ -2048,7 +2048,7 @@
       if (stateData.hasSolar) {
         const batteryRechargeWh = (batteryKwh * 1000) / 0.85; // Energy needed to recharge battery bank
         const totalSolarWhNeeded = daytimeWh + batteryRechargeWh;
-        const rawSolarKwp = totalSolarWhNeeded / (4.5 * 0.8);
+        const rawSolarKwp = (totalSolarWhNeeded / 1000) / (4.5 * 0.8);
         
         panelCount = Math.max(2, Math.ceil((rawSolarKwp * 1000) / 550));
 
